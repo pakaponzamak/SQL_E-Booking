@@ -1,0 +1,44 @@
+{
+  "name": "e-booking",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "next export"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.0",
+    "@vercel/analytics": "^1.0.1",
+    "autoprefixer": "10.4.14",
+    "date-fns": "^2.30.0",
+    "eslint": "8.43.0",
+    "eslint-config-next": "13.4.7",
+    "express": "^4.18.2",
+    "firebase": "^10.0.0",
+    "fs": "^0.0.1-security",
+    "jquery": "^3.7.0",
+    "mysql2": "^3.6.0",
+    "net": "^1.0.2",
+    "next": "13.4.7",
+    "postcss": "8.4.24",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "react-icons": "^4.10.1",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
+    "styled-components": "^5.3.11",
+    "sweetalert2": "^11.7.20",
+    "tailwindcss": "3.3.2",
+    "tls": "^0.0.1",
+    "xlsx": "^0.18.5"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  }
+}
