@@ -14,7 +14,6 @@ async function executeQuery(query, values) {
 
 const getHealth = async () => {
   const query = "SELECT * FROM insert_health_care";
-  
 
   try {
     const health = await executeQuery(query);

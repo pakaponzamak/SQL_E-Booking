@@ -188,33 +188,32 @@ export default function tr_admin_course() {
 
   StartFireBase();
 
-  useEffect(() => {
-    const db = getDatabase();
-    const courseRef = ref(db, "courses");
-    // Listen for changes in the 'users' reference
-    onValue(courseRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        // Convert the object of users into an array
-        const coursesArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-        // Set the users state with the retrieved data
-        setCourses(coursesArray);
+  const fetchCourses = async () => {
+    try {
+      const response = await fetch(`/api/course_admin/tr_insert_api`, {
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCourses(data);
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        //setMessage('Error occurred while fetching data.');
       }
-    });
-    // Clean up the listener when the component unmounts
-    return () => {
-      // Turn off the listener
-      off(courseRef);
-    };
+    } catch (error) {
+      console.error('Error:', error);
+     // setMessage('Error occurred while fetching data.');
+    }
+  };
+  useEffect(() => {
+    fetchCourses();
   }, []);
 
 
   const router = useRouter();
  
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
    if (
       courseOption.trim() === "" ||
       timeStart.trim() === "" ||
@@ -230,23 +229,36 @@ export default function tr_admin_course() {
       return;
     }
 
-    const db = getDatabase();
-    const data = {
-      course: courseOption,
-      timeStart: timeStart,
-      timeEnd: timeEnd,
-      date: date,
-      lecturer: lecturer,
-      amount: amount,
-      hall: place,
-      plant: plantOption,
-      onlineCode: onlineCode,
-      number:0,
-      whoPickedThisCourse: []
-    };
-    set(ref(db, "courses/" + courseOption + date + timeStart + onlineCode ), data).then(() => {alert("เรียบร้อยแล้ว");}).catch((error) => {
-      console.error("Error inserting data:", error);
-    });
+    try {
+      const response = await fetch('/api/course_admin/tr_insert_api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ course_name: courseOption,
+          time_Start: timeStart,
+          time_End:timeEnd,
+          date_course:date,
+          lecturer:lecturer,
+          amount:amount,
+          hall:place,
+          plant:plantOption,
+        online_code:onlineCode,
+          number: 0}),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        //setMessage(data.message);
+        alert("สำเร็จ");
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        //setMessage('Error occurred while sending data.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      //setMessage('Error occurred while sending data.');
+    }
   }
 
  const handlePlaceChange = useCallback((e) => {
@@ -921,9 +933,9 @@ export default function tr_admin_course() {
                     <div className="border-b p-1 mb-5"></div>
                     <div>
                       {courses
-                        .sort((a, b) => (a.timeStart > b.timeStart ? 1 : -1))
+                        .sort((a, b) => (a.time_Start > b.time_Start ? 1 : -1))
                         .filter((course) => {
-                          const courseDate = course.date;
+                          const courseDate = course.date_course;
                           return dayMonthYear === courseDate;
                         })
                         .map((courses) => (
@@ -934,7 +946,7 @@ export default function tr_admin_course() {
                           <p>
                             Date :{" "}
                             <strong>
-                            {new Date(courses.date).toLocaleDateString("th-TH", {
+                            {new Date(courses.date_course).toLocaleDateString("th-TH", {
                           dateStyle: "long",
                         })}
                             </strong>
@@ -945,7 +957,7 @@ export default function tr_admin_course() {
                               <p>
                                 Course :{" "}
                                 <strong>
-                                  {courses.course}
+                                  {courses.course_name}
                                 </strong>
                               </p>
                               <p>
@@ -956,11 +968,11 @@ export default function tr_admin_course() {
                               <h1>
                                 Time :{" "}
                                 <strong>
-                                  {courses.timeStart} - {courses.timeEnd}
+                                  {courses.time_Start} - {courses.time_End}
                                 </strong>
                               </h1>
                               <p>
-                                Online : <strong>{courses.onlineCode}</strong>
+                                Online : <strong>{courses.online_code}</strong>
                               </p>
                             </div>
                             <div className="flex justify-between mb-2">

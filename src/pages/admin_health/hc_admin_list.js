@@ -103,7 +103,7 @@ export default function tr_admin_course() {
   function deleteSingleUserHandler(health) {
     // Access the user object and perform actions
     console.log("Delete Button clicked for user:", health);
-    const db = getDatabase();
+   
     var cnf = confirm(`ต้องการจะ "ลบ" ข้อมูลหรือไม่`);
     if (cnf) {
       deleteHealthRecord(health.health_id);

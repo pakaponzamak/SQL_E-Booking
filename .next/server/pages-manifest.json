@@ -2,10 +2,12 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/admin_health/hc_admin_list": "pages/admin_health/hc_admin_list.js",
   "/api/health/health_api": "pages/api/health/health_api.js",
-  "/api/health_admin/hc_insert_api": "pages/api/health_admin/hc_insert_api.js",
+  "/health_care/confirmation": "pages/health_care/confirmation.js",
   "/api/relation/relation_api": "pages/api/relation/relation_api.js",
-  "/test": "pages/test.js",
-  "/admin_health/hc_admin_insert": "pages/admin_health/hc_admin_insert.js",
-  "/health_care/confirmation": "pages/health_care/confirmation.js"
+  "/api/health_admin/hc_insert_api": "pages/api/health_admin/hc_insert_api.js",
+  "/health_care/option_select": "pages/health_care/option_select.js",
+  "/admin_TRcourse/tr_admin_course": "pages/admin_TRcourse/tr_admin_course.js",
+  "/tr_course/TRcalendar": "pages/tr_course/TRcalendar.js"
 }

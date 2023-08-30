@@ -499,7 +499,7 @@ export default function confirmation() {
                 //const timeStart = getTimeFromString(user.health.time);
                 if (user.user_id === emp && user.name === name) {
                   return (
-                    <div className="border p-6  mb-10 mt-16  rounded-xl bg-white drop-shadow-md">
+                    <div className="border p-5  mb-10 mt-16  rounded-xl bg-white drop-shadow-md">
             <div className="text mb-3 text-left ">ประวัติการจอง</div>
                     <div className=" mx-2">
                       

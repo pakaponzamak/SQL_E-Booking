@@ -25,30 +25,53 @@ export default function tr_admin_course() {
   const [startIndex, setStartIndex] = useState(1);
   const scrollRef = useRef(null);
   const [filteredCourses, setFilteredCourses] = useState(course);
+  const [courseCount,setCourseCount] = useState([])
 
-  StartFireBase();
+  //StartFireBase();
 
-useEffect(() => {
-    const db = getDatabase();
-    const courseRef = ref(db, "courses");
-    // Listen for changes in the 'users' reference
-    onValue(courseRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        // Convert the object of users into an array
-        const coursesArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-        // Set the users state with the retrieved data
-        setCourses(coursesArray);
+  const fetchCourses = async () => {
+    try {
+      const response = await fetch(`/api/course_admin/tr_insert_api`, {
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCourses(data);
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        //setMessage('Error occurred while fetching data.');
       }
-    });
-    // Clean up the listener when the component unmounts
-    return () => {
-      // Turn off the listener
-      off(courseRef);
-    };
+    } catch (error) {
+      console.error('Error:', error);
+     // setMessage('Error occurred while fetching data.');
+    }
+  };
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourseCount = async () => {
+    try {
+      const response = await fetch(`/api/course/course_count_api`, {
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCourseCount(data);
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        //setMessage('Error occurred while fetching data.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+     // setMessage('Error occurred while fetching data.');
+    }
+  };
+  useEffect(() => {
+    fetchCourseCount();
+    
   }, []);
 
  //Auto go to current Date when entered
@@ -80,15 +103,34 @@ useEffect(() => {
       }, []);
   const router = useRouter();
 
-  function deleteSingleUserHandler(course) {
+  async function deleteCourseHandler(course) {
+    try {
+      const response = await fetch(`/api/course_admin/tr_insert_api?course_id=${course}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCourses(data);
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        //setMessage('Error occurred while fetching data.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+     // setMessage('Error occurred while fetching data.');
+    }
+  }
+
+  function deleteCourse(course) {
     // Access the user object and perform actions
-    console.log("Delete Button clicked for user:", course);
-    const db = getDatabase();
+    console.log("Delete Button clicked for user:", course.course_id);
+   
     var cnf = confirm(`ต้องการจะ "ลบ" ข้อมูลหรือไม่`);
     if (cnf) {
-      remove(ref(db, "courses/" + course.id));
+      deleteCourseHandler(course.course_id);
     }
-    // Other actions...
+    // Other actions
   }
 
 
@@ -273,20 +315,20 @@ useEffect(() => {
     const worksheetData = course
     .sort((a, b) => {
       // Compare dates
-      if (a.date === b.date) {
+      if (a.date_course === b.date_course) {
         // If dates are equal, compare times
-        return a.timeStart > b.timeStart ? 1 : -1;
+        return a.time_Start > b.time_Start ? 1 : -1;
       }
       return a.date > b.date ? 1 : -1;
     })
     .map((course) => [
-      course.course,
+      course.course_name,
       course.lecturer,
-      new Date(course.date).toLocaleDateString('en-GB'),
-      `${course.timeStart} - ${course.timeEnd}`,
+      new Date(course.date_course).toLocaleDateString('en-GB'),
+      `${course.time_Start} - ${course.time_End}`,
       course.plant,
       course.hall,
-      course.onlineCode,
+      course.online_code,
       `${course.number} / ${course.amount}`,
     ]);
   
@@ -304,18 +346,18 @@ useEffect(() => {
     const workbook = XLSX.utils.book_new();
   
     const worksheetData = course
-    .sort((a, b) => a.timeStart > b.timeStart ? 1 : -1).filter((course) => {
-      const courseDate = course.date;
+    .sort((a, b) => a.time_Start > b.time_Start ? 1 : -1).filter((course) => {
+      const courseDate = course.date_course;
       return dayMonthYear === courseDate;
     })
       .map((course) => [
-        course.course,
+        course.course_name,
         course.lecturer,
-        new Date(course.date).toLocaleDateString('en-GB'),
-        `${course.timeStart} - ${course.timeEnd}`,
+        new Date(course.date_course).toLocaleDateString('en-GB'),
+        `${course.time_Start} - ${course.time_End}`,
         course.plant,
         course.hall,
-        course.onlineCode,
+        course.online_code,
         `${course.number} / ${course.amount}`,
       ]);
   
@@ -713,36 +755,41 @@ useEffect(() => {
               <div>Online Code</div>
               <div>จำนวน</div>
             </div>
-            {course.sort((a, b) => a.timeStart > b.timeStart ? 1 : -1).filter((course) => {
-            const courseDate = course.date;
+            {course.sort((a, b) => a.time_Start > b.time_Start ? 1 : -1).filter((course) => {
+            const courseDate = course.date_course;
             return dayMonthYear === courseDate;
-          }).map((course) => (
+          }).map((course) =>  {
+            // Find the corresponding courseCount object by matching the key
+      const correspondingCourseCount = courseCount.find(
+        (count) => count.course_id === course.course_id
+      );
+            return(
               <div className="grid grid-cols-9 gap-3 mx-0 my-5 ">
-                <div>{course.course}</div>
+                <div>{course.course_name}</div>
                 <div>{course.lecturer}</div>
-                <div>{new Date(course.date).toLocaleDateString('en-GB')}</div>
+                <div>{new Date(course.date_course).toLocaleDateString('en-GB')}</div>
                 <div>
-                  {course.timeStart} - {course.timeEnd}
+                  {course.time_Start} - {course.time_End}
                 </div>
                 <div>{course.plant}</div>
                 <div>{course.hall}</div>
-                <div>{course.onlineCode}</div>
+                <div>{course.online_code}</div>
 
-                <div
-                  className={
-                    course.number >= course.amount
-                      ? "text-white rounded-3xl bg-red-500 font-bold cursor-pointer"
-                      : "text-white rounded-3xl bg-green-500 font-bold cursor-pointer"
-                  }
-                 
-                >
-                  {course.number} / {course.amount}
-                </div>
+                <div>
+                {correspondingCourseCount && (
+            <p>                  
+                  <strong>
+                    {correspondingCourseCount.userCount} / {course.amount}
+                  </strong>
+                </p>
+          )}
+          {!correspondingCourseCount && <p><strong> 0 / {course.amount}</strong></p>}
+          </div>
 
                 <div className="flex">
                 
                   <button
-                    onClick={() => deleteSingleUserHandler(course)}
+                    onClick={() => deleteCourse(course)}
                     className=" text-center p-1 px-3 text-white bg-red-600 rounded-3xl"
                   >
                     ลบ
@@ -750,7 +797,7 @@ useEffect(() => {
                   
                 </div>
               </div>
-            ))}
+            )})}
           </div>
         </div>
       </div>

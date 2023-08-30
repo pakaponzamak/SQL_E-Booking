@@ -17,14 +17,19 @@ export default function Calendar() {
   const [startIndex, setStartIndex] = useState(1);
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState(courses);
-  //const incrementCounter = () => setCounterState(counterState + 1);
+  const [users,setUsers] = useState([])
+  const [message,setMessage] = useState("")
+  const [courseCount,setCourseCount] = useState([])
+
 
   const scrollRef = useRef(null);
-  StartFireBase();
+  //StartFireBase();
   const router = useRouter();
   const { firstName, employeeId, checkIn } = router.query;
-
-  useEffect(() => {
+  const refreshPage = () => {
+    router.replace(router.asPath);
+  };
+  /*useEffect(() => {
     const db = getDatabase();
     const courseRef = ref(db, "courses");
     // Listen for changes in the 'users' reference
@@ -45,7 +50,80 @@ export default function Calendar() {
       // Turn off the listener
       off(courseRef);
     };
+  }, []);*/
+
+    //------------------- Prepared For MySQL Database ----------------------//
+  //------------------- Prepared For MySQL Database ----------------------//
+  const fetchCourses = async () => {
+    try {
+      const response = await fetch(`/api/course_admin/tr_insert_api`, {
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCourses(data);
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        //setMessage('Error occurred while fetching data.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+     // setMessage('Error occurred while fetching data.');
+    }
+  };
+  useEffect(() => {
+    fetchCourses();
   }, []);
+
+  const fetchCourseCount = async () => {
+    try {
+      const response = await fetch(`/api/course/course_count_api`, {
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCourseCount(data);
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        //setMessage('Error occurred while fetching data.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+     // setMessage('Error occurred while fetching data.');
+    }
+  };
+  useEffect(() => {
+    fetchCourseCount();
+    
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch(`/api/course/course_api`, {
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUsers(data);
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        setMessage('Error occurred while fetching data.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+     setMessage('Error occurred while fetching data.');
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  //------------------- ---------------------------- ----------------------//
+  //------------------- ---------------------------- ----------------------//
+  //------------------- ---------------------------- ----------------------//
 
   //Auto go to current Date when entered
   useEffect(() => {
@@ -187,7 +265,8 @@ export default function Calendar() {
 
     days.push(dayElement);
   }
-  const countClickCheckHandler = async (course) => {
+
+  /*const countClickCheckHandler = async (course) => {
     const db = getDatabase();
     const userPickedCourse = courses.find((c) => c.id === course.id);
 
@@ -299,8 +378,114 @@ export default function Calendar() {
         userData
       );
     }
-  };
+  };*/
+  
+  const countClickCheckHandler = async (course) => {
+    const userPickedCourse = users.find((user) => user.course_id === course.course_id && user.user_id === employeeId) 
+    if(!userPickedCourse){
+      ////// POST DATA To Course /////////
+    try {
+      const response = await fetch('/api/course/course_api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ course_id:course.course_id,
+          user_id: employeeId,
+          name: firstName,
+          time_selected:course.time_Start,
+          course:course.course_name,
+          plant:course.plant,
+          date:course.date_course,
+          hall:course.hall,
+          }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        //window.location.reload();
+        //setMessage(data.message);
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        //window.location.reload();
+        //setMessage('Error occurred while sending data.');
+      }
+    }catch (error) {
+      console.error('Error:', error);
+      //setMessage('Error occurred while sending data.');
+    }
+    //////// PUT UPDATE NUMBER AMOUNT /////////
+    
+    try {
+      const response = await fetch('/api/course_admin/tr_insert_api', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ number:course.number+1,
+            course_id:course.course_id
+          }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        //setMessage(data.message);
+        window.location.reload();
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        //window.location.reload();
+        //setMessage('Error occurred while sending data.');
+      }
+    }catch (error) {
+      console.error('Error:', error);
+      //setMessage('Error occurred while sending data.');
+    }
+  } 
+  }
 
+  const removeUserHandler = async (course) => {
+    
+    const userPickedCourse = users.find((user) => user.course_id === course.course_id && user.user_id === employeeId)  
+    if (userPickedCourse) {
+      console.log(`Delete Course: ${course.course_id} with user ID: ${userPickedCourse.user_id}`);
+      
+      try {
+        // Decrease the number by one using a PUT request
+        await fetch('/api/course_admin/tr_insert_api', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            number: course.number - 1,
+            course_id: course.course_id,
+          }),
+        });
+  
+        // Delete the course using a DELETE request
+        const response = await fetch(`/api/course/course_api?course_id=${course.course_id}&user_id=${userPickedCourse.user_id}`, {
+          method: 'DELETE',
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Response status:', response.status);
+          setCourses(data);
+             console.log(`Delete data complete course_id = ${course.course_id} and user_id = ${userPickedCourse.user_id}`)
+          // Reload the page after successfully completing both operations
+         window.location.reload();
+        } else {
+          console.error('Error:', response.status, response.statusText);
+          // Handle error or show an error message to the user
+          
+        }
+      } catch (error) {
+        console.error('Error:', error);
+       
+        // Handle error or show an error message to the user
+      }
+    }
+    w
+  };
+  
 
   return (
     <main
@@ -407,12 +592,18 @@ export default function Calendar() {
       <div className="border-b p-1 mb-5"></div>
       <div>
         {courses
-          .sort((a, b) => (a.timeStart > b.timeStart ? 1 : -1))
+          .sort((a, b) => (a.time_Start > b.time_Start ? 1 : -1))
           .filter((course) => {
-            const courseDate = course.date;
+            const courseDate = course.date_course;
             return dayMonthYear === courseDate;
           })
-          .map((courses) => (
+          .map((courses) => {
+            // Find the corresponding courseCount object by matching the key
+      const correspondingCourseCount = courseCount.find(
+        (count) => count.course_id === courses.course_id
+      );
+            return(
+            
             <div
               key={courses.id}
               className=" m-3 p-2 rounded-xl bg-slate-200 drop-shadow-lg mb-5"
@@ -421,7 +612,7 @@ export default function Calendar() {
                 <p>
                   Date :{" "}
                   <strong>
-                    {new Date(courses.date).toLocaleDateString("th-TH", {
+                    {new Date(courses.date_course).toLocaleDateString("th-TH", {
                       dateStyle: "long",
                     })}
                   </strong>
@@ -429,7 +620,7 @@ export default function Calendar() {
               </div>
               <div className="flex justify-between mb-2">
                 <p>
-                  Course : <strong>{courses.course}</strong>
+                  Course : <strong>{courses.course_name}</strong>
                 </p>
                 <p>
                   Plant : <strong>{courses.plant}</strong>
@@ -439,29 +630,36 @@ export default function Calendar() {
                 <h1>
                   Time :{" "}
                   <strong>
-                    {courses.timeStart} - {courses.timeEnd}
+                    {courses.time_Start} - {courses.time_End}
                   </strong>
                 </h1>
                 <p>
-                  Online : <strong>{courses.onlineCode}</strong>
+                  Online : <strong>{courses.online_code}</strong>
                 </p>
               </div>
               <div className="flex justify-between mb-2">
                 <p>
                   Lecturer : <strong>{courses.lecturer}</strong>
                 </p>
-                <p>
+                <div>
+                {correspondingCourseCount && (
+            <p>
                   Onside :{" "}
+                  
                   <strong>
-                    {courses.number} / {courses.amount}
+                    {correspondingCourseCount.userCount} / {courses.amount}
                   </strong>
                 </p>
+          )}
+          {!correspondingCourseCount && <p>Onside :{" "} <strong> 0 / {courses.amount}</strong></p>}
+          </div>
+                
               </div>
               <div className="flex justify-between mt-3">
                 <p>
                   Place: <strong>{courses.hall}</strong>
                 </p>
-                {courses.number >= courses.amount && !courses.whoPickedThisCourse.includes(employeeId) ? (
+                {courses.number >= courses.amount && !users.find((c) => c.course_id === courses.course_id) ? (
                   <button
                     onClick={() => countClickCheckHandler(courses)}
                     className="bg-gray-400 text-white p-2 px-4 rounded-2xl font-semibold"
@@ -470,27 +668,29 @@ export default function Calendar() {
                   </button>
                 ) : (
                   <>
-                    {courses.whoPickedThisCourse &&
-                    courses.whoPickedThisCourse.includes(employeeId) ? (
-                      <button
-                        onClick={() => countClickCheckHandler(courses)}
-                        className="bg-red-600 text-white p-2 px-4 rounded-2xl font-semibold"
-                      >
-                        ยกเลิก
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => countClickCheckHandler(courses)}
-                        className="bg-green-600 text-white p-2 px-4 rounded-2xl font-semibold"
-                      >
-                        เลือก
-                      </button>
-                    )}
+                   {users.find((user) => user.course_id === courses.course_id && user.user_id === employeeId) ? (
+  <button
+    onClick={() => removeUserHandler(courses)}
+    className="bg-red-600 text-white p-2 px-4 rounded-2xl font-semibold"
+  >
+    ยกเลิก
+  </button>
+) : (
+  <button
+    onClick={() => countClickCheckHandler(courses)}
+    className="bg-green-600 text-white p-2 px-4 rounded-2xl font-semibold"
+  >
+    เลือก
+  </button>
+)}
+
+
+
                   </>
                 )}
               </div>
             </div>
-          ))}
+          )})}
       </div>
     </main>
   );
