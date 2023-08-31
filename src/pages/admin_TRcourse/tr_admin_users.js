@@ -22,50 +22,26 @@ export default function TRusers() {
 
   StartFireBase();
 
-  useEffect(() => {
-    const db = getDatabase();
-    const usersRef = ref(db, "users");
-    // Listen for changes in the 'users' reference
-    onValue(usersRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        // Convert the object of users into an array
-        const usersArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-        // Set the users state with the retrieved data
-        setUsers(usersArray);
-      }
-    });
-    // Clean up the listener when the component unmounts
-    return () => {
-      // Turn off the listener
-      off(usersRef);
-    };
-  }, []);
+  const fetchCourseUser = async () => {
+    try {
+      const response = await fetch("/api/course/course_api", {
+        method: "GET",
+      });
 
-  useEffect(() => {
-    const db = getDatabase();
-    const courseRef = ref(db, "courses");
-    // Listen for changes in the 'users' reference
-    onValue(courseRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        // Convert the object of users into an array
-        const courseArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-        // Set the users state with the retrieved data
-        setCourses(courseArray);
+      if (response.ok) {
+        const data = await response.json();
+        setUsers(data);
+      } else {
+        console.error("Error:", response.status, response.statusText);
+        //setMessage('Error occurred while fetching data.');
       }
-    });
-    // Clean up the listener when the component unmounts
-    return () => {
-      // Turn off the listener
-      off(courseRef);
-    };
+    } catch (error) {
+      console.error("Error:", error);
+      // setMessage('Error occurred while fetching data.');
+    }
+  };
+  useEffect(() => {
+    fetchCourseUser();
   }, []);
 
   const router = useRouter();
@@ -127,52 +103,36 @@ export default function TRusers() {
     }
   };
 
-  // Create a new array 'matchedData' to store the matched users
-  const matchedData = users.filter((user) => {
-    const userEmployeeId = user.courses.employeeId;
-
-    // Check if any course's 'whoPickedThisCourse' includes the user's employeeId
-    const userPickedCourses = Object.values(courses).some(
-      (course) =>
-        course.whoPickedThisCourse &&
-        Array.isArray(course.whoPickedThisCourse) &&
-        course.whoPickedThisCourse.includes(userEmployeeId)
+  // Add this function to handle the onClick event
+  async function handleCourseClick(employeeId) {
+    console.log(employeeId);
+    // Filter the users array to include only courses that match the employeeId
+    const matchingCourses = users.filter(
+      (course) => course.user_id === employeeId
     );
 
-    // Include the user in the matchedData array if they have any picked courses
-    return userPickedCourses;
-  });
-
-  // Add this function to handle the onClick event
-  function handleCourseClick(course, employeeId) {
-    const pickedCourses = Object.values(courses)
-      .filter(
-        (course) =>
-          course.whoPickedThisCourse &&
-          Array.isArray(course.whoPickedThisCourse) &&
-          course.whoPickedThisCourse.includes(employeeId)
-      )
-      .map((course) => ({
-        course: course.course,
-        date: new Date(course.date).toLocaleDateString("th-TH", {
-          dateStyle: "long",
-        }),
-        time: `${course.timeStart} - ${course.timeEnd}`,
-      }));
-    setCourseCount(pickedCourses.length);
-
-    Swal.fire({
-      title: "คอร์สที่เลือก :",
-      html: `<ul>${pickedCourses
-        .map(
-          (course) =>
-            `<li>${course.course} <b>วันที่ : </b>${course.date} <b>เวลา : </b> ${course.time}</li> <br>`
-        )
-        .join("")}</ul>`,
-      icon: "info",
-    });
+    if (matchingCourses.length > 0) {
+      Swal.fire({
+        title: "คอร์สที่เลือก :",
+        html: `<ul>${matchingCourses
+          .map(
+            (course) =>
+              `<li>${course.course} <b>วันที่ : </b>${course.date} <b>เวลา : </b> ${course.time_selected}</li> <br>`
+          )
+          .join("")}</ul>`,
+        icon: "info",
+      });
+    } else {
+      // Handle case when no matching courses are found
+      Swal.fire({
+        title: "คอร์สที่เลือก :",
+        text: "No courses found for this employee.",
+        icon: "info",
+      });
+    }
   }
 
+  const uniqueUserIds = new Set(); //For store user_id to check not to duplicate it
   return (
     <div className={`${bai.className} bg-slate-100 flex h-screen `}>
       <div className="w-58 bg-gray-800 rounded-3xl p-3 m-2 h-full overflow-y-auto">
@@ -457,33 +417,44 @@ export default function TRusers() {
               <div>Division</div>
               <div>Department</div>
             </div>
-            {matchedData.map((user) => (
-              <div className="grid grid-cols-7 gap-3 mx-10 my-5 " key={user.id}>
-                <div>
-                  <strong>{user.employeeId.toUpperCase()}</strong>
-                </div>
-                <div>{user.firstName}</div>
-                <div>{user.courses.company}</div>
-                <div>{user.courses.plant}</div>
-                <div>
-                  <div className="whitespace-nowrap overflow-ellipsis">
-                  {user.courses.division}
+
+            {users.map((user) => {
+              // Check if the user_id is already in the set
+              if (!uniqueUserIds.has(user.user_id)) {
+                // If it's not in the set, add it and render the user information
+                uniqueUserIds.add(user.user_id);
+
+                return (
+                  <div
+                    className="grid grid-cols-7 gap-3 mx-10 my-5"
+                    key={user.id}
+                  >
+                    <div>
+                      <strong>{user.user_id.toUpperCase()}</strong>
+                    </div>
+                    <div>{user.name}</div>
+                    <div>{user.company}</div>
+                    <div>{user.userFromPlant}</div>
+                    <div>
+                      <div className="whitespace-nowrap overflow-ellipsis">
+                        {user.division}
+                      </div>
+                    </div>
+                    <div>{user.department}</div>
+                    <button
+                      className="border border-orange-500 rounded-3xl bg-orange-500 text-white font-semibold"
+                      onClick={() => handleCourseClick(user.user_id)}
+                    >
+                      ดูคอร์สที่เลือก
+                    </button>
                   </div>
-                </div>
-                <div>{user.courses.department}</div>
-                <button
-                  className="border border-orange-500 rounded-3xl bg-orange-500 text-white font-semibold"
-                  onClick={() =>
-                    handleCourseClick(
-                      user.courses.course,
-                      user.courses.employeeId
-                    )
-                  }
-                >
-                  ดูคอร์สที่เลือก
-                </button>
-              </div>
-            ))}
+                );
+              } else {
+                // If the user_id is a duplicate, you can decide how to handle it.
+                // For example, you can skip rendering or show a message.
+                return null; // Skip rendering for duplicate user_ids
+              }
+            })}
           </div>
         </div>
       </div>

@@ -37,36 +37,37 @@ export default function Calendar() {
   const [showPlant, setShowPlant] = useState(false);
   const [plantNumber, setPlantNumber] = useState(null);
 
-  const [message,setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   startFireBase();
 
   const scrollRef = useRef(null);
   const router = useRouter();
-  const { firstName, employeeId, checkIn,addRelation,healthID } = router.query;
-
-
-
+  const { firstName, employeeId, checkIn, addRelation, healthID } =
+    router.query;
 
   //------------------- Prepared For MySQL Database ----------------------// This "GET Method" Work Fine
   //------------------- Prepared For MySQL Database ----------------------//
   //------------------- Prepared For MySQL Database ----------------------//
   const fetchHealthCare = async () => {
     try {
-      const response = await fetch(`/api/health_admin/hc_insert_api?date=${dayMonthYear}`, {
-        method: 'GET',
-      });
+      const response = await fetch(
+        `/api/health_admin/hc_insert_api?date=${dayMonthYear}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
         setHealthCare(data);
       } else {
-        console.error('Error:', response.status, response.statusText);
-        setMessage('Error occurred while fetching data.');
+        console.error("Error:", response.status, response.statusText);
+        setMessage("Error occurred while fetching data.");
       }
     } catch (error) {
-      console.error('Error:', error);
-      setMessage('Error occurred while fetching data.');
+      console.error("Error:", error);
+      setMessage("Error occurred while fetching data.");
     }
   };
   useEffect(() => {
@@ -76,8 +77,8 @@ export default function Calendar() {
   //------------------- ---------------------------- ----------------------//
   //------------------- ---------------------------- ----------------------//
   //------------------- ---------------------------- ----------------------//
-  
- /* useEffect(() => {
+
+  /* useEffect(() => {
     const db = getDatabase();
     const userRef = ref(db, "users");
     // Listen for changes in the 'users' reference
@@ -183,7 +184,7 @@ export default function Calendar() {
     setCurrentDate(nextDate);
     setStartIndex(1);
   };
-  
+
   const currentDay = currentDate.getDate();
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
@@ -257,11 +258,121 @@ export default function Calendar() {
       }
     }*/
 
-    if(addRelation !== "true"){
-    if (isPick === true ) {
-      alert(`รหัส "${employeeId}" ได้ทำจองพบแพทย์ไปแล้วกรุณายกเลิกก่อน`);
-    } else {
-       Swal.fire({
+    if (addRelation !== "true") {
+      if (isPick === true) {
+        alert(`รหัส "${employeeId}" ได้ทำจองพบแพทย์ไปแล้วกรุณายกเลิกก่อน`);
+      } else {
+        Swal.fire({
+          title: `${health.doctor}`,
+          html: `วันที่ : <b>${new Date(health.date).toLocaleDateString(
+            "th-TH",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }
+          )}</b><br>เวลา : <b>${health.timeStart}</b><br>สถานที่ : <b>${
+            health.plant
+          }</b>`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#16a34a",
+          cancelButtonColor: "#D43732",
+          confirmButtonText: "ยืนยัน",
+          cancelButtonText: "ยกเลิก",
+        }).then(async (result) => {
+          if (result.isConfirmed && !isPick) {
+            if (health.alreadyPicked < 1) {
+              const updatedHealth = healthCare.map((h) => {
+                if (h.id === health.id) {
+                  return {
+                    ...h,
+                    alreadyPicked: h.alreadyPicked + 1,
+                  };
+                }
+                return h;
+              });
+              setHealthCare(updatedHealth);
+              //////////// POST Method ////////////////
+              try {
+                const response = await fetch("/api/health/health_api", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    health_id: health.health_id,
+                    user_id: employeeId,
+                    name: firstName,
+                    doctor_type: health.health_care_name,
+                    phone_num: "",
+                    time_selected: health.timeStart,
+                    date_selected: health.date,
+                    plant: health.plant,
+                    checkInTime: "",
+                    picked_what: health.health_care_name,
+                    checkIn: 0,
+                    more_detail: "",
+                  }),
+                });
+
+                if (response.ok) {
+                  const data = await response.json();
+                  setMessage(data.message);
+                } else {
+                  console.error("Error:", response.status, response.statusText);
+                  setMessage("Error occurred while sending data.");
+                  window.location.reload();
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                setMessage("Error occurred while sending data.");
+              }
+              ////////////// PUT Method ///////////////
+              try {
+                const response = await fetch(
+                  "/api/health_admin/hc_insert_api",
+                  {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      health_id: health.health_id,
+                      whoPickedThis: employeeId,
+                      alreadyPicked: 1,
+                    }),
+                  }
+                );
+
+                if (response.ok) {
+                  const data = await response.json();
+                  setMessage(data.message);
+                  router.push(
+                    `./more_detail?firstName=${firstName}&employeeId=${employeeId}&date=${health.date}&time=${health.timeStart}&healthID=${health.health_id}`
+                  );
+                } else {
+                  console.error("Error:", response.status, response.statusText);
+                  setMessage("Error occurred while sending data.");
+                  window.location.reload();
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                setMessage("Error occurred while sending data.");
+              }
+
+              ///////////////////////////////////////////////
+            } else {
+              alert("เต็มแล้ว");
+            }
+          }
+        });
+      }
+    }
+    //If have more relation
+    else {
+      console.log("Relational Selection");
+      Swal.fire({
         title: `${health.doctor}`,
         html: `วันที่ : <b>${new Date(health.date).toLocaleDateString("th-TH", {
           year: "numeric",
@@ -276,8 +387,9 @@ export default function Calendar() {
         cancelButtonColor: "#D43732",
         confirmButtonText: "ยืนยัน",
         cancelButtonText: "ยกเลิก",
-      }).then(async(result) => {
-        if (result.isConfirmed && !isPick) {
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          // Route to another page and send data
           if (health.alreadyPicked < 1) {
             const updatedHealth = healthCare.map((h) => {
               if (h.id === health.id) {
@@ -289,193 +401,90 @@ export default function Calendar() {
               return h;
             });
             setHealthCare(updatedHealth);
+
             //////////// POST Method ////////////////
             try {
-              const response = await fetch('/api/health/health_api', {
-                method: 'POST',
+              const response = await fetch("/api/relation/relation_api", {
+                method: "POST",
                 headers: {
-                  'Content-Type': 'application/json',
+                  "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ health_id: health.health_id,
+                body: JSON.stringify({
                   user_id: employeeId,
-                  name:firstName,
-                  doctor_type:health.health_care_name,
-                  phone_num:'',
-                  time_selected:health.timeStart,
-                  date_selected:health.date,
-                  plant:health.plant,
-                  checkInTime:'',
-                  picked_what:health.health_care_name,
-                  checkIn:0,
-                  more_detail:''}),
+                  health_id: health.health_id,
+                  relation_type: "",
+                  name: "",
+                  phone_num: "",
+                  doctor_type: health.doctor,
+                  time_selected: health.timeStart,
+                  date_selected: health.date,
+                  picked_what: health.doctor,
+                  more_detail: "",
+                  plant: health.plant,
+                }),
               });
-          
+
               if (response.ok) {
                 const data = await response.json();
                 setMessage(data.message);
               } else {
-                console.error('Error:', response.status, response.statusText);
-                setMessage('Error occurred while sending data.');
+                console.error("Error:", response.status, response.statusText);
+                setMessage("Error occurred while sending data.");
                 window.location.reload();
               }
-            }catch (error) {
-              console.error('Error:', error);
-              setMessage('Error occurred while sending data.');
+            } catch (error) {
+              console.error("Error:", error);
+              setMessage("Error occurred while sending data.");
             }
+
             ////////////// PUT Method ///////////////
             try {
-              const response = await fetch('/api/health_admin/hc_insert_api', {
-                method: 'PUT',
+              const response = await fetch("/api/health_admin/hc_insert_api", {
+                method: "PUT",
                 headers: {
-                  'Content-Type': 'application/json',
+                  "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ health_id: health.health_id,
+                body: JSON.stringify({
+                  health_id: health.health_id,
                   whoPickedThis: employeeId,
-                  alreadyPicked:1,
-                  }),
+                  alreadyPicked: 1,
+                }),
               });
-          
+
               if (response.ok) {
                 const data = await response.json();
                 setMessage(data.message);
-                router.push(
-                  `./more_detail?firstName=${firstName}&employeeId=${employeeId}&date=${health.date}&time=${health.timeStart}&healthID=${health.health_id}`
-                );
               } else {
-                console.error('Error:', response.status, response.statusText);
-                setMessage('Error occurred while sending data.');
+                console.error("Error:", response.status, response.statusText);
+                setMessage("Error occurred while sending data.");
                 window.location.reload();
               }
-            }catch (error) {
-              console.error('Error:', error);
-              setMessage('Error occurred while sending data.');
+            } catch (error) {
+              console.error("Error:", error);
+              setMessage("Error occurred while sending data.");
             }
-            
-            ///////////////////////////////////////////////
+
+            /////////////////////////////////////////////////////////
+            router.push({
+              pathname: "./relation_detail", // Replace with the actual path to your new page
+              query: {
+                doctor: health.doctor,
+                date: health.date,
+                timeStart: health.timeStart,
+                plant: health.plant,
+                employeeId: employeeId,
+                firstName: firstName,
+                healthID: health.health_id,
+                // Add more data properties as needed
+              },
+            });
           } else {
             alert("เต็มแล้ว");
           }
         }
       });
     }
-  } 
-  //If have more relation
-  else {
-    console.log("Relational Selection")
-    Swal.fire({
-      title: `${health.doctor}`,
-      html: `วันที่ : <b>${new Date(health.date).toLocaleDateString("th-TH", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })}</b><br>เวลา : <b>${health.timeStart}</b><br>สถานที่ : <b>${
-        health.plant
-      }</b>`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#16a34a",
-      cancelButtonColor: "#D43732",
-      confirmButtonText: "ยืนยัน",
-      cancelButtonText: "ยกเลิก",
-    }).then(async(result) => {
-      if (result.isConfirmed ) {
-        // Route to another page and send data
-        if (health.alreadyPicked < 1) {
-          const updatedHealth = healthCare.map((h) => {
-            if (h.id === health.id) {
-              return {
-                ...h,
-                alreadyPicked: h.alreadyPicked + 1,
-              };
-            }
-            return h;
-          });
-          setHealthCare(updatedHealth);
-
-          //////////// POST Method ////////////////
-          try {
-            const response = await fetch('/api/relation/relation_api', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ user_id: employeeId,
-                health_id: health.health_id,
-                relation_type:'',
-                name:'',
-                phone_num:'',
-                doctor_type:health.doctor,
-                time_selected:health.timeStart,
-                date_selected:health.date,
-                picked_what:health.doctor,
-                more_detail:'',
-                plant:health.plant
-                }),
-            });
-        
-            if (response.ok) {
-              const data = await response.json();
-              setMessage(data.message);
-            } else {
-              console.error('Error:', response.status, response.statusText);
-              setMessage('Error occurred while sending data.');
-              window.location.reload();
-            }
-          }catch (error) {
-            console.error('Error:', error);
-            setMessage('Error occurred while sending data.');
-          }
-          
-          ////////////// PUT Method ///////////////
-          try {
-            const response = await fetch('/api/health_admin/hc_insert_api', {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ health_id: health.health_id,
-                whoPickedThis: employeeId,
-                alreadyPicked:1,
-                }),
-            });
-        
-            if (response.ok) {
-              const data = await response.json();
-              setMessage(data.message);
-              
-            } else {
-              console.error('Error:', response.status, response.statusText);
-              setMessage('Error occurred while sending data.');
-              window.location.reload();
-            }
-          }catch (error) {
-            console.error('Error:', error);
-            setMessage('Error occurred while sending data.');
-          }
-
-          /////////////////////////////////////////////////////////
-          router.push({
-            pathname: "./relation_detail", // Replace with the actual path to your new page
-            query: {
-              doctor: health.doctor,
-              date: health.date,
-              timeStart: health.timeStart,
-              plant: health.plant,
-              employeeId:employeeId,
-              firstName:firstName,
-              healthID:health.health_id
-              // Add more data properties as needed
-            },
-          });
-        } else {
-          alert("เต็มแล้ว");
-        }
-        
-      }
-    });
-  }
   };
-
 
   const handleToggleContent = () => {
     setShowContent(!showContent);
@@ -502,7 +511,7 @@ export default function Calendar() {
   };
 
   const plantFilterClick = (e) => {
-    console.log(healthCare)
+    console.log(healthCare);
     setPlantNumber(e);
     if (e === 1) {
       setPlantFilter("BPK");
@@ -765,19 +774,19 @@ export default function Calendar() {
               (currentHour > startHour ||
                 (currentHour === startHour && currentMinute >= startMinute));
 
-                // Calculate the time 15 minutes before the specified time
-const fifteenMinutesBefore = new Date();
-fifteenMinutesBefore.setHours(startHour);
-fifteenMinutesBefore.setMinutes(startMinute - 15);
+            // Calculate the time 15 minutes before the specified time
+            const fifteenMinutesBefore = new Date();
+            fifteenMinutesBefore.setHours(startHour);
+            fifteenMinutesBefore.setMinutes(startMinute - 15);
 
- // Check if the current time is on the same day as healthCare.date
- const isSameDay = date === healthCare.date;
+            // Check if the current time is on the same day as healthCare.date
+            const isSameDay = date === healthCare.date;
 
- // Check if the current time is within 15 minutes before the specified time
- const isWithinFifteenMinutes =
-   isSameDay && currentTime >= fifteenMinutesBefore;
+            // Check if the current time is within 15 minutes before the specified time
+            const isWithinFifteenMinutes =
+              isSameDay && currentTime >= fifteenMinutesBefore;
 
- return !isWithinFifteenMinutes;
+            return !isWithinFifteenMinutes;
           })
           .map((healthCare) => {
             const startTime = healthCare.timeStart.split(":"); //09 : 05

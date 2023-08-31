@@ -2,8 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/health_care/HCcalendar": "pages/health_care/HCcalendar.js",
-  "/admin_health/hc_admin_insert": "pages/admin_health/hc_admin_insert.js",
-  "/admin_health/hc_admin_list": "pages/admin_health/hc_admin_list.js",
-  "/api/health_admin/hc_insert_api": "pages/api/health_admin/hc_insert_api.js"
+  "/tr_course/TRcalendar": "pages/tr_course/TRcalendar.js",
+  "/admin_TRcourse/tr_admin_users": "pages/admin_TRcourse/tr_admin_users.js",
+  "/api/course/course_api": "pages/api/course/course_api.js"
 }

@@ -496,9 +496,11 @@ export default function confirmation() {
     <div className={`${bai_jamjuree.className} max-h-screen max-w-screen`}>
       <Analytics />
       <div className="  max-h-screen max-w-screen">
+      <p className="item-left mt-4 mx-5 text-sm underline"><a href={`../form_selection?firstName=${firstName}&employeeId=${employeeId}`}> &lt; กลับหน้าแรก</a></p>
         <div className="flex justify-center item-center mb-10">
+          
           <div>
-            
+          
               {users.map((user) => {
                 //const timeStart = getTimeFromString(user.health.time);
                 if (user.user_id === emp && user.name === name) {

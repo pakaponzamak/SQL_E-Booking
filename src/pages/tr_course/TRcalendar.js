@@ -25,7 +25,7 @@ export default function Calendar() {
   const scrollRef = useRef(null);
   //StartFireBase();
   const router = useRouter();
-  const { firstName, employeeId, checkIn } = router.query;
+  const { firstName, employeeId, company,division,department,plant } = router.query;
   const refreshPage = () => {
     router.replace(router.asPath);
   };
@@ -404,6 +404,10 @@ export default function Calendar() {
           plant:course.plant,
           date:course.date_course,
           hall:course.hall,
+          company:company,
+          division:division,
+          department:department,
+          userFromPlant:plant,
           }),
       });
       if (response.ok) {

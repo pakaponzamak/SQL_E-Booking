@@ -28,10 +28,10 @@ const getCourses = async () => {
     course,
     plant,
     date,
-    hall) {
+    hall,company,division,department,userFromPlant) {
     const query =
-  'INSERT INTO training_course (course_id,user_id,name,time_selected,course,plant,date,hall) VALUES (?,?,?,?,?,?,?,?)';
-    const values = [course_id,user_id,name,time_selected,course,plant,date,hall];
+  'INSERT INTO training_course (course_id,user_id,name,time_selected,course,plant,date,hall,company,division,department,userFromPlant) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)';
+    const values = [course_id,user_id,name,time_selected,course,plant,date,hall,company,division,department,userFromPlant];
     try {
       await executeQuery(query, values);
     } catch (error) {
@@ -67,7 +67,7 @@ export default async function course(req, res) {
         course,
         plant,
         date,
-        hall
+        hall,company,division,department,userFromPlant
     } = req.body;
 
     try {
@@ -79,7 +79,7 @@ export default async function course(req, res) {
         course,
         plant,
         date,
-        hall
+        hall,company,division,department,userFromPlant
       );
       res.status(200).json({ message: "Data inserted successfully" });
     } catch (error) {

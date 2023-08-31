@@ -38,19 +38,12 @@ export default function DropdownMenu() {
       return;
     }
     else{
-        const addPlant = {
-            company: company,
-            plant: plant,
-            division: division,
-            department: department,
-          };
-        const db = getDatabase();
-      update(ref(db, "users/" + employeeId + "/courses/"), addPlant)
+      router.push(
+        `./TRcalendar?firstName=${firstName}&employeeId=${employeeId}&checkIn=${checkIn}&company=${company}&division=${division}&department=${department}&plant=${plant}`
+      );
     }
 
-    router.push(
-      `./TRcalendar?firstName=${firstName}&employeeId=${employeeId}&checkIn=${checkIn}`
-    );
+    
   };
   const helpHandler = () => {
     Swal.fire({

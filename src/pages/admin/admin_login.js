@@ -4,24 +4,33 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
-  StartFireBase();
+  //StartFireBase();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
 
     try {
-      const auth = getAuth();
-      await signInWithEmailAndPassword(auth, email, password);
-      // Login successful, you can redirect to the dashboard or any other protected page
-      console.log("Login successful!");
-      router.push(`../admin_health/hc_admin_insert`);
+      const response = await fetch(
+        `/api/admin_login/login_api?username=${username}&password=${password}`,
+        {
+          method: "GET",
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        router.push(`../admin_health/hc_admin_insert`);
+      } else {
+        console.error("Error:", response.status, response.statusText);
+        //setMessage("Error occurred while fetching data.");
+      }
     } catch (error) {
-      setError("Invalid email or password.");
+      console.error("Error:", error);
+      //setMessage("Error occurred while fetching data.");
     }
   };
 
@@ -30,15 +39,15 @@ const LoginPage = () => {
   <form className="bg-slate-100 shadow-md rounded px-24 pt-14 pb-10 mb-4" onSubmit={handleLogin}>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-        Email
+        username
       </label>
       <input
         className="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        type="email"
-        id="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        type="text"
+        id="username"
+        placeholder="username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
       />
     </div>
     <div className="mb-6">
