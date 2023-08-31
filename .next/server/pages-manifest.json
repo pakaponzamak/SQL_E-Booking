@@ -3,6 +3,5 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/tr_course/TRcalendar": "pages/tr_course/TRcalendar.js",
-  "/admin_TRcourse/tr_admin_users": "pages/admin_TRcourse/tr_admin_users.js",
-  "/api/course/course_api": "pages/api/course/course_api.js"
+  "/admin_TRcourse/tr_admin_users": "pages/admin_TRcourse/tr_admin_users.js"
 }
