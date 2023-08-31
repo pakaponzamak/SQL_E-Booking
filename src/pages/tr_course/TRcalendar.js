@@ -381,8 +381,14 @@ export default function Calendar() {
   };*/
   
   const countClickCheckHandler = async (course) => {
-    const userPickedCourse = users.find((user) => user.course_id === course.course_id && user.user_id === employeeId) 
-    if(!userPickedCourse){
+    fetchCourses();
+    //fetchCourseCount();
+    const amountUser = courses.some((course) => course.number <= course.amount);
+
+    console.log(amountUser)
+    const userPickedCourse = users.some((user) => user.course_id === course.course_id && user.user_id === employeeId && course.number >= course.amount) 
+    console.log(userPickedCourse)
+    if(!userPickedCourse && amountUser === true){
       ////// POST DATA To Course /////////
     try {
       const response = await fetch('/api/course/course_api', {
@@ -402,19 +408,18 @@ export default function Calendar() {
       });
       if (response.ok) {
         const data = await response.json();
-        //window.location.reload();
-        //setMessage(data.message);
+    
       } else {
         console.error('Error:', response.status, response.statusText);
-        //window.location.reload();
+        
         //setMessage('Error occurred while sending data.');
       }
     }catch (error) {
       console.error('Error:', error);
       //setMessage('Error occurred while sending data.');
     }
-    //////// PUT UPDATE NUMBER AMOUNT /////////
     
+    //////// PUT UPDATE NUMBER AMOUNT /////////
     try {
       const response = await fetch('/api/course_admin/tr_insert_api', {
         method: 'PUT',
@@ -427,18 +432,17 @@ export default function Calendar() {
       });
       if (response.ok) {
         const data = await response.json();
-        //setMessage(data.message);
+        setMessage(data.message);
         window.location.reload();
       } else {
         console.error('Error:', response.status, response.statusText);
-        //window.location.reload();
         //setMessage('Error occurred while sending data.');
       }
     }catch (error) {
       console.error('Error:', error);
       //setMessage('Error occurred while sending data.');
     }
-  } 
+  } else alert("Something Wrong")
   }
 
   const removeUserHandler = async (course) => {
@@ -483,7 +487,7 @@ export default function Calendar() {
         // Handle error or show an error message to the user
       }
     }
-    w
+    
   };
   
 
@@ -659,10 +663,10 @@ export default function Calendar() {
                 <p>
                   Place: <strong>{courses.hall}</strong>
                 </p>
-                {courses.number >= courses.amount && !users.find((c) => c.course_id === courses.course_id) ? (
+                {courses.number >= courses.amount && !users.find((c) => c.course_id === courses.course_id && c.user_id === employeeId) ? (
                   <button
-                    onClick={() => countClickCheckHandler(courses)}
-                    className="bg-gray-400 text-white p-2 px-4 rounded-2xl font-semibold"
+                    //onClick={() => countClickCheckHandler(courses)}
+                    className="bg-gray-400 text-white p-2 px-4 rounded-2xl font-semibold disabled"
                   >
                     ที่นั่งเต็มแล้ว
                   </button>

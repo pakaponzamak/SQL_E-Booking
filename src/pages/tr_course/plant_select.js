@@ -105,8 +105,7 @@ export default function DropdownMenu() {
               onChange={(e) => setCompany(e.target.value)}
             >
               <MenuItem value={"DNTH"}>DNTH</MenuItem>
-              <MenuItem value={"..."}>...</MenuItem>
-              <MenuItem value={"---"}>---</MenuItem>
+            
             </Select>
           </FormControl>
         </Box>

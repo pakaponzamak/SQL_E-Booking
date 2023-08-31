@@ -193,6 +193,7 @@ export default function confirmation() {
         console.log(
           "The user can check in. It's within 15 minutes of the appointment."
         );
+         console.log(timeDiffInMinutes)
         return true;
       } else {
         console.log(
@@ -206,31 +207,34 @@ export default function confirmation() {
   }
 
   // Function to update the appointment data to "N/A" if the user didn't come within 15 minutes before the appointment
-  function updateAppointmentToNAIfNotComing(user) {
-    if (user?.health?.time) {
+ async function updateAppointmentToNAIfNotComing(user) {
+    if (user.time_selected) {
       const isNotWithin15Minutes = !isAppointmentWithin15Minutes(
-        user.health.time,
-        user.health.date
+        user.time_selected,
+        user.date_selected
       );
-      if (isNotWithin15Minutes && user.health.checkIn === false) {
+      if (isNotWithin15Minutes ) {
         // The appointment time is not within the next 15 minutes
         // Update the appointment data to "N/A"
-        const db = getDatabase();
-        const userRef = ref(db, `users/${user.id}/health`);
-        const healthDataToUpdate = {
-          type: "N/A",
-          time: "N/A",
-          date: "N/A",
-          plant: "N/A",
-          relationship: "N/A",
-          checkInTime: "N/A",
-          pickedWhat: "N/A",
-          checkIn: false,
-        };
-
-        update(userRef, healthDataToUpdate);
+        try {
+          const response = await fetch(`/api/health/health_api?healthId=${user.health_id}`, {
+            method: 'DELETE',
+          });
+  
+          if (response.ok) {
+            // The record has been deleted successfully
+            console.log(`Record with ID ${user.health_id} deleted.`);
+            window.location.reload()
+          } else {
+            console.error('Error:', response.status, response.statusText);
+            setMessage('Error occurred while deleting data.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          setMessage('Error occurred while deleting data.');
+        }
         console.log(`Updated appointment for user with ID: ${user.id}`);
-      } else console.log("Check in already cannot delete");
+      } else console.log("With In Time");
     }
   }
   // Now you can use the updateAppointmentToNAIfNotComing function inside the useEffect
@@ -489,9 +493,9 @@ export default function confirmation() {
 
 
   return (
-    <div className={`${bai_jamjuree.className}  max-h-screen bg-slate-100 h-screen w-screen`}>
+    <div className={`${bai_jamjuree.className} max-h-screen max-w-screen`}>
       <Analytics />
-      <div className="max-h-screen bg-slate-100 h-screen w-screen">
+      <div className="  max-h-screen max-w-screen">
         <div className="flex justify-center item-center mb-10">
           <div>
             
@@ -588,8 +592,8 @@ export default function confirmation() {
           </div>
         </div>
 
-        <div className="flex justify-center item-center">
-          <div>
+        <div className="flex justify-center item-cente">
+          <div >
             {relationUser.map((user) => {
               if (user.user_id === employeeId) {
                 return (
@@ -669,7 +673,7 @@ export default function confirmation() {
             
            {/* Check if no matching IDs were found */}
     {users.every((user) => user.user_id !== employeeId) && (
-      <div className="text-center text-lg text-gray-500 mt-4">
+      <div className="text-center text-xl text-gray-500 mt-4">
         ไม่พบคิวแพทย์ของคุณ.
       </div>
     )}

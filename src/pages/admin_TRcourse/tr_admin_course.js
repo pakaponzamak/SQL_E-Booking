@@ -112,6 +112,7 @@ useEffect(() => {
       if (response.ok) {
         const data = await response.json();
         setCourses(data);
+        window.location.reload()
       } else {
         console.error('Error:', response.status, response.statusText);
         //setMessage('Error occurred while fetching data.');

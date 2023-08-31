@@ -60,6 +60,7 @@ export default function tr_admin_course() {
       if (response.ok) {
         // The record has been deleted successfully
         console.log(`Record with ID ${healthId} deleted.`);
+        window.location.reload()
       } else {
         console.error('Error:', response.status, response.statusText);
         setMessage('Error occurred while deleting data.');

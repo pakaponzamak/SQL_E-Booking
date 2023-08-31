@@ -81,7 +81,7 @@ export default function relation_detail() {
         }
   
         router.push({
-          pathname: `./option_select`,
+          pathname: `./confirmation`,
           query: { firstName, employeeId },
         });
       }

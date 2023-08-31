@@ -77,7 +77,7 @@ export default function Calendar() {
   //------------------- ---------------------------- ----------------------//
   //------------------- ---------------------------- ----------------------//
   
-  useEffect(() => {
+ /* useEffect(() => {
     const db = getDatabase();
     const userRef = ref(db, "users");
     // Listen for changes in the 'users' reference
@@ -98,7 +98,7 @@ export default function Calendar() {
       // Turn off the listener
       off(userRef);
     };
-  }, []);
+  }, []);*/
 
   //Auto go to current Date when entered
   useEffect(() => {
@@ -245,7 +245,7 @@ export default function Calendar() {
     const db = getDatabase();
 
     let isPick = false;
-    for (const user of users) {
+    /*for (const user of users) {
       if (user.employeeId === employeeId) {
         if (
           user.health.pickedWhat !== "N/A" &&
@@ -255,7 +255,7 @@ export default function Calendar() {
           break;
         }
       }
-    }
+    }*/
 
     if(addRelation !== "true"){
     if (isPick === true ) {
@@ -316,6 +316,7 @@ export default function Calendar() {
               } else {
                 console.error('Error:', response.status, response.statusText);
                 setMessage('Error occurred while sending data.');
+                window.location.reload();
               }
             }catch (error) {
               console.error('Error:', error);
@@ -337,18 +338,19 @@ export default function Calendar() {
               if (response.ok) {
                 const data = await response.json();
                 setMessage(data.message);
-                
+                router.push(
+                  `./more_detail?firstName=${firstName}&employeeId=${employeeId}&date=${health.date}&time=${health.timeStart}&healthID=${health.health_id}`
+                );
               } else {
                 console.error('Error:', response.status, response.statusText);
                 setMessage('Error occurred while sending data.');
+                window.location.reload();
               }
             }catch (error) {
               console.error('Error:', error);
               setMessage('Error occurred while sending data.');
             }
-            router.push(
-              `./more_detail?firstName=${firstName}&employeeId=${employeeId}&date=${health.date}&time=${health.timeStart}&healthID=${health.health_id}`
-            );
+            
             ///////////////////////////////////////////////
           } else {
             alert("เต็มแล้ว");
@@ -417,6 +419,7 @@ export default function Calendar() {
             } else {
               console.error('Error:', response.status, response.statusText);
               setMessage('Error occurred while sending data.');
+              window.location.reload();
             }
           }catch (error) {
             console.error('Error:', error);
@@ -443,6 +446,7 @@ export default function Calendar() {
             } else {
               console.error('Error:', response.status, response.statusText);
               setMessage('Error occurred while sending data.');
+              window.location.reload();
             }
           }catch (error) {
             console.error('Error:', error);
@@ -761,7 +765,19 @@ export default function Calendar() {
               (currentHour > startHour ||
                 (currentHour === startHour && currentMinute >= startMinute));
 
-            return !isTimePassed;
+                // Calculate the time 15 minutes before the specified time
+const fifteenMinutesBefore = new Date();
+fifteenMinutesBefore.setHours(startHour);
+fifteenMinutesBefore.setMinutes(startMinute - 15);
+
+ // Check if the current time is on the same day as healthCare.date
+ const isSameDay = date === healthCare.date;
+
+ // Check if the current time is within 15 minutes before the specified time
+ const isWithinFifteenMinutes =
+   isSameDay && currentTime >= fifteenMinutesBefore;
+
+ return !isWithinFifteenMinutes;
           })
           .map((healthCare) => {
             const startTime = healthCare.timeStart.split(":"); //09 : 05

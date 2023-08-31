@@ -83,7 +83,7 @@ try {
 }
 //////////////////////////////////////
       router.push({
-        pathname: `./option_select`,
+        pathname: `./confirmation`,
         query: { firstName, employeeId },
       });
     }
