@@ -2,7 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/health_care/confirmation": "pages/health_care/confirmation.js",
-  "/api/health/health_api": "pages/api/health/health_api.js",
-  "/api/relation/relation_api": "pages/api/relation/relation_api.js"
+  "/api/course_admin/tr_insert_api": "pages/api/course_admin/tr_insert_api.js",
+  "/health_care/confirmation": "pages/health_care/confirmation.js"
 }
