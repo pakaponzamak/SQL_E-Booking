@@ -1,90 +1,115 @@
-E-Booking Application
-This is a simple E-Booking application built with Next.js, MySQL (using XAMPP), Tailwind CSS, and JavaScript.
 
-Table of Contents
-Getting Started
-Prerequisites
-Installation
-Usage
-Database Setup
-Features
-Contributing
-License
-Getting Started
-Prerequisites
+```markdown
+# Health and Money Training E-Booking Application
+
+![E-Booking Application](e-booking-screenshot.png)
+
+The Health and Money Training E-Booking Application is a comprehensive web-based platform that allows users to book healthcare services and enroll in financial training courses.
+
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Database Setup](#database-setup)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- **User Registration and Authentication**: Secure user accounts with registration and login functionality.
+
+- **Healthcare Service Booking**: Users can browse available healthcare services, schedule appointments with healthcare providers, and view their medical history.
+
+- **Money Training Courses**: Users can enroll in financial training courses, view course materials, and track their progress.
+
+- **Admin Dashboard**: Administrators have access to a dashboard for managing services, courses, and user bookings.
+
+- **Responsive Design**: A user-friendly interface that adapts to various screen sizes.
+
+- **Tailwind CSS**: Stylish and customizable UI with the power of Tailwind CSS.
+
+## Prerequisites
+
 Before you begin, ensure you have met the following requirements:
 
-Node.js: Make sure Node.js is installed on your machine. You can download it from https://nodejs.org/.
-Installation
-Clone the repository:
+- [Node.js](https://nodejs.org/): Make sure Node.js is installed on your machine.
 
-bash
-Copy code
-git clone https://github.com/yourusername/e-booking-app.git
-Navigate to the project directory:
+## Getting Started
 
-bash
-Copy code
-cd e-booking-app
-Install the project dependencies:
+1. Clone the repository:
 
-bash
-Copy code
-npm install
-Usage
+   ```bash
+   git clone https://github.com/yourusername/e-booking-app.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd e-booking-app
+   ```
+
+3. Install the project dependencies:
+
+   ```bash
+   npm install
+   ```
+
+## Database Setup
+
+### XAMPP and MySQL
+
+1. Download and install [XAMPP](https://www.apachefriends.org/index.html) if not already installed.
+
+2. Start the Apache and MySQL services in XAMPP.
+
+3. Open phpMyAdmin by navigating to `http://localhost/phpmyadmin` in your web browser.
+
+4. Create a new database for your E-Booking application.
+
+5. Import the database schema provided in the `database-schema.sql` file included with this project to create the necessary tables and structure.
+
+6. Update the database configuration in your project to connect to your MySQL database.
+
+## Usage
+
 To start the application, run the following command:
 
-bash
-Copy code
+```bash
 npm run dev
-The application will be available at http://localhost:3000.
+```
 
-Database Setup
-XAMPP and MySQL
-Download and install XAMPP from https://www.apachefriends.org/index.html.
+The application will be available at `http://localhost:3000`.
 
-Start the Apache and MySQL services in XAMPP.
+## Contributing
 
-Open phpMyAdmin by navigating to http://localhost/phpmyadmin in your web browser.
+Contributions are welcome! Please follow our [contributing guidelines](CONTRIBUTING.md) to get started.
 
-Create a new database for your E-Booking application.
+1. Fork the project.
 
-Import the database schema provided in the database-schema.sql file included with this project to create the necessary tables and structure.
+2. Create your feature branch:
 
-Update the database configuration in your project to connect to your MySQL database.
+   ```bash
+   git checkout -b feature/your-feature
+   ```
 
-Features
-User Registration and Login: Users can create accounts and log in.
+3. Commit your changes:
 
-Booking Management: Users can view, create, edit, and cancel bookings.
+   ```bash
+   git commit -m 'Add some feature'
+   ```
 
-Admin Dashboard: Admin users can manage bookings and view booking statistics.
+4. Push to the branch:
 
-Responsive Design: The application is responsive and works well on various screen sizes.
+   ```bash
+   git push origin feature/your-feature
+   ```
 
-Tailwind CSS: Styling is done using Tailwind CSS for a modern and clean UI.
+5. Open a pull request.
 
-Contributing
-Contributions are welcome! Feel free to open issues or submit pull requests to help improve this project.
+## License
 
-Fork the project.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-Create your feature branch:
-
-bash
-Copy code
-git checkout -b feature/your-feature
-Commit your changes:
-
-bash
-Copy code
-git commit -m 'Add some feature'
-Push to the branch:
-
-bash
-Copy code
-git push origin feature/your-feature
-Open a pull request.
-
-License
-This project is licensed under the MIT License. See the LICENSE file for details.
+```
