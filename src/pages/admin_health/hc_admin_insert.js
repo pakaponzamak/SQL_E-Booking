@@ -45,6 +45,8 @@ export default function tr_admin_course() {
   const currentYear = currentDate.getFullYear();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const scrollRef = useRef(null);
+  const router = useRouter();
+  const { username, password} = router.query;
   StartFireBase();
 
   const today = new Date();
@@ -212,7 +214,7 @@ export default function tr_admin_course() {
     fetchUsers();
   }, []);
 
-  const router = useRouter();
+
 
   const handleSubmit = async () => {
     if (
@@ -298,25 +300,25 @@ export default function tr_admin_course() {
   const navigateToSection = (menu) => {
     switch (menu) {
       case "about":
-        router.push("../admin_TRcourse/admin_insert");
+        router.push(`../admin_TRcourse/admin_insert?username=${username}&password=${password}`);
         break;
       case "Option 4":
-        router.push("../admin_TRcourse/tr_admin_users");
+        router.push(`../admin_TRcourse/tr_admin_users?username=${username}&password=${password}`);
         break;
       case "Option 5":
-        router.push("../admin_TRcourse/tr_admin_course");
+        router.push(`../admin_TRcourse/tr_admin_course?username=${username}&password=${password}`);
         break;
       case "Option 2":
-        router.push("./hc_admin_users");
+        router.push(`./hc_admin_users?username=${username}&password=${password}`);
         break;
       case "Option 3":
-        router.push("./hc_admin_list");
+        router.push(`./hc_admin_list?username=${username}&password=${password}`);
         break;
       case "tr insert":
-        router.push("../admin_TRcourse/tr_admin_insert");
+        router.push(`../admin_TRcourse/tr_admin_insert?username=${username}&password=${password}`);
         break;
       case "Option 1":
-        router.push("./hc_admin_insert");
+        router.push(`./hc_admin_insert?username=${username}&password=${password}`);
         break;
       // Add more cases for other menu items and corresponding routes
       default:
@@ -327,6 +329,7 @@ export default function tr_admin_course() {
   const currentTime = new Date(); // Get the current time
   const currentHour = currentTime.getHours();
   const currentMinute = currentTime.getMinutes();
+  
   return (
     <div className={`flex ${bai.className} bg-slate-100 overflow-y-auto`}>
       <div className="w-58 bg-gray-800 rounded-3xl p-3 m-2 flex flex-col drop-shadow-xl ">

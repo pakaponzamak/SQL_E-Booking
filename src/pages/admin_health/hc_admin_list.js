@@ -100,6 +100,7 @@ export default function tr_admin_course() {
     }, []);
 
   const router = useRouter();
+  const { username, password} = router.query;
 
   function deleteSingleUserHandler(health) {
     // Access the user object and perform actions
@@ -146,29 +147,27 @@ export default function tr_admin_course() {
 
   const navigateToSection = (menu) => {
     switch (menu) {
-      
       case "about":
-        router.push("../admin_TRcourse/admin_insert");
+        router.push(`../admin_TRcourse/admin_insert?username=${username}&password=${password}`);
         break;
       case "Option 4":
-        router.push("../admin_TRcourse/tr_admin_users");
+        router.push(`../admin_TRcourse/tr_admin_users?username=${username}&password=${password}`);
         break;
       case "Option 5":
-        router.push("../admin_TRcourse/tr_admin_course");
+        router.push(`../admin_TRcourse/tr_admin_course?username=${username}&password=${password}`);
         break;
-        case "Option 2":
-        router.push("../admin_health/hc_admin_users");
+      case "Option 2":
+        router.push(`./hc_admin_users?username=${username}&password=${password}`);
         break;
-        case "Option 3":
-        router.push("./hc_admin_list");
+      case "Option 3":
+        router.push(`./hc_admin_list?username=${username}&password=${password}`);
         break;
-        case "tr insert":
-          router.push("../admin_TRcourse/tr_admin_insert");
-          break;
-          case "Option 1":
-          router.push("./hc_admin_insert");
-          break;
-
+      case "tr insert":
+        router.push(`../admin_TRcourse/tr_admin_insert?username=${username}&password=${password}`);
+        break;
+      case "Option 1":
+        router.push(`./hc_admin_insert?username=${username}&password=${password}`);
+        break;
       // Add more cases for other menu items and corresponding routes
       default:
         break;

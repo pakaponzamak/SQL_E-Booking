@@ -23,7 +23,7 @@ const LoginPage = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        router.push(`../admin_health/hc_admin_insert`);
+        router.push(`../admin_health/hc_admin_insert?username=${username}&password=${password}`);
       } else {
         console.error("Error:", response.status, response.statusText);
         //setMessage("Error occurred while fetching data.");

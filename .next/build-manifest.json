@@ -22,15 +22,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin_TRcourse/tr_admin_users": [
+    "/admin_health/hc_admin_insert": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin_TRcourse/tr_admin_users.js"
-    ],
-    "/tr_course/TRcalendar": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/tr_course/TRcalendar.js"
+      "static/chunks/pages/admin_health/hc_admin_insert.js"
     ]
   },
   "ampFirstPages": []
