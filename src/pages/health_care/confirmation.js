@@ -1,17 +1,6 @@
-import {
-  getDatabase,
-  ref,
-  onValue,
-  off,
-  remove,
-  push,
-  update,
-  set,
-} from "firebase/database";
-import StartFireBase from "../../firebase/firebase_conf";
+
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-
 import { Bai_Jamjuree } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import Swal from "sweetalert2";
@@ -22,12 +11,9 @@ const bai_jamjuree = Bai_Jamjuree({
 });
 
 export default function confirmation() {
-  StartFireBase();
   const router = useRouter();
   const { firstName, employeeId, checkIn } = router.query;
   const [users, setUsers] = useState([]);
-  const [healthCare, setHealthCare] = useState([]);
-  const [showBtn, setShowBtn] = useState(false);
   const [name, setName] = useState("");
   const [emp, setEmp] = useState("");
   const [checkInStatus, setCheckInStatus] = useState("");
@@ -41,80 +27,7 @@ export default function confirmation() {
   var time = hours + ":" + minutes;
   var dateTime = date + " " + time;
 
-  useEffect(() => {
-    const db = getDatabase();
-    const healthRef = ref(db, "health");
 
-    onValue(healthRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const healthArray = Object.keys(data).map((key) => {
-          const health = {
-            id: key,
-            ...data[key],
-            health: data[key]?.health || null,
-          };
-          return health;
-        });
-
-        setHealthCare(healthArray);
-      }
-    });
-
-    return () => {
-      off(healthRef);
-    };
-  }, []);
-
-  /*useEffect(() => {
-    const db = getDatabase();
-    const usersRef = ref(db, "users");
-
-    onValue(usersRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const usersArray = Object.keys(data).map((key) => {
-          const user = {
-            id: key,
-            ...data[key],
-            user: data[key]?.user || null,
-          };
-          return user;
-        });
-
-        setUsers(usersArray);
-      }
-    });
-
-    return () => {
-      off(usersRef);
-    };
-  }, []);*/
-
- /* useEffect(() => {
-    const db = getDatabase();
-    const usersRef = ref(db, "relation_health_care");
-
-    onValue(usersRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const usersArray = Object.keys(data).map((key) => {
-          const user = {
-            id: key,
-            ...data[key],
-            user: data[key]?.user || null,
-          };
-          return user;
-        });
-
-        setRelationUser(usersArray);
-      }
-    });
-
-    return () => {
-      off(usersRef);
-    };
-  }, []);*/
 
   ///////// MySQL DATAABASE ////////////////////// MySQL DATAABASE /////////////
   ///////// MySQL DATAABASE ////////////////////// MySQL DATAABASE /////////////
@@ -491,21 +404,18 @@ export default function confirmation() {
     });
   }
 
-
   return (
     <div className={`${bai_jamjuree.className} max-h-screen max-w-screen`}>
       <Analytics />
       <div className="  max-h-screen max-w-screen">
       <p className="item-left mt-4 mx-5 text-sm underline"><a href={`../form_selection?firstName=${firstName}&employeeId=${employeeId}`}> &lt; กลับหน้าแรก</a></p>
-        <div className="flex justify-center item-center mb-10">
-          
-          <div>
-          
+        <div className="flex justify-center item-center mb-10">     
+          <div>      
               {users.map((user) => {
                 //const timeStart = getTimeFromString(user.health.time);
                 if (user.user_id === emp && user.name === name) {
                   return (
-                    <div className="border p-5  mb-10 mt-16  rounded-xl bg-white drop-shadow-md">
+                    <div className="border p-5  mb-5 mt-10  rounded-xl bg-white drop-shadow-md">
             <div className="text mb-3 text-left ">ประวัติการจอง</div>
                     <div className=" mx-2">
                       
@@ -588,19 +498,16 @@ export default function confirmation() {
                 
                 return null;
                 
-              })}
-              
-                   
+              })}             
           </div>
         </div>
-
-        <div className="flex justify-center item-cente">
+        <div className="flex justify-center item-center">
           <div >
             {relationUser.map((user) => {
               if (user.user_id === employeeId) {
                 return (
-                  <div className="border p-6  mb-10 mt-2  rounded-xl bg-white drop-shadow-md">
-                    <div className="mx-2">
+                  <div className="border p-6  mb-8 mt-2  rounded-xl bg-white drop-shadow-md">
+                    <div className="">
                       <div className="text mb-2 text-left">
                         ประวัติการจองของญาติ
                       </div>
@@ -673,16 +580,16 @@ export default function confirmation() {
               return null;
             })}
             
-           {/* Check if no matching IDs were found */}
-    {users.every((user) => user.user_id !== employeeId) && (
-      <div className="text-center text-xl text-gray-500 mt-4">
-        ไม่พบคิวแพทย์ของคุณ.
-      </div>
-    )}
+            {!users.some((user) => user.user_id === employeeId) && !relationUser.some((user) => user.user_id === employeeId) && (
+  <div className="text-center text-xl text-gray-500 mt-4">
+    ไม่พบคิวแพทย์ของคุณ.
+  </div>
+)}
       
           </div>
         </div>
       </div>
+      
     </div>
   );
 }

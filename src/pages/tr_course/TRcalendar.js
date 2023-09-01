@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { Bai_Jamjuree } from "next/font/google";
-import StartFireBase from "../../firebase/firebase_conf";
 import { Analytics } from "@vercel/analytics/react";
-import { getDatabase, ref, get, onValue, off, update } from "firebase/database";
 import Swal from "sweetalert2";
 const bai_jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -20,37 +18,10 @@ export default function Calendar() {
   const [users,setUsers] = useState([])
   const [message,setMessage] = useState("")
   const [courseCount,setCourseCount] = useState([])
-
-
   const scrollRef = useRef(null);
-  //StartFireBase();
   const router = useRouter();
   const { firstName, employeeId, company,division,department,plant } = router.query;
-  const refreshPage = () => {
-    router.replace(router.asPath);
-  };
-  /*useEffect(() => {
-    const db = getDatabase();
-    const courseRef = ref(db, "courses");
-    // Listen for changes in the 'users' reference
-    onValue(courseRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        // Convert the object of users into an array
-        const coursesArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-        // Set the users state with the retrieved data
-        setCourses(coursesArray);
-      }
-    });
-    // Clean up the listener when the component unmounts
-    return () => {
-      // Turn off the listener
-      off(courseRef);
-    };
-  }, []);*/
+
 
     //------------------- Prepared For MySQL Database ----------------------//
   //------------------- Prepared For MySQL Database ----------------------//
@@ -266,119 +237,6 @@ export default function Calendar() {
     days.push(dayElement);
   }
 
-  /*const countClickCheckHandler = async (course) => {
-    const db = getDatabase();
-    const userPickedCourse = courses.find((c) => c.id === course.id);
-
-    if (!userPickedCourse.whoPickedThisCourse) {
-      userPickedCourse.whoPickedThisCourse = []; // Ensure that it's an array when not present
-    }
-
-    if (userPickedCourse.whoPickedThisCourse.includes(employeeId)) {
-      // The user has already picked the course, so we want to allow them to remove it
-      const updatedCourses = courses.map((c) => {
-        if (c.id === course.id) {
-          return {
-            ...c,
-            number: c.number - 1,
-            whoPickedThisCourse: c.whoPickedThisCourse.filter(
-              (id) => id !== employeeId
-            ),
-          };
-        }
-        return c;
-      });
-      setCourses(updatedCourses);
-
-      const postData = {
-        number: userPickedCourse.number - 1,
-        whoPickedThisCourse: userPickedCourse.whoPickedThisCourse.filter(
-          (id) => id !== employeeId
-        ),
-      };
-      const userData = {
-        course: "N/A",
-        date: "N/A",
-        hall: "N/A",
-        time:"N/A",
-        plant:"N/A"
-      }
-      await update(
-        ref(
-          db,
-          "courses/" +
-            course.course +
-            course.date +
-            course.timeStart +
-            course.onlineCode
-        ),
-        postData
-      );
-      await update(
-        ref(
-          db,
-          "users/" +
-            employeeId +
-            "/courses"
-        ),
-        userData
-      );
-    } else {
-      // The user has not picked the course, so we want to allow them to add it
-      if (userPickedCourse.number + 1 > userPickedCourse.amount) {
-        alert("เต็มแล้วครับพ่อหนุ่ม");
-        return;
-      }
-
-      const updatedCourses = courses.map((c) => {
-        if (c.id === course.id) {
-          return {
-            ...c,
-            number: c.number + 1,
-            whoPickedThisCourse: [...c.whoPickedThisCourse, employeeId],
-          };
-        }
-        return c;
-      });
-      setCourses(updatedCourses);
-
-      const postData = {
-        number: userPickedCourse.number + 1,
-        whoPickedThisCourse: [
-          ...userPickedCourse.whoPickedThisCourse,
-          employeeId,
-        ],
-      };
-      const userData = {
-        course: course.course,
-        date: course.date,
-        hall: course.hall,
-        time:course.timeStart,
-        
-      }
-
-      await update(
-        ref(
-          db,
-          "courses/" +
-            course.course +
-            course.date +
-            course.timeStart +
-            course.onlineCode
-        ),
-        postData
-      );
-      await update(
-        ref(
-          db,
-          "users/" +
-            employeeId +
-            "/courses"
-        ),
-        userData
-      );
-    }
-  };*/
   
   const countClickCheckHandler = async (course) => {
     fetchCourses();

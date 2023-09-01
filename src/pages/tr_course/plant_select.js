@@ -6,17 +6,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useRouter } from "next/router";
 import Swal from 'sweetalert2'
-import {
-    getDatabase,
-    ref,
-    onValue,
-    off,
-    remove,
-    push,
-    update,
-    set,
-  } from "firebase/database";
-  import StartFireBase from "../../firebase/firebase_conf";
 
 export default function DropdownMenu() {
   const [company, setCompany] = useState("");
@@ -26,7 +15,6 @@ export default function DropdownMenu() {
   const router = useRouter();
   const { firstName, employeeId, checkIn } = router.query;
 
-  StartFireBase();
   const submitHandler = () => {
     if (
       company.trim() === "" ||

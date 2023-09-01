@@ -49,4 +49,7 @@ export default async function health(req,res)
           res.status(500).json({ error: 'Internal Server Error' });
         }
       }
+      else {
+        res.status(405).json({ message: "This method is not allowed" });
+      }
 }

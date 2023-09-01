@@ -10,9 +10,6 @@ import Select from "@mui/material/Select";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-import { getDatabase, ref, update, onValue, off,set } from "firebase/database";
-import StartFireBase from "../../firebase/firebase_conf";
-
 const bai_jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700"],
@@ -29,7 +26,6 @@ export default function appointment() {
   const [showForm, setShowForm] = useState(false);
   const [addRelation,setAddRelation] = useState("true")
  
-  StartFireBase();
 
    useEffect(() => {
     

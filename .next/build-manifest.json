@@ -22,10 +22,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin_health/hc_admin_insert": [
+    "/admin_TRcourse/tr_admin_insert": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin_health/hc_admin_insert.js"
+      "static/chunks/pages/admin_TRcourse/tr_admin_insert.js"
+    ],
+    "/health_care/confirmation": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/health_care/confirmation.js"
+    ],
+    "/tr_course/TRcalendar": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/tr_course/TRcalendar.js"
     ]
   },
   "ampFirstPages": []

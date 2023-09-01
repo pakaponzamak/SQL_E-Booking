@@ -33,6 +33,6 @@ export default async function course_counter (req,res){
             res.status(200).json(courses);
           
     }else {
-        res.status(405).json({message : "Not Good"})
+        res.status(405).json({message : "This method is not allow"})
     }
 }

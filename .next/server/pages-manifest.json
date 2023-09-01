@@ -2,5 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin_health/hc_admin_insert": "pages/admin_health/hc_admin_insert.js"
+  "/health_care/confirmation": "pages/health_care/confirmation.js",
+  "/api/health/health_api": "pages/api/health/health_api.js",
+  "/api/relation/relation_api": "pages/api/relation/relation_api.js"
 }

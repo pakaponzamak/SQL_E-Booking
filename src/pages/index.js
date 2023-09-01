@@ -2,8 +2,6 @@ import Image from "next/image";
 import { Bai_Jamjuree } from "next/font/google";
 import DensoLogo from "./images/Denso_logo.png";
 import { useState, useEffect } from "react";
-import StartFireBase from "../firebase/firebase_conf";
-import { getDatabase, ref, onValue, off,set } from "firebase/database";
 import { useRouter } from "next/router";
 import { Analytics } from '@vercel/analytics/react';
 import Swal from 'sweetalert2'
@@ -13,7 +11,7 @@ const bai_jamjuree = Bai_Jamjuree({
 });
 
 export default function Home() {
-  StartFireBase();
+
   const [users, setUsers] = useState([]);
   const [firstName, setFirstName] = useState("");
   const [forgotName, setForgotName] = useState("");
@@ -63,6 +61,7 @@ export default function Home() {
           setUsers(data);
         } else {
           console.error('Error:', response.status, response.statusText);
+          //window.location.reload();
           //setMessage('Error occurred while fetching data.');
         }
       } catch (error) {
@@ -107,7 +106,7 @@ export default function Home() {
   }, []);
   /////////////////////////////////////////////////////////////
 
-  function checkUser(idParameter, nameParameter, checkinParameter) {
+  function checkUser(nameParameter, idParameter, checkinParameter) {
     const emp_id = employeeId;
     const name = firstName;
     if (idParameter === emp_id && nameParameter === name) {

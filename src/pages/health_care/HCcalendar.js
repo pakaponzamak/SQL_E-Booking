@@ -1,17 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { Bai_Jamjuree } from "next/font/google";
-import {
-  getDatabase,
-  ref,
-  remove,
-  onValue,
-  off,
-  update,
-} from "firebase/database";
-import startFireBase from "../../firebase/firebase_conf";
 import { Analytics } from "@vercel/analytics/react";
-
 import Swal from "sweetalert2";
 const bai_jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -25,7 +15,6 @@ export default function Calendar() {
   const [startIndex, setStartIndex] = useState(1);
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState(courses);
-  //const incrementCounter = () => setCounterState(counterState + 1);
   const [healthCare, setHealthCare] = useState([]);
   const [users, setUsers] = useState([]);
   //////////////////////////////////////////////////////////////
@@ -36,11 +25,7 @@ export default function Calendar() {
   const [plantFilter, setPlantFilter] = useState("เลือก Plant");
   const [showPlant, setShowPlant] = useState(false);
   const [plantNumber, setPlantNumber] = useState(null);
-
   const [message, setMessage] = useState("");
-
-  startFireBase();
-
   const scrollRef = useRef(null);
   const router = useRouter();
   const { firstName, employeeId, checkIn, addRelation, healthID } =
@@ -78,28 +63,6 @@ export default function Calendar() {
   //------------------- ---------------------------- ----------------------//
   //------------------- ---------------------------- ----------------------//
 
-  /* useEffect(() => {
-    const db = getDatabase();
-    const userRef = ref(db, "users");
-    // Listen for changes in the 'users' reference
-    onValue(userRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        // Convert the object of users into an array
-        const userArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-        // Set the users state with the retrieved data
-        setUsers(userArray);
-      }
-    });
-    // Clean up the listener when the component unmounts
-    return () => {
-      // Turn off the listener
-      off(userRef);
-    };
-  }, []);*/
 
   //Auto go to current Date when entered
   useEffect(() => {
@@ -243,7 +206,6 @@ export default function Calendar() {
   }
 
   const pickedHandler = async (health) => {
-    const db = getDatabase();
 
     let isPick = false;
     /*for (const user of users) {
@@ -531,7 +493,7 @@ export default function Calendar() {
       className={`m-2  ${bai_jamjuree.className} justify-center item-center `}
     >
       <Analytics />
-      <div className="mb-1">
+      <div className="mb-1 ">
         <p className="mr-5  flex justify-end text-sm">
           ชื่อ :&nbsp; <strong>{firstName}</strong>&nbsp; ID : &nbsp;
           <strong>{employeeId}</strong>

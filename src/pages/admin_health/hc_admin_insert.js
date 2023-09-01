@@ -228,9 +228,6 @@ export default function tr_admin_course() {
       alert("กรุณากรอกข้อมูล");
       return;
     }
-    
-   // alert("ยังไม่ได้ต่อ Database");
-
    try {
     const response = await fetch('/api/health_admin/hc_insert_api', {
       method: 'POST',
