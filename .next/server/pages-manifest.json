@@ -2,11 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/health_care/option_select": "pages/health_care/option_select.js",
-  "/health_care/HCcalendar": "pages/health_care/HCcalendar.js",
   "/form_selection": "pages/form_selection.js",
-  "/health_care/confirmation": "pages/health_care/confirmation.js",
-  "/api/health/health_api": "pages/api/health/health_api.js",
-  "/api/relation/relation_api": "pages/api/relation/relation_api.js",
-  "/api/health_admin/hc_insert_api": "pages/api/health_admin/hc_insert_api.js"
+  "/admin/user_insert": "pages/admin/user_insert.js"
 }
