@@ -15,32 +15,32 @@ export default function Calendar() {
   const [startIndex, setStartIndex] = useState(1);
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState(courses);
-  const [users,setUsers] = useState([])
-  const [message,setMessage] = useState("")
-  const [courseCount,setCourseCount] = useState([])
+  const [users, setUsers] = useState([]);
+  const [message, setMessage] = useState("");
+  const [courseCount, setCourseCount] = useState([]);
   const scrollRef = useRef(null);
   const router = useRouter();
-  const { firstName, employeeId, company,division,department,plant } = router.query;
+  const { firstName, employeeId, company, division, department, plant } =
+    router.query;
 
-
-    //------------------- Prepared For MySQL Database ----------------------//
+  //------------------- Prepared For MySQL Database ----------------------//
   //------------------- Prepared For MySQL Database ----------------------//
   const fetchCourses = async () => {
     try {
       const response = await fetch(`/api/course_admin/tr_insert_api`, {
-        method: 'GET',
+        method: "GET",
       });
 
       if (response.ok) {
         const data = await response.json();
         setCourses(data);
       } else {
-        console.error('Error:', response.status, response.statusText);
+        console.error("Error:", response.status, response.statusText);
         //setMessage('Error occurred while fetching data.');
       }
     } catch (error) {
-      console.error('Error:', error);
-     // setMessage('Error occurred while fetching data.');
+      console.error("Error:", error);
+      // setMessage('Error occurred while fetching data.');
     }
   };
   useEffect(() => {
@@ -50,42 +50,41 @@ export default function Calendar() {
   const fetchCourseCount = async () => {
     try {
       const response = await fetch(`/api/course/course_count_api`, {
-        method: 'GET',
+        method: "GET",
       });
 
       if (response.ok) {
         const data = await response.json();
         setCourseCount(data);
       } else {
-        console.error('Error:', response.status, response.statusText);
+        console.error("Error:", response.status, response.statusText);
         //setMessage('Error occurred while fetching data.');
       }
     } catch (error) {
-      console.error('Error:', error);
-     // setMessage('Error occurred while fetching data.');
+      console.error("Error:", error);
+      // setMessage('Error occurred while fetching data.');
     }
   };
   useEffect(() => {
     fetchCourseCount();
-    
   }, []);
 
   const fetchUsers = async () => {
     try {
       const response = await fetch(`/api/course/course_api`, {
-        method: 'GET',
+        method: "GET",
       });
 
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
       } else {
-        console.error('Error:', response.status, response.statusText);
-        setMessage('Error occurred while fetching data.');
+        console.error("Error:", response.status, response.statusText);
+        setMessage("Error occurred while fetching data.");
       }
     } catch (error) {
-      console.error('Error:', error);
-     setMessage('Error occurred while fetching data.');
+      console.error("Error:", error);
+      setMessage("Error occurred while fetching data.");
     }
   };
   useEffect(() => {
@@ -237,121 +236,132 @@ export default function Calendar() {
     days.push(dayElement);
   }
 
-  
   const countClickCheckHandler = async (course) => {
     fetchCourses();
     //fetchCourseCount();
     const amountUser = courses.some((course) => course.number <= course.amount);
 
-    console.log(amountUser)
-    const userPickedCourse = users.some((user) => user.course_id === course.course_id && user.user_id === employeeId && course.number >= course.amount) 
-    console.log(userPickedCourse)
-    if(!userPickedCourse && amountUser === true){
+    console.log(amountUser);
+    const userPickedCourse = users.some(
+      (user) =>
+        user.course_id === course.course_id &&
+        user.user_id === employeeId &&
+        course.number >= course.amount
+    );
+    console.log(userPickedCourse);
+    if (!userPickedCourse && amountUser === true) {
       ////// POST DATA To Course /////////
-    try {
-      const response = await fetch('/api/course/course_api', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ course_id:course.course_id,
-          user_id: employeeId,
-          name: firstName,
-          time_selected:course.time_Start,
-          course:course.course_name,
-          plant:course.plant,
-          date:course.date_course,
-          hall:course.hall,
-          company:company,
-          division:division,
-          department:department,
-          userFromPlant:plant,
+      try {
+        const response = await fetch("/api/course/course_api", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            course_id: course.course_id,
+            user_id: employeeId,
+            name: firstName,
+            time_selected: course.time_Start,
+            course: course.course_name,
+            plant: course.plant,
+            date: course.date_course,
+            hall: course.hall,
+            company: company,
+            division: division,
+            department: department,
+            userFromPlant: plant,
           }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-    
-      } else {
-        console.error('Error:', response.status, response.statusText);
-        
+        });
+        if (response.ok) {
+          const data = await response.json();
+        } else {
+          console.error("Error:", response.status, response.statusText);
+
+          //setMessage('Error occurred while sending data.');
+        }
+      } catch (error) {
+        console.error("Error:", error);
         //setMessage('Error occurred while sending data.');
       }
-    }catch (error) {
-      console.error('Error:', error);
-      //setMessage('Error occurred while sending data.');
-    }
-    
-    //////// PUT UPDATE NUMBER AMOUNT /////////
-    try {
-      const response = await fetch('/api/course_admin/tr_insert_api', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ number:course.number+1,
-            course_id:course.course_id
+
+      //////// PUT UPDATE NUMBER AMOUNT /////////
+      try {
+        const response = await fetch("/api/course_admin/tr_insert_api", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            number: course.number + 1,
+            course_id: course.course_id,
           }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setMessage(data.message);
-        window.location.reload();
-      } else {
-        console.error('Error:', response.status, response.statusText);
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setMessage(data.message);
+          window.location.reload();
+        } else {
+          console.error("Error:", response.status, response.statusText);
+          //setMessage('Error occurred while sending data.');
+        }
+      } catch (error) {
+        console.error("Error:", error);
         //setMessage('Error occurred while sending data.');
       }
-    }catch (error) {
-      console.error('Error:', error);
-      //setMessage('Error occurred while sending data.');
-    }
-  } else alert("Something Wrong")
-  }
+    } else alert("Something Wrong");
+  };
 
   const removeUserHandler = async (course) => {
-    
-    const userPickedCourse = users.find((user) => user.course_id === course.course_id && user.user_id === employeeId)  
+    const userPickedCourse = users.find(
+      (user) =>
+        user.course_id === course.course_id && user.user_id === employeeId
+    );
     if (userPickedCourse) {
-      console.log(`Delete Course: ${course.course_id} with user ID: ${userPickedCourse.user_id}`);
-      
+      console.log(
+        `Delete Course: ${course.course_id} with user ID: ${userPickedCourse.user_id}`
+      );
+
       try {
         // Decrease the number by one using a PUT request
-        await fetch('/api/course_admin/tr_insert_api', {
-          method: 'PUT',
+        await fetch("/api/course_admin/tr_insert_api", {
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             number: course.number - 1,
             course_id: course.course_id,
           }),
         });
-  
+
         // Delete the course using a DELETE request
-        const response = await fetch(`/api/course/course_api?course_id=${course.course_id}&user_id=${userPickedCourse.user_id}`, {
-          method: 'DELETE',
-        });
-  
+        const response = await fetch(
+          `/api/course/course_api?course_id=${course.course_id}&user_id=${userPickedCourse.user_id}`,
+          {
+            method: "DELETE",
+          }
+        );
+
         if (response.ok) {
           const data = await response.json();
-          console.log('Response status:', response.status);
+          console.log("Response status:", response.status);
           setCourses(data);
-             console.log(`Delete data complete course_id = ${course.course_id} and user_id = ${userPickedCourse.user_id}`)
+          console.log(
+            `Delete data complete course_id = ${course.course_id} and user_id = ${userPickedCourse.user_id}`
+          );
           // Reload the page after successfully completing both operations
-         window.location.reload();
+          window.location.reload();
         } else {
-          console.error('Error:', response.status, response.statusText);
+          console.error("Error:", response.status, response.statusText);
           // Handle error or show an error message to the user
-          
         }
       } catch (error) {
-        console.error('Error:', error);
-       
+        console.error("Error:", error);
+
         // Handle error or show an error message to the user
       }
     }
-    
   };
-  
 
   return (
     <main
@@ -465,98 +475,110 @@ export default function Calendar() {
           })
           .map((courses) => {
             // Find the corresponding courseCount object by matching the key
-      const correspondingCourseCount = courseCount.find(
-        (count) => count.course_id === courses.course_id
-      );
-            return(
-            
-            <div
-              key={courses.id}
-              className=" m-3 p-2 rounded-xl bg-slate-200 drop-shadow-lg mb-5"
-            >
-              <div className="flex justify-between mb-2">
-                <p>
-                  Date :{" "}
-                  <strong>
-                    {new Date(courses.date_course).toLocaleDateString("th-TH", {
-                      dateStyle: "long",
-                    })}
-                  </strong>
-                </p>
+            const correspondingCourseCount = courseCount.find(
+              (count) => count.course_id === courses.course_id
+            );
+            return (
+              <div
+                key={courses.id}
+                className=" m-3 p-2 rounded-xl bg-slate-200 drop-shadow-lg mb-5"
+              >
+                <div className="flex justify-between mb-2">
+                  <p>
+                    Date :{" "}
+                    <strong>
+                      {new Date(courses.date_course).toLocaleDateString(
+                        "th-TH",
+                        {
+                          dateStyle: "long",
+                        }
+                      )}
+                    </strong>
+                  </p>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <p>
+                    Course : <strong>{courses.course_name}</strong>
+                  </p>
+                  <p>
+                    Plant : <strong>{courses.plant}</strong>
+                  </p>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <h1>
+                    Time :{" "}
+                    <strong>
+                      {courses.time_Start} - {courses.time_End}
+                    </strong>
+                  </h1>
+                  <p>
+                    Online : <strong>{courses.online_code}</strong>
+                  </p>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <p>
+                    Lecturer : <strong>{courses.lecturer}</strong>
+                  </p>
+                  <div>
+                    {correspondingCourseCount && (
+                      <p>
+                        Onside :{" "}
+                        <strong>
+                          {correspondingCourseCount.userCount} /{" "}
+                          {courses.amount}
+                        </strong>
+                      </p>
+                    )}
+                    {!correspondingCourseCount && (
+                      <p>
+                        Onside : <strong> 0 / {courses.amount}</strong>
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex justify-between mt-3">
+                  <p>
+                    Place: <strong>{courses.hall}</strong>
+                  </p>
+                  {courses.number >= courses.amount &&
+                  !users.find(
+                    (c) =>
+                      c.course_id === courses.course_id &&
+                      c.user_id === employeeId
+                  ) ? (
+                    <button
+                      //onClick={() => countClickCheckHandler(courses)}
+                      className="bg-gray-400 text-white p-2 px-4 rounded-2xl font-semibold disabled"
+                    >
+                      ที่นั่งเต็มแล้ว
+                    </button>
+                  ) : (
+                    <>
+                      {users.find(
+                        (user) =>
+                          user.course_id === courses.course_id &&
+                          user.user_id === employeeId
+                      ) ? (
+                        <button
+                          onClick={() => removeUserHandler(courses)}
+                          className="bg-red-600 text-white p-2 px-4 rounded-2xl font-semibold"
+                        >
+                          ยกเลิก
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => countClickCheckHandler(courses)}
+                          className="bg-green-600 text-white p-2 px-4 rounded-2xl font-semibold"
+                        >
+                          เลือก
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
-              <div className="flex justify-between mb-2">
-                <p>
-                  Course : <strong>{courses.course_name}</strong>
-                </p>
-                <p>
-                  Plant : <strong>{courses.plant}</strong>
-                </p>
-              </div>
-              <div className="flex justify-between mb-2">
-                <h1>
-                  Time :{" "}
-                  <strong>
-                    {courses.time_Start} - {courses.time_End}
-                  </strong>
-                </h1>
-                <p>
-                  Online : <strong>{courses.online_code}</strong>
-                </p>
-              </div>
-              <div className="flex justify-between mb-2">
-                <p>
-                  Lecturer : <strong>{courses.lecturer}</strong>
-                </p>
-                <div>
-                {correspondingCourseCount && (
-            <p>
-                  Onside :{" "}
-                  
-                  <strong>
-                    {correspondingCourseCount.userCount} / {courses.amount}
-                  </strong>
-                </p>
-          )}
-          {!correspondingCourseCount && <p>Onside :{" "} <strong> 0 / {courses.amount}</strong></p>}
-          </div>
-                
-              </div>
-              <div className="flex justify-between mt-3">
-                <p>
-                  Place: <strong>{courses.hall}</strong>
-                </p>
-                {courses.number >= courses.amount && !users.find((c) => c.course_id === courses.course_id && c.user_id === employeeId) ? (
-                  <button
-                    //onClick={() => countClickCheckHandler(courses)}
-                    className="bg-gray-400 text-white p-2 px-4 rounded-2xl font-semibold disabled"
-                  >
-                    ที่นั่งเต็มแล้ว
-                  </button>
-                ) : (
-                  <>
-                   {users.find((user) => user.course_id === courses.course_id && user.user_id === employeeId) ? (
-  <button
-    onClick={() => removeUserHandler(courses)}
-    className="bg-red-600 text-white p-2 px-4 rounded-2xl font-semibold"
-  >
-    ยกเลิก
-  </button>
-) : (
-  <button
-    onClick={() => countClickCheckHandler(courses)}
-    className="bg-green-600 text-white p-2 px-4 rounded-2xl font-semibold"
-  >
-    เลือก
-  </button>
-)}
-
-
-
-                  </>
-                )}
-              </div>
-            </div>
-          )})}
+            );
+          })}
       </div>
     </main>
   );

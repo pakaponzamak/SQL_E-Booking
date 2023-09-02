@@ -30,13 +30,39 @@ const getUsers = async () => {
     return users;
   };
 
+
+
+  async function checkCredential(employeeId, firstName) {
+    const query = "SELECT * FROM users WHERE user_id = ? AND name = ?";
+    const user = await executeQuery(query, [employeeId, firstName]);
+    return user;
+  }
+
 export default async function health(req,res)
 {
-    if (req.method === 'GET') {
-        // Handle GET request, e.g., fetch data from MySQL
-        const users = await getUsers();
-        res.status(200).json(users);
+  if (req.method === 'GET') {
+    const firstName = req.query.firstName;
+    const employeeId = req.query.employeeId;
+    try {
+      const user = await checkCredential(employeeId, firstName);
+
+      if (user.length === 0) {
+        // No admin data found in the database
+        res.status(401).json({ message: "Unauthorized" });
+        return;
       }
+
+      if (user.length === 1) {
+        // user with matching username and password found
+        res.status(200).json({ message: "Login successful" });
+      } else {
+        // More than one matching user found (shouldn't happen with unique usernames)
+        res.status(500).json({ message: "Internal Server Error" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+  }
    else if (req.method === 'POST') {
         // Handle POST request, e.g., insert data into MySQL
         const { user_id	,name } = req.body;

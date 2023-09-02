@@ -20,119 +20,41 @@ export default function Home() {
   const [showContent, setShowContent] = useState(false);
 
 
-  /*useEffect(() => {
-    const db = getDatabase();
-    const usersRef = ref(db, "users");
-    onValue(usersRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const usersArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-        setUsers(usersArray);
-      }
-    });
-    return () => {
-      off(usersRef);
-    };
-  }, []);*/
-
-  const userIsNotCheckHandler = async (e) => {
-    let userFound = false;
-    for (const user of users) {
-      if (checkUser(user.name, user.user_id, user.checkIn)) {
-        userFound = true;
-        break;
-      }
-    }
-    if (!userFound) {
-      try {
-        const response = await fetch('/api/index_api/index_api', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ name: firstName, user_id: employeeId }),
-        });
-  
-        if (response.ok) {
-          const data = await response.json();
-          setUsers(data);
-        } else {
-          console.error('Error:', response.status, response.statusText);
-          //window.location.reload();
-          //setMessage('Error occurred while fetching data.');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        //setMessage('Error occurred while fetching data.');
-      }
-      Toast.fire({
-        icon: 'success',
-        title: `ยินดีต้อนรับ ${firstName}`
-      })
-      router.push(
-        `/form_selection?firstName=${firstName}&employeeId=${employeeId}`
-      );
-    }
-  };
-
   /////////////////// MYSQL SECTION //////////////////////////
   /////////////////// MYSQL SECTION //////////////////////////
   /////////////////// MYSQL SECTION //////////////////////////
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch('/api/index_api/index_api', {
-          method: 'GET',
-        });
-  
-        if (response.ok) {
-          const data = await response.json();
-          setUsers(data);
-          console.log(data); // Log the data here
-        } else {
-          console.error('Error:', response.status, response.statusText);
-          // Handle errors as needed
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        // Handle errors as needed
-      }
-    };
-  
-    fetchUserData();
-  }, []);
-  /////////////////////////////////////////////////////////////
-
-  function checkUser(nameParameter, idParameter, checkinParameter) {
-    const emp_id = employeeId;
-    const name = firstName;
-    if (idParameter === emp_id && nameParameter === name) {
-      let checkIn = checkinParameter;
-      Toast.fire({
-        icon: 'success',
-        title: `ยินดีต้อนรับ ${firstName}`
-      })
-      router.push(
-        `/form_selection?firstName=${firstName}&employeeId=${employeeId}`
-      );
-      return true;
-    }
-    if (idParameter === emp_id && nameParameter !== name) {
-      Toast.fire({
-        icon: 'error',
-        title: `รหัสพนักงานไม่ตรงกับชื่อ`
-      })
-      return true;
-    }
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    userIsNotCheckHandler();
-    
+  
+    try {
+      const response = await fetch(
+        `/api/index_api/index_api?firstName=${firstName}&employeeId=${employeeId}`,
+        {
+          method: "GET",
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        Toast.fire({
+          icon: 'success',
+          title: `ยินดีต้อนรับ ${firstName}`
+        })
+        router.push(
+          `/form_selection?firstName=${firstName}&employeeId=${employeeId}`
+        );
+      } else {
+        console.error("Error:", response.status, response.statusText);
+        Toast.fire({
+          icon: 'error',
+          title: `ไม่พบข้อมูลในระบบฐานข้อมูล`
+        })
+        //setMessage("Error occurred while fetching data.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      //setMessage("Error occurred while fetching data.");
+    }
 
   };
 
