@@ -689,16 +689,7 @@ export default function tr_admin_course() {
                   required="required"
                   onChange={handlePlaceChange}
                 ></input>
-                <div>Online Code</div>
-                <input
-                  className=" px-10 py-3 rounded-xl m-1 "
-                  placeholder="Online Code"
-                  type="text"
-                  name="username"
-                  id="username"
-                  required="required"
-                  onChange={(e) => setOnlineCode(e.target.value)}
-                ></input>
+            
                 
               </div>
               <div className="text-center">
@@ -789,7 +780,7 @@ export default function tr_admin_course() {
                     </strong>
                   </h1>
                   <p>
-                    Online : <strong>{onlineCode}</strong>
+                    Place : <strong>{place}</strong>
                   </p>
                 </div>
                 <div className="flex justify-between mb-2">
@@ -803,10 +794,8 @@ export default function tr_admin_course() {
                     </strong>
                   </p>
                 </div>
-                <div className="flex justify-between mt-3">
-                  <p>
-                    Place : <strong>{place}</strong>
-                  </p>
+                <div className="flex justify-end mt-3">
+                  
                   <button
                     onClick={increase}
                     className={click >= amount ? "" : ""}

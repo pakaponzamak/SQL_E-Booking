@@ -24,10 +24,10 @@ async function getParent(){
 }
 
   // Define a function to insert a new user into the MySQL database
-  async function postParent(user_id,parent_id,parent_name) {
+  async function postParent(user_id,parent_name) {
     const query =
-  'INSERT INTO parent_data (user_id,parent_id,parent_name) VALUES (?, ?,?)';
-    const values = [user_id,parent_id,parent_name];
+  'INSERT INTO parent_data (user_id,parent_name) VALUES (?,?)';
+    const values = [user_id,parent_name];
     try {
       await executeQuery(query, values);
     } catch (error) {
@@ -49,7 +49,7 @@ async function getParent(){
     } else if (req.method === 'POST'){
       const {user_id,parent_id,parent_name} = req.body
         try{
-          await postParent(user_id,parent_id,parent_name);
+          await postParent(user_id,parent_name);
           res.status(200).json({ message: 'Data inserted successfully' });
         }catch (error) {
           console.error("Error fetching health data:", error);

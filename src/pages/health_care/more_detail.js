@@ -32,7 +32,6 @@ export default function appointment() {
     // Check if any of the fields are empty
     if (
       employeeId.trim() === "" ||
-      relation.trim() === "" ||
       company.trim() === "" ||
       telphoneNum.trim() === "" ||
       symptom.trim() === ""
@@ -107,7 +106,7 @@ export default function appointment() {
           },
           body: JSON.stringify({
             health_id: healthID,
-            whoPickedThis: employeeId,
+            whoPickedThis: "ID: "+employeeId + "Name:"+name,
             alreadyPicked: 1,
           }),
         }
@@ -238,28 +237,7 @@ export default function appointment() {
           </Box>
         </div>
         <div>
-          <div>สถานะผู้ติดต่อ</div>
-          <div className="mx-16 mt-3 bg-white">
-            <Box sx={{}}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  สถานะผู้ติดต่อ
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={relation}
-                  label="สถานะผู้ติดต่อ"
-                  onChange={(e) => setRelation(e.target.value)}
-                >
-                  <MenuItem value={"employee"}>พนักงาน</MenuItem>
-                  <MenuItem value={"parent"}>บิดา-มารดา</MenuItem>
-                  <MenuItem value={"child"}>บุตร</MenuItem>
-                  <MenuItem value={"mirried"}>คู่สมรส</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </div>
+        
           <div className="mx-16 mt-3 bg-white">
             <Box sx={{}}>
               <FormControl fullWidth>
@@ -272,7 +250,7 @@ export default function appointment() {
                   value={name}
                   label="ชื่อ"
                   onChange={(e) => setName(e.target.value)}>
-
+                   <MenuItem value={firstName}>{firstName}</MenuItem>
                   {parent.map((option, index) => (
                     <MenuItem key={index} value={option.parent_name}>
                       {option.parent_name}

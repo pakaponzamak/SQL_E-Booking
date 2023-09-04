@@ -512,7 +512,7 @@ export default function Calendar() {
                     </strong>
                   </h1>
                   <p>
-                    Online : <strong>{courses.online_code}</strong>
+                    Place: <strong>{courses.hall}</strong>
                   </p>
                 </div>
                 <div className="flex justify-between mb-2">
@@ -536,10 +536,8 @@ export default function Calendar() {
                     )}
                   </div>
                 </div>
-                <div className="flex justify-between mt-3">
-                  <p>
-                    Place: <strong>{courses.hall}</strong>
-                  </p>
+                <div className="flex justify-end mt-3 items-end">
+                 
                   {courses.number >= courses.amount &&
                   !users.find(
                     (c) =>

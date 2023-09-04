@@ -103,6 +103,17 @@ export default function Home() {
             (ระบบฟอร์มออนไลน์)
           </div>
           <div className="drop-shadow-lg flex flex-col items-center">
+          <div className="">
+              <input
+                className="border px-5 py-3 rounded-2xl mb-8"
+                placeholder="รหัสพนักงาน"
+                type="text"
+                name="employee_id"
+                id="employee_id"
+                required
+                onChange={(e) => setEmployee_id(e.target.value.toLowerCase())}
+              />
+            </div>
             <div>
               <input
                 className="border px-5 py-3 rounded-2xl mb-6"
@@ -114,17 +125,7 @@ export default function Home() {
                 onChange={(e) => setFirstName(e.target.value.toLowerCase())}
               />
             </div>
-            <div className="">
-              <input
-                className="border px-5 py-3 rounded-2xl mb-8"
-                placeholder="รหัสพนักงาน"
-                type="text"
-                name="employee_id"
-                id="employee_id"
-                required
-                onChange={(e) => setEmployee_id(e.target.value.toLowerCase())}
-              />
-            </div>
+            
           </div>
 
           <button

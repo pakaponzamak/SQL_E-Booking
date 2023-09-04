@@ -2,9 +2,15 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/api/index_api/index_api": "pages/api/index_api/index_api.js",
+  "/form_selection": "pages/form_selection.js",
+  "/health_care/confirmation": "pages/health_care/confirmation.js",
+  "/health_care/option_select": "pages/health_care/option_select.js",
+  "/": "pages/index.js",
   "/api/health/health_api": "pages/api/health/health_api.js",
   "/api/health_admin/hc_insert_api": "pages/api/health_admin/hc_insert_api.js",
-  "/health_care/confirmation": "pages/health_care/confirmation.js",
   "/api/relation/relation_api": "pages/api/relation/relation_api.js",
-  "/form_selection": "pages/form_selection.js"
+  "/health_care/more_detail": "pages/health_care/more_detail.js",
+  "/health_care/HCcalendar": "pages/health_care/HCcalendar.js",
+  "/api/parent/parent_by_id": "pages/api/parent/parent_by_id.js"
 }
