@@ -413,7 +413,7 @@ export default function confirmation() {
           <div>      
               {users.map((user) => {
                 //const timeStart = getTimeFromString(user.health.time);
-                if (user.user_id === emp && user.name === name) {
+                if (user.user_id === employeeId) {
                   return (
                     <div className="border p-5  mb-5 mt-10  rounded-xl bg-white drop-shadow-md">
             <div className="text mb-3 text-left ">ประวัติการจอง</div>

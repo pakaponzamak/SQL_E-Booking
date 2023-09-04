@@ -12,11 +12,6 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/index.js"
-    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -32,20 +27,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/form_selection.js"
     ],
-    "/health_care/HCcalendar": [
+    "/health_care/confirmation": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/health_care/HCcalendar.js"
-    ],
-    "/health_care/more_detail": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/health_care/more_detail.js"
-    ],
-    "/health_care/option_select": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/health_care/option_select.js"
+      "static/chunks/pages/health_care/confirmation.js"
     ]
   },
   "ampFirstPages": []

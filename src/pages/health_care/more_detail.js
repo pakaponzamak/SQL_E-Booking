@@ -9,6 +9,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import health from "../api/health/health_api";
 
 const bai_jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -17,17 +18,17 @@ const bai_jamjuree = Bai_Jamjuree({
 
 export default function appointment() {
   const router = useRouter();
-  const { firstName, employeeId, date, time, healthID } = router.query;
+  const { firstName, employeeId, date, time, healthID,doctor_type,plant } = router.query;
   const [company, setCompany] = useState("");
   const [relation, setRelation] = useState("");
   const [telphoneNum, setTelephoneNum] = useState("");
   const [symptom, setSymptom] = useState("");
   const [user, setUser] = useState([]);
   const [parent, setParent] = useState([]);
-  const [addRelation, setAddRelation] = useState("true");
+  const [name, setName] = useState("");
 
   console.log(employeeId);
-  const alertHandler = async () => {
+  const confirmHandler = async () => {
     // Check if any of the fields are empty
     if (
       employeeId.trim() === "" ||
@@ -41,6 +42,97 @@ export default function appointment() {
     }
 
     Swal.fire({
+      title: `${doctor_type}`,
+      html: `</b><br>ชื่อ : <b>${name}</b><br>วันที่ : <b>${new Date(date).toLocaleDateString(
+        "th-TH",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }
+      )}</b><br>เวลา : <b>${time}</b><br>สถานที่ : <b>${
+        plant
+      }</b>`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#16a34a",
+      cancelButtonColor: "#D43732",
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ยกเลิก",
+    }).then(async (result) => {
+      if (result.isConfirmed)
+      /////// POST Method ///////////
+      try {
+        const response = await fetch("/api/health/health_api", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            health_id: healthID,
+            user_id: employeeId,
+            name: name,
+            doctor_type: doctor_type,
+            phone_num: telphoneNum,
+            time_selected: time,
+            date_selected: date,
+            plant: plant,
+            checkInTime: "",
+            picked_what: doctor_type,
+            checkIn: 0,
+            more_detail: symptom,
+          }),
+         
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+        } else {
+          console.error("Error:", response.status, response.statusText);
+          alert("Error")
+        }
+      } catch (error) {
+        console.error("Error:", error);
+       // setMessage("Error occurred while sending data.");
+      }
+    
+     ///////////// PUT Method ////////////
+     try {
+      const response = await fetch(
+        "/api/health_admin/hc_insert_api",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            health_id: healthID,
+            whoPickedThis: employeeId,
+            alreadyPicked: 1,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        //setMessage(data.message);
+        router.push({
+          pathname: `./confirmation`,
+          query: { firstName, employeeId },
+        });
+      } else {
+        console.error("Error:", response.status, response.statusText);
+        //setMessage("Error occurred while sending data.");
+        //window.location.reload();
+        
+      }
+    } catch (error) {
+      console.error("Error:", error);
+     // setMessage("Error occurred while sending data.");
+    }
+  
+  })
+    /*Swal.fire({
       title: "สำเร็จ",
       icon: "success",
     }).then(async (result) => {
@@ -77,51 +169,10 @@ export default function appointment() {
           query: { firstName, employeeId },
         });
       }
-    });
+    });*/
   };
 
-  const addmoreHandler = async () => {
-    if (
-      employeeId.trim() === "" ||
-      relation.trim() === "" ||
-      company.trim() === "" ||
-      telphoneNum.trim() === "" ||
-      symptom.trim() === ""
-    ) {
-      alert("กรุณากรอกข้อมูล");
-      return; // Don't proceed if any field is empty
-    }
-    try {
-      const response = await fetch("/api/health/health_api", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone_num: telphoneNum,
-          health_id: healthID,
-          more_detail: symptom,
-          company: company,
-        }),
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        //setMessage(data.message);
-      } else {
-        console.error("Error:", response.status, response.statusText);
-        //setMessage('Error occurred while sending data.');
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setMessage("Error occurred while sending data.");
-    }
-    ////////////////////////////////
-    router.push({
-      pathname: `./HCcalendar`,
-      query: { firstName, employeeId, addRelation, healthID },
-    });
-  };
 
   const relationFetch = async () => {
     try {
@@ -164,7 +215,7 @@ export default function appointment() {
           เวลา {time} น.
         </div>
         <div className="mt-4 border mx-10 bg-white rounded-xl py-3 text-2xl">
-          {firstName}
+          {employeeId}
         </div>
         <div className="mx-16 my-5 bg-white">
           <Box sx={{}}>
@@ -218,12 +269,12 @@ export default function appointment() {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={relation}
+                  value={name}
                   label="ชื่อ"
-                  onChange={(e) => setRelation(e.target.value)}>
+                  onChange={(e) => setName(e.target.value)}>
 
                   {parent.map((option, index) => (
-                    <MenuItem key={index} value={option.parent_id}>
+                    <MenuItem key={index} value={option.parent_name}>
                       {option.parent_name}
                     </MenuItem>
                   ))}
@@ -256,23 +307,25 @@ export default function appointment() {
         </div>
 
         <div className="mt-5  text-center mx-16 flex justify-between pb-10">
+        <Link href={`./HCcalendar?firstName=${firstName}&employeeId=${employeeId}`}>
+        <button
+            className="border bg-[#E45A6B] px-10 py-4 text-xl rounded-2xl  text-white font-bold"
+          
+          >
+            กลับ
+          </button>
+        </Link>
+
           <button
             className="border bg-[#E45A6B] px-10 py-4 text-xl rounded-2xl  text-white font-bold"
             onClick={() => {
-              alertHandler();
+              confirmHandler();
             }}
           >
             ยืนยัน
           </button>
 
-          <button
-            className="border bg-[#E45A6B] px-10 py-4 text-xl rounded-2xl text-white font-bold"
-            onClick={() => {
-              addmoreHandler();
-            }}
-          >
-            เพิ่ม
-          </button>
+       
         </div>
       </div>
     </main>

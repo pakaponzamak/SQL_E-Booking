@@ -207,20 +207,14 @@ export default function Calendar() {
 
   const pickedHandler = async (health) => {
 
-    let isPick = false;
-    /*for (const user of users) {
-      if (user.employeeId === employeeId) {
-        if (
-          user.health.pickedWhat !== "N/A" &&
-          user.employeeId === employeeId
-        ) {
-          isPick = true;
-          break;
-        }
-      }
-    }*/
+    //let isPick = false;
+    router.push(
+      `./more_detail?firstName=${firstName}&employeeId=${employeeId}&date=${health.date}
+&time=${health.timeStart}&healthID=${health.health_id}&doctor_type=${health.health_care_name}
+&plant=${health.plant}&picked_what=${health.health_care_name}`
+    );
 
-    if (addRelation !== "true") {
+    /*if (addRelation !== "true") {
       if (isPick === true) {
         alert(`รหัส "${employeeId}" ได้ทำจองพบแพทย์ไปแล้วกรุณายกเลิกก่อน`);
       } else {
@@ -311,7 +305,9 @@ export default function Calendar() {
                   const data = await response.json();
                   setMessage(data.message);
                   router.push(
-                    `./more_detail?firstName=${firstName}&employeeId=${employeeId}&date=${health.date}&time=${health.timeStart}&healthID=${health.health_id}`
+                    `./more_detail?firstName=${firstName}&employeeId=${employeeId}&date=${health.date}
+&time=${health.timeStart}&healthID=${health.health_id}&doctor_type=${health.health_care_name}
+&plant=${health.plant}&picked_what=${health.health_care_name}`
                   );
                 } else {
                   console.error("Error:", response.status, response.statusText);
@@ -445,7 +441,7 @@ export default function Calendar() {
           }
         }
       });
-    }
+    }*/
   };
 
   const handleToggleContent = () => {
