@@ -2,6 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/form_selection": "pages/form_selection.js",
-  "/admin/user_insert": "pages/admin/user_insert.js"
+  "/health_care/HCcalendar": "pages/health_care/HCcalendar.js",
+  "/api/health/health_api": "pages/api/health/health_api.js",
+  "/api/health_admin/hc_insert_api": "pages/api/health_admin/hc_insert_api.js",
+  "/api/parent/parent_by_id": "pages/api/parent/parent_by_id.js"
 }
