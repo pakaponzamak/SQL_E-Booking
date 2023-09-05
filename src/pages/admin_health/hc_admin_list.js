@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Bai_Jamjuree } from "next/font/google";
 import { useRouter } from "next/router";
 import DensoLogo from "../images/Denso_logo.png";
-import { getDatabase, ref, remove, onValue, off } from "firebase/database";
-import StartFireBase from "../../firebase/firebase_conf";
 import * as XLSX from 'xlsx';
 const bai = Bai_Jamjuree({
   subsets: ["latin"],
@@ -26,7 +24,6 @@ export default function tr_admin_course() {
   const [filteredCourses, setFilteredCourses] = useState(course);
   const [message, setMessage] = useState('');
 
-  StartFireBase();
 
   const fetchUsers = async () => {
     try {
@@ -366,7 +363,7 @@ const exportSpecificDate = () => {
             className="mx-auto mb-2"
           />
           <h1 className="text-white text-xl font-bold italic">
-            Admin Dashboard
+           
           </h1>
         </div>
 

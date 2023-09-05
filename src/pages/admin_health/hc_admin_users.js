@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Bai_Jamjuree } from "next/font/google";
 import { useRouter } from "next/router";
 import DensoLogo from "../images/Denso_logo.png";
-import { getDatabase, ref, child, onValue, off } from "firebase/database";
-import StartFireBase from "../../firebase/firebase_conf";
 import * as XLSX from 'xlsx';
 const bai = Bai_Jamjuree({
   subsets: ["latin"],
@@ -16,8 +14,6 @@ export default function TRusers() {
   const [isHealthCareExpanded, setIsHealthCareExpanded] = useState(false);
   const [isCourseExpanded, setIsCourseExpanded] = useState(false);
   const [users, setUsers] = useState([]);
-
-  StartFireBase();
 
   const fetchUsers = async () => {
     try {
@@ -145,7 +141,7 @@ export default function TRusers() {
             className="mx-auto mb-2"
           />
           <h1 className="text-white text-xl font-bold italic">
-            Admin Dashboard
+            
           </h1>
         </div>
 

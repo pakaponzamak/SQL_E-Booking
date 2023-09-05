@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Bai_Jamjuree } from "next/font/google";
 import { useRouter } from "next/router";
 import DensoLogo from "../images/Denso_logo.png";
-import { getDatabase, ref, set, onValue, off } from "firebase/database";
-import StartFireBase from "../../firebase/firebase_conf";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -36,6 +34,7 @@ export default function tr_admin_course() {
   const [timeStart, setTimeStart] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
   const [filteredCourses, setFilteredCourses] = useState(courses);
+  
 
   const [click, setClick] = useState(0);
 
@@ -44,7 +43,6 @@ export default function tr_admin_course() {
   const currentYear = currentDate.getFullYear();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const scrollRef = useRef(null);
-  StartFireBase();
 
   const today = new Date();
   const todayDate = today.getDate();
@@ -184,10 +182,6 @@ export default function tr_admin_course() {
     setClick((count) => count + 1);
   };
 
-
-
-  StartFireBase();
-
   const fetchCourses = async () => {
     try {
       const response = await fetch(`/api/course_admin/tr_insert_api`, {
@@ -223,7 +217,7 @@ export default function tr_admin_course() {
       lecturer.trim() === "" ||
       place.trim() === "" ||
       plantOption.trim() === "" ||
-      onlineCode.trim() === "" ||
+      
       amount === 0
     ) {
       alert("กรุณากรอกข้อมูล");
@@ -347,7 +341,7 @@ export default function tr_admin_course() {
             className="mx-auto mb-2"
           />
           <h1 className="text-white text-xl font-bold italic">
-            Admin Dashboard
+          
           </h1>
         </div>
 
@@ -614,7 +608,17 @@ export default function tr_admin_course() {
           <div className="grid grid-cols-2">
             <div className="border-2 m-3 p-2 rounded-xl bg-slate-200 drop-shadow-lg  mt-5">
             <div className="text-center mb-1 mt-2">
-                <FormControl>
+            <label htmlFor="datepicker-date" className="mx-2">
+                    ชื่อคอร์ส :{" "}
+                  </label>
+                  <input
+                    type="text"
+                    id="course-name"
+                    name="course-name"
+                    className="p-3 rounded-2xl px-4 py-2 mb-3"
+                    onChange={(e) => setCourseOption(e.target.value)}
+                  />
+               { /*<FormControl>
                   <div>เลือกคอร์ส</div>
                   <RadioGroup
                     row
@@ -635,7 +639,7 @@ export default function tr_admin_course() {
                       label="TMC - 2"
                     />
                   </RadioGroup>
-                </FormControl>
+                </FormControl> */}
               </div>
               <div className="text-center mb-1">
                 <FormControl>
@@ -742,7 +746,7 @@ export default function tr_admin_course() {
                   type="button"
                   onClick={handleSubmit}
                   class="text-white bg-[#D43732] hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 rounded-full text-xl px-32 py-3 text-center 
-                                mr-2 mb-5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 font-bold "
+                                mr-2 mb-5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 font-bold mt-3"
                 >
                   ยืนยัน
                 </button>
@@ -962,7 +966,7 @@ export default function tr_admin_course() {
                                 </strong>
                               </h1>
                               <p>
-                                Online : <strong>{courses.online_code}</strong>
+                                Place : <strong>{courses.hall}</strong>
                               </p>
                             </div>
                             <div className="flex justify-between mb-2">
@@ -976,10 +980,8 @@ export default function tr_admin_course() {
                                 </strong>
                               </p>
                             </div>
-                            <div className="flex justify-between mt-3">
-                              <p>
-                                Place : <strong>{courses.hall}</strong>
-                              </p>
+                            <div className="flex justify-end mt-3">
+                              
                               <button
                                 disabled
                                 className={

@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Bai_Jamjuree } from "next/font/google";
 import { useRouter } from "next/router";
 import DensoLogo from "../images/Denso_logo.png";
-import { getDatabase, ref, remove, onValue, off } from "firebase/database";
-import StartFireBase from "../../firebase/firebase_conf";
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2'
 
@@ -27,7 +25,6 @@ export default function tr_admin_course() {
   const [filteredCourses, setFilteredCourses] = useState(course);
   const [courseCount,setCourseCount] = useState([])
 
-  //StartFireBase();
 
   const fetchCourses = async () => {
     try {
@@ -384,7 +381,7 @@ useEffect(() => {
             className="mx-auto mb-2"
           />
           <h1 className="text-white text-xl font-bold italic">
-            Admin Dashboard
+            
           </h1>
         </div>
 
@@ -747,14 +744,14 @@ useEffect(() => {
       </div>
       <div className="border-b mb-3 border-b-gray-800"></div>
           <div className="text-center items-center">
-            <div className="grid grid-cols-9 gap-3 mx-0 text-center font-bold">
+            <div className="grid grid-cols-8 gap-3 mx-0 text-center font-bold">
               <div>หัวเรื่อง</div>
               <div>ผู้บรรยาย</div>
               <div>วันที่</div>
               <div>เวลา</div>
               <div>Plant</div>
               <div>สถานที่</div>
-              <div>Online Code</div>
+             {/* <div>Online Code</div> */}
               <div>จำนวน</div>
             </div>
             {course.sort((a, b) => a.time_Start > b.time_Start ? 1 : -1).filter((course) => {
@@ -766,7 +763,7 @@ useEffect(() => {
         (count) => count.course_id === course.course_id
       );
             return(
-              <div className="grid grid-cols-9 gap-3 mx-0 my-5 ">
+              <div className="grid grid-cols-8 gap-3 mx-0 my-5 ">
                 <div>{course.course_name}</div>
                 <div>{course.lecturer}</div>
                 <div>{new Date(course.date_course).toLocaleDateString('en-GB')}</div>
@@ -775,7 +772,7 @@ useEffect(() => {
                 </div>
                 <div>{course.plant}</div>
                 <div>{course.hall}</div>
-                <div>{course.online_code}</div>
+                {/* <div>{course.online_code}</div>*/ }
 
                 <div>
                 {correspondingCourseCount && (

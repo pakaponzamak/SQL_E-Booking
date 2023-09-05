@@ -95,6 +95,37 @@ export default function Calendar() {
   //------------------- ---------------------------- ----------------------//
   //------------------- ---------------------------- ----------------------//
 
+  const helpHandler = () => {
+    Swal.fire({
+        title: "เนื้อหายอดนิยม",
+        html: `
+          <b><u>TMC 1:หลักสูตรจัดการเงินพื้นฐาน</u></b> <br>
+          <b>วัตถุประสงค์:</b> เพื่อจัดการเงินให้เป็นระเบียบ บริหารสภาพคล่อง จัดการภาระหนี้สิน <br>
+          <b>กลุ่มเป้าหมาย:</b> เหมาะกับผู้เรียนเริ่มต้นบริหารเงิน อยากจัดการเงินให้เพียงพอลดภาระหนี้ เพิ่มเงินออม รูปแบบการเรียน: บรรยาย และ workshop พร้อมแบบทดสอบความรู้ <br>
+          <b>หัวข้อการเรียน:</b> 
+          <b>1.</b> หลักการจัดการเงินส่วนบุคคล 
+          <b>2.</b> การจัดการรายได้เพียงพอใช้จ่าย 
+          <b>3.</b> การจัดการภาระหนี้ 
+          <b>4.</b> การวางแผนการออม (เงินสำรองฉุกเฉินและกองทุนสำรองเลี้ยงชีพ) <br>
+          <br>
+          <b><u>TMC 2:การวางแผนสู่ความมั่งคั่ง</u></b> <br>
+          <b>วัตถุประสงค์:</b> เพื่อเรียนรู้วิธีการบริหารเงินในระยะยาว เพื่่อเกษียณอย่างมั่งคั่งและมีความสุข <br>
+          <b> กลุ่มเป้าหมาย:</b> เหมาะกับผู้เรียนที่จัดสรรเงินได้ดี มีเงินออม และเกี่ยวข้องกับการอบรมทางการเงิน <br>
+          <b>รูปแบบการเรียน:</b> บรรยาย และ workshop พร้อมแบบทดสอบความรู้ <br>
+          <b>หัวข้อการเรียน:</b> 
+          <b>1.</b> การวางแผนการอบรม 
+          <b>2.</b> การวางแผนการเกษียณ 
+          <b>3.</b> การจัดพอร์ตบงทุนเพื่อการเกษียณ (กองทุนรวม, ประกันชีวิต) 
+          <b>4.</b> การวางแผนใช้เงินหลังเกษียณ
+        `,
+        confirmButtonText: "ปิด",
+        confirmButtonColor: "#D43732", // Set the confirm button color to red
+      });
+      
+      
+      
+  }
+
   //Auto go to current Date when entered
   useEffect(() => {
     // Scroll to current date section
@@ -369,9 +400,30 @@ export default function Calendar() {
     >
       <Analytics />
       <div className="mb-1">
-        <p className="mr-5  flex justify-end text-sm">
+      
+        <p className="mr-5  flex justify-between text-sm">
+        <div className=" flex  mr-4 text-slate-500 text-sm">
+            <button className="flex" onClick={helpHandler}>
+            <span>ช่วยเหลือ</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-5 h-5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+            />
+          </svg>
+          </button>
+        </div>
+        <div>
           ชื่อ :&nbsp; <strong>{firstName}</strong>&nbsp; ID : &nbsp;
-          <strong>{employeeId}</strong>
+          <strong>{employeeId}</strong></div>
         </p>
         <div className="border-b p-1 mb-2"></div>
       </div>

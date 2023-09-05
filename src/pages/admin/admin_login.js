@@ -1,6 +1,4 @@
 import { useState} from "react";
-import StartFireBase from "../../firebase/firebase_conf";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
 
 const LoginPage = () => {
@@ -8,7 +6,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
-  //StartFireBase();
 
   const handleLogin = async (e) => {
     e.preventDefault();

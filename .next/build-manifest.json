@@ -12,11 +12,6 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/index.js"
-    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -27,30 +22,25 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/form_selection": [
+    "/admin_TRcourse/tr_admin_course": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/form_selection.js"
+      "static/chunks/pages/admin_TRcourse/tr_admin_course.js"
     ],
-    "/health_care/HCcalendar": [
+    "/admin_TRcourse/tr_admin_insert": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/health_care/HCcalendar.js"
+      "static/chunks/pages/admin_TRcourse/tr_admin_insert.js"
     ],
-    "/health_care/confirmation": [
+    "/admin_TRcourse/tr_admin_users": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/health_care/confirmation.js"
+      "static/chunks/pages/admin_TRcourse/tr_admin_users.js"
     ],
-    "/health_care/more_detail": [
+    "/admin_health/hc_admin_insert": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/health_care/more_detail.js"
-    ],
-    "/health_care/option_select": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/health_care/option_select.js"
+      "static/chunks/pages/admin_health/hc_admin_insert.js"
     ]
   },
   "ampFirstPages": []

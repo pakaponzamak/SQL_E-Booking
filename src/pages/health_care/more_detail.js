@@ -9,7 +9,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Link from "next/link";
 import Swal from "sweetalert2";
-import health from "../api/health/health_api";
 
 const bai_jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -106,7 +105,7 @@ export default function appointment() {
           },
           body: JSON.stringify({
             health_id: healthID,
-            whoPickedThis: "ID: "+employeeId + "Name:"+name,
+            whoPickedThis: name,
             alreadyPicked: 1,
           }),
         }

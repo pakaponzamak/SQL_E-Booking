@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Bai_Jamjuree } from "next/font/google";
 import { useRouter } from "next/router";
 import DensoLogo from "../images/Denso_logo.png";
-import { getDatabase, ref, set, onValue, off } from "firebase/database";
-import StartFireBase from "../../firebase/firebase_conf";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -47,7 +45,6 @@ export default function tr_admin_course() {
   const scrollRef = useRef(null);
   const router = useRouter();
   const { username, password} = router.query;
-  StartFireBase();
 
   const today = new Date();
   const todayDate = today.getDate();
@@ -190,7 +187,6 @@ export default function tr_admin_course() {
     setClick((count) => count + 1);
   };
 
-  StartFireBase();
 
   const fetchUsers = async () => {
     try {
@@ -338,7 +334,7 @@ export default function tr_admin_course() {
             className="mx-auto mb-2"
           />
           <h1 className="text-white text-xl font-bold italic">
-            Admin Dashboard
+            
           </h1>
         </div>
 
