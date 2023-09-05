@@ -611,32 +611,7 @@ useEffect(() => {
                 </ul>
               )}
             </li>
-            <li>
-              <a
-                href="#"
-                className={`flex items-center px-4 py-3 ${
-                  isMenuActive("about")
-                    ? "text-white border-b-2 border-blue-500 bg-blue-500 rounded-3xl"
-                    : "text-gray-400 hover:text-white"
-                }`}
-                onClick={() => handleMenuClick("about")}
-              >
-                <svg
-                  className="h-6 w-6 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  ></path>
-                </svg>
-                TBA
-              </a>
-            </li>
+           
           </ul>
         </nav>
       </div>
@@ -646,11 +621,11 @@ useEffect(() => {
 
         <div className="flex justify-between">
           <h1 className="font-extrabold text-3xl p-3 ">ตารางคอร์สอบรม</h1>
-          <div><button className="text-green-700   bg-white p-1 px-2 rounded-3xl mr-3"
+        { /* <div><button className="text-green-700   bg-white p-1 px-2 rounded-3xl mr-3"
                   onClick={exportAllCoursesToExcel}>Export All</button>
                   <button className="text-green-700   bg-white p-1 px-2 rounded-3xl mr-3"
                   onClick={exportSpecificDateCoursesToExcel}>Export Only In Date Selected</button>
-                  </div>
+                  </div> */}
           </div>
 
           <div className="border-b border-gray-800 mb-4"></div>

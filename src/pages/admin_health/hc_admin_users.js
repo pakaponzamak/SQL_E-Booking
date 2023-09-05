@@ -369,32 +369,7 @@ export default function TRusers() {
                 </ul>
               )}
             </li>
-            <li>
-              <a
-                href="#"
-                className={`flex items-center px-4 py-3 ${
-                  isMenuActive("about")
-                    ? "text-white border-b-2 border-blue-500 bg-blue-500 rounded-3xl"
-                    : "text-gray-400 hover:text-white"
-                }`}
-                onClick={() => handleMenuClick("about")}
-              >
-                <svg
-                  className="h-6 w-6 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  ></path>
-                </svg>
-                TBA
-              </a>
-            </li>
+           
           </ul>
         </nav>
       </div>
@@ -405,10 +380,10 @@ export default function TRusers() {
           <h1 className="font-extrabold text-3xl p-3 ">
             ข้อมูลผู้ใช้งานระบบรักษาพยาบาล
           </h1>
-          <div><button className="text-green-700  bg-white p-1 px-2 rounded-3xl mr-3"
+         {/* <div><button className="text-green-700  bg-white p-1 px-2 rounded-3xl mr-3"
                   onClick={exportAllToExcel}>Export All</button>
                   
-                  </div>
+                  </div>*/}
                   </div>
           <div className="border-b border-gray-800 mb-4"></div>
           <div className="text-center items-center">
@@ -472,12 +447,12 @@ export default function TRusers() {
                           </div>
                         </div>
                       </div>
-                      <button
+              { /*      <button
                   className="border border-orange-500 rounded-3xl bg-orange-500 text-white font-semibold mx-3 my-3"
                   
                 >
                   ดูข้อมูลเพิ่มเติม
-                </button>
+                </button> */}
                  
                   
                 </div>

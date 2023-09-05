@@ -97,10 +97,10 @@ export default function Home() {
             className="mb-8"
           />
           <div className="font-extrabold text-[#D43732] italic">
-            DNTH Electronic Form
+            DNTH Electronic Booking
           </div>
           <div className="mb-8 font-extrabold text-[#D43732] italic">
-            (ระบบฟอร์มออนไลน์)
+            
           </div>
           <div className="drop-shadow-lg flex flex-col items-center">
           <div className="">
@@ -136,63 +136,7 @@ export default function Home() {
             เข้าสู่ระบบ
           </button>
         </form>
-        <div className="flex justify-end ">
-          <div className="text-sm text-slate-500 mb-5 text-right mt-4  mx-2  ">
-            {/* Move the "ลืมรหัสผ่าน?" button outside the form */}
-            <div onClick={handleToggleContent}>ลืมรหัสผ่าน?</div>
-            {showContent && (
-              <div
-                className="relative bg-white p-5 border rounded-xl  top-2 z-10 border-slate-400"
-                onClick={handleContentClick}
-              >
-                <div className="space-y-2">
-                  <div>
-                    <input
-                      className="border px-5 py-3 rounded-2xl mb-2"
-                      placeholder="รหัสพนักงาน"
-                      type="text"
-                      name="username"
-                      id="username"
-                      required
-                      onChange={(e) =>
-                        setForgotName(e.target.value.toLowerCase())
-                      }
-                    />
-                  </div>
-                  <div className="flex justify-center">
-                    {" "}
-                    {/* Add flex justify-center to center the button */}
-                    <button
-                      className="border rounded-xl px-10 py-2 bg-red-500 text-white text-center"
-                      onClick={() => {
-                        // Loop through the users array to find the matching firstName
-                        let matchedFirstName = null;
-                        for (const user of users) {
-                          if (user.employeeId === forgotName) {
-                            matchedFirstName = user.firstName;
-                            break;
-                          }
-                        }
-
-                        if (matchedFirstName) {
-                          alert(
-                            `รหัสพนักงาน "${forgotName}" ตรงกับชื่อ "${matchedFirstName}"`
-                          );
-                        } else {
-                          alert(`ไม่พบข้อมูลของท่านกรุณาตรวจสอบรหัสพนักงาน`);
-                        }
-                      }}
-                    >
-                      ยืนยัน
-                    </button>
-                    
-                  </div>
-                </div>
-                
-              </div>
-            )}
-          </div>
-        </div>
+        
       </div>
     </main>
   );

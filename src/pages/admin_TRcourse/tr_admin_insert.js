@@ -571,32 +571,7 @@ export default function tr_admin_course() {
                 </ul>
               )}
             </li>
-            <li>
-              <a
-                href="#"
-                className={`flex items-center px-4 py-3 ${
-                  isMenuActive("about")
-                    ? "text-white border-b-2 border-blue-500 bg-blue-500 rounded-3xl"
-                    : "text-gray-400 hover:text-white"
-                }`}
-                onClick={() => handleMenuClick("about")}
-              >
-                <svg
-                  className="h-6 w-6 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  ></path>
-                </svg>
-                TBA
-              </a>
-            </li>
+     
           </ul>
         </nav>
       </div>

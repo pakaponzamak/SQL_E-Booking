@@ -24,10 +24,11 @@ async function postUser(
   checkInTime,
   picked_what,
   checkIn,
-  more_detail
+  more_detail,
+  company
 ) {
   const query =
-    "INSERT INTO health_care (health_id, user_id, name, doctor_type, phone_num, time_selected, date_selected, plant, checkInTime, picked_what, checkIn, more_detail) VALUES (?, ?,?,?,?,?,?,?,?,?,?,?)";
+    "INSERT INTO health_care (health_id, user_id, name, doctor_type, phone_num, time_selected, date_selected, plant, checkInTime, picked_what, checkIn, more_detail,company) VALUES (?, ?,?,?,?,?,?,?,?,?,?,?,?)";
   const values = [
     health_id,
     user_id,
@@ -41,6 +42,7 @@ async function postUser(
     picked_what,
     checkIn,
     more_detail,
+    company
   ];
   try {
     await executeQuery(query, values);
@@ -99,6 +101,7 @@ export default async function health(req, res) {
       picked_what,
       checkIn,
       more_detail,
+      company
     } = req.body;
 
     try {
@@ -114,7 +117,8 @@ export default async function health(req, res) {
         checkInTime,
         picked_what,
         checkIn,
-        more_detail
+        more_detail,
+        company
       );
       res.status(200).json({ message: "Data inserted successfully" });
     } catch (error) {

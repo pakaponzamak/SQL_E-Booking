@@ -79,6 +79,7 @@ export default function appointment() {
             picked_what: doctor_type,
             checkIn: 0,
             more_detail: symptom,
+            company:company
           }),
          
         });
@@ -231,6 +232,13 @@ export default function appointment() {
                 <MenuItem value={"DNTH-SRG"}>DNTH-SRG</MenuItem>
                 <MenuItem value={"DNTH-WGR"}>DNTH-WGR</MenuItem>
                 <MenuItem value={"DNTH-BPK"}>DNTH-BPK</MenuItem>
+                <MenuItem value={"DIAT"}>DIAT</MenuItem>
+        <MenuItem value={"DSTH"}>DSTH</MenuItem>
+        <MenuItem value={"DELT"}>DELT</MenuItem>
+        <MenuItem value={"DIMA"}>DIMA</MenuItem>
+        <MenuItem value={"SDM"}>SDM</MenuItem>
+        <MenuItem value={"SUD"}>SUD</MenuItem>
+        <MenuItem value={"ASTH"}>ASTH</MenuItem>
               </Select>
             </FormControl>
           </Box>
