@@ -19,8 +19,8 @@ export default function DropdownMenu() {
     if (
       company.trim() === "" ||
       division.trim() === "" ||
-      department.trim() === "" ||
-      plant.trim() === ""
+      department.trim() === "" 
+      //plant.trim() === ""
     ) {
       alert("กรุณากรอกข้อมูล");
       return;
@@ -30,39 +30,8 @@ export default function DropdownMenu() {
         `./TRcalendar?firstName=${firstName}&employeeId=${employeeId}&checkIn=${checkIn}&company=${company}&division=${division}&department=${department}&plant=${plant}`
       );
     }
-
-    
   };
-  const helpHandler = () => {
-    Swal.fire({
-        title: "เนื้อหายอดนิยม",
-        html: `
-          <b><u>TMC 1:หลักสูตรจัดการเงินพื้นฐาน</u></b> <br>
-          <b>วัตถุประสงค์:</b> เพื่อจัดการเงินให้เป็นระเบียบ บริหารสภาพคล่อง จัดการภาระหนี้สิน <br>
-          <b>กลุ่มเป้าหมาย:</b> เหมาะกับผู้เรียนเริ่มต้นบริหารเงิน อยากจัดการเงินให้เพียงพอลดภาระหนี้ เพิ่มเงินออม รูปแบบการเรียน: บรรยาย และ workshop พร้อมแบบทดสอบความรู้ <br>
-          <b>หัวข้อการเรียน:</b> 
-          <b>1.</b> หลักการจัดการเงินส่วนบุคคล 
-          <b>2.</b> การจัดการรายได้เพียงพอใช้จ่าย 
-          <b>3.</b> การจัดการภาระหนี้ 
-          <b>4.</b> การวางแผนการออม (เงินสำรองฉุกเฉินและกองทุนสำรองเลี้ยงชีพ) <br>
-          <br>
-          <b><u>TMC 2:การวางแผนสู่ความมั่งคั่ง</u></b> <br>
-          <b>วัตถุประสงค์:</b> เพื่อเรียนรู้วิธีการบริหารเงินในระยะยาว เพื่่อเกษียณอย่างมั่งคั่งและมีความสุข <br>
-          <b> กลุ่มเป้าหมาย:</b> เหมาะกับผู้เรียนที่จัดสรรเงินได้ดี มีเงินออม และเกี่ยวข้องกับการอบรมทางการเงิน <br>
-          <b>รูปแบบการเรียน:</b> บรรยาย และ workshop พร้อมแบบทดสอบความรู้ <br>
-          <b>หัวข้อการเรียน:</b> 
-          <b>1.</b> การวางแผนการอบรม 
-          <b>2.</b> การวางแผนการเกษียณ 
-          <b>3.</b> การจัดพอร์ตบงทุนเพื่อการเกษียณ (กองทุนรวม, ประกันชีวิต) 
-          <b>4.</b> การวางแผนใช้เงินหลังเกษียณ
-        `,
-        confirmButtonText: "ปิด",
-        confirmButtonColor: "#D43732", // Set the confirm button color to red
-      });
-      
-      
-      
-  }
+
 
   return (
     <main>
@@ -75,24 +44,33 @@ export default function DropdownMenu() {
       </div>
 
       <div className="mx-20 my-5">
-        <Box sx={{}}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">เลือก Company</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={company}
-              label="เลือก Company"
-              onChange={(e) => setCompany(e.target.value)}
-            >
-              <MenuItem value={"DNTH"}>DNTH</MenuItem>
-            
-            </Select>
-          </FormControl>
-        </Box>
-      </div>
-      <div className="mx-20 my-5">
-        <Box sx={{ }}>
+  <Box sx={{}}>
+    <FormControl fullWidth>
+      <InputLabel id="demo-simple-select-label">เลือก Company</InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={company}
+        label="เลือก Company"
+        onChange={(e) => setCompany(e.target.value)}
+      >
+        <MenuItem value={"DNTH"}>DNTH</MenuItem>
+        <MenuItem value={"DIAT"}>DIAT</MenuItem>
+        <MenuItem value={"DSTH"}>DSTH</MenuItem>
+        <MenuItem value={"DELT"}>DELT</MenuItem>
+        <MenuItem value={"DIMA"}>DIMA</MenuItem>
+        <MenuItem value={"SDM"}>SDM</MenuItem>
+        <MenuItem value={"SUD"}>SUD</MenuItem>
+        <MenuItem value={"ASTH"}>ASTH</MenuItem>
+
+      </Select>
+    </FormControl>
+  </Box>
+</div>
+<div className="mx-20 my-5">
+{/* Conditionally render another MenuItem */}
+{company === "DNTH" && (
+          <Box sx={{}}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">เลือก Plant</InputLabel>
             <Select
@@ -103,12 +81,15 @@ export default function DropdownMenu() {
               onChange={(e) => setPlant(e.target.value)}
             >
               <MenuItem value={"SRG"}>SRG</MenuItem>
-              <MenuItem value={"WGR"}>WRG</MenuItem>
+              <MenuItem value={"WGR"}>WGR</MenuItem>
               <MenuItem value={"BPK"}>BPK</MenuItem>
+
             </Select>
           </FormControl>
         </Box>
-      </div>
+        )}
+        </div>
+
 
       <div className="text-center">
         <div>
@@ -147,27 +128,7 @@ export default function DropdownMenu() {
           ยืนยัน
         </button>
       </div>
-      <div>
-        <div className=" flex justify-end mr-4 text-slate-500 text-sm">
-            <button className="flex" onClick={helpHandler}>
-            <span>ช่วยเหลือ</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-5 h-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-            />
-          </svg>
-          </button>
-        </div>
-      </div>
+      
     </main>
   );
 }

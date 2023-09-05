@@ -401,7 +401,7 @@ export default function Calendar() {
       <Analytics />
       <div className="mb-1">
       
-        <p className="mr-5  flex justify-between text-sm">
+        <div className="mr-5  flex justify-between text-sm">
         <div className=" flex  mr-4 text-slate-500 text-sm">
             <button className="flex" onClick={helpHandler}>
             <span>ช่วยเหลือ</span>
@@ -424,7 +424,7 @@ export default function Calendar() {
         <div>
           ชื่อ :&nbsp; <strong>{firstName}</strong>&nbsp; ID : &nbsp;
           <strong>{employeeId}</strong></div>
-        </p>
+        </div>
         <div className="border-b p-1 mb-2"></div>
       </div>
       <div className="flex justify-between text-center">

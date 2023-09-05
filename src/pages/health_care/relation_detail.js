@@ -10,8 +10,6 @@ import Select from "@mui/material/Select";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-import { getDatabase, ref, remove, onValue, off,update } from "firebase/database";
-import StartFireBase from "../../firebase/firebase_conf";
 
 const bai_jamjuree = Bai_Jamjuree({
   subsets: ["latin"],
@@ -22,18 +20,11 @@ export default function relation_detail() {
   const router = useRouter();
   const { firstName, employeeId, date, timeStart, doctor ,healthID} = router.query;
   const [relation, setRelation] = useState("");
-  
   const [name, setName] = useState("");
   const [tel,setTel] = useState("");
   const [symptom,setSymptom] = useState("");
   const [addRelation, setAddRelation] = useState("true");
 
-  StartFireBase();
-
-  useEffect(() => {
-
-
-  }, []);
 
   const alertHandler = async () => {
     // Check if any of the fields are empty

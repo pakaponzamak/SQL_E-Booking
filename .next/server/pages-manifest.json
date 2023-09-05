@@ -3,10 +3,13 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/admin_TRcourse/tr_admin_insert": "pages/admin_TRcourse/tr_admin_insert.js",
-  "/admin_health/hc_admin_insert": "pages/admin_health/hc_admin_insert.js",
-  "/admin_TRcourse/tr_admin_users": "pages/admin_TRcourse/tr_admin_users.js",
-  "/api/course/course_api": "pages/api/course/course_api.js",
   "/api/course_admin/tr_insert_api": "pages/api/course_admin/tr_insert_api.js",
-  "/admin_TRcourse/tr_admin_course": "pages/admin_TRcourse/tr_admin_course.js",
-  "/api/course/course_count_api": "pages/api/course/course_count_api.js"
+  "/tr_course/TRcalendar": "pages/tr_course/TRcalendar.js",
+  "/api/course/course_api": "pages/api/course/course_api.js",
+  "/api/course/course_count_api": "pages/api/course/course_count_api.js",
+  "/": "pages/index.js",
+  "/form_selection": "pages/form_selection.js",
+  "/api/index_api/index_api": "pages/api/index_api/index_api.js",
+  "/health_care/option_select": "pages/health_care/option_select.js",
+  "/tr_course/plant_select": "pages/tr_course/plant_select.js"
 }
