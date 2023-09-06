@@ -72,6 +72,7 @@ Before you begin, ensure you have met the following requirements:
 
 6. Update the database configuration in your project to connect to your MySQL database.
 
+
 ## Usage
 
 To start the application, run the following command:
