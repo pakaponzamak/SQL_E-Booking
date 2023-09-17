@@ -1,0 +1,56 @@
+"use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+(() => {
+var exports = {};
+exports.id = "pages/api/parent/parent_api";
+exports.ids = ["pages/api/parent/parent_api"];
+exports.modules = {
+
+/***/ "mysql2/promise":
+/*!*********************************!*\
+  !*** external "mysql2/promise" ***!
+  \*********************************/
+/***/ ((module) => {
+
+module.exports = require("mysql2/promise");
+
+/***/ }),
+
+/***/ "(api)/./src/pages/api/parent/parent_api.js":
+/*!********************************************!*\
+  !*** ./src/pages/api/parent/parent_api.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ parent_api)\n/* harmony export */ });\n/* harmony import */ var _server_mySQL__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../server/mySQL */ \"(api)/./src/server/mySQL.js\");\n\n// Define a function to execute MySQL queries\nasync function executeQuery(query, values) {\n    const connection = await _server_mySQL__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getConnection();\n    try {\n        const [rows] = await connection.execute(query, values);\n        return rows;\n    } finally{\n        connection.release();\n    }\n}\nasync function getParent() {\n    const query = \"SELECT * FROM parent_data\";\n    try {\n        const parent = await executeQuery(query);\n        return parent;\n    } catch (error) {\n        console.error(\"Error fetching health records:\", error);\n        throw error; // Rethrow the error to handle it in the caller\n    }\n}\n// Define a function to insert a new user into the MySQL database\nasync function postParent(user_id, parent_name) {\n    const query = \"INSERT INTO parent_data (user_id,parent_name) VALUES (?,?)\";\n    const values = [\n        user_id,\n        parent_name\n    ];\n    try {\n        await executeQuery(query, values);\n    } catch (error) {\n        throw error; // Rethrow the error to handle it in the caller\n    }\n}\nasync function parent_api(req, res) {\n    if (req.method === \"GET\") {\n        try {\n            const parent = await getParent();\n            res.status(200).json(parent);\n        } catch (error) {\n            console.error(\"Error fetching health data:\", error);\n            res.status(500).json({\n                error: \"Internal Server Error\"\n            });\n        }\n    } else if (req.method === \"POST\") {\n        const { user_id, parent_id, parent_name } = req.body;\n        try {\n            await postParent(user_id, parent_name);\n            res.status(200).json({\n                message: \"Data inserted successfully\"\n            });\n        } catch (error) {\n            console.error(\"Error fetching health data:\", error);\n            res.status(500).json({\n                error: \"Internal Server Error\"\n            });\n        }\n    } else {\n        res.status(405).json({\n            message: \"This method is not allowed\"\n        });\n    }\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9zcmMvcGFnZXMvYXBpL3BhcmVudC9wYXJlbnRfYXBpLmpzIiwibWFwcGluZ3MiOiI7Ozs7O0FBQXlDO0FBRXpDLDZDQUE2QztBQUM3QyxlQUFlQyxhQUFhQyxLQUFLLEVBQUVDLE1BQU07SUFDdkMsTUFBTUMsYUFBYSxNQUFNSixtRUFBa0JLO0lBQzNDLElBQUk7UUFDRixNQUFNLENBQUNDLEtBQUssR0FBRyxNQUFNRixXQUFXRyxRQUFRTCxPQUFPQztRQUMvQyxPQUFPRztJQUNULFNBQVU7UUFDUkYsV0FBV0k7SUFDYjtBQUNGO0FBR0EsZUFBZUM7SUFDWCxNQUFNUCxRQUFRO0lBQ2QsSUFBSTtRQUNBLE1BQU1RLFNBQVMsTUFBTVQsYUFBYUM7UUFDbEMsT0FBT1E7SUFDVCxFQUFFLE9BQU9DLE9BQU87UUFDZEMsUUFBUUQsTUFBTSxrQ0FBa0NBO1FBQ2hELE1BQU1BLE9BQU8sK0NBQStDO0lBQzlEO0FBQ047QUFFRSxpRUFBaUU7QUFDakUsZUFBZUUsV0FBV0MsT0FBTyxFQUFDQyxXQUFXO0lBQzNDLE1BQU1iLFFBQ1I7SUFDRSxNQUFNQyxTQUFTO1FBQUNXO1FBQVFDO0tBQVk7SUFDcEMsSUFBSTtRQUNGLE1BQU1kLGFBQWFDLE9BQU9DO0lBQzVCLEVBQUUsT0FBT1EsT0FBTztRQUNkLE1BQU1BLE9BQU8sK0NBQStDO0lBQzlEO0FBQ0Y7QUFHZSxlQUFlSyxXQUFXQyxHQUFHLEVBQUNDLEdBQUc7SUFFOUMsSUFBSUQsSUFBSUUsV0FBVyxPQUFNO1FBQ3JCLElBQUk7WUFDQSxNQUFNVCxTQUFTLE1BQU1EO1lBQ3JCUyxJQUFJRSxPQUFPLEtBQUtDLEtBQUtYO1FBQ3ZCLEVBQUUsT0FBT0MsT0FBTztZQUNkQyxRQUFRRCxNQUFNLCtCQUErQkE7WUFDN0NPLElBQUlFLE9BQU8sS0FBS0MsS0FBSztnQkFBRVYsT0FBTztZQUF3QjtRQUN4RDtJQUNOLE9BQU8sSUFBSU0sSUFBSUUsV0FBVyxRQUFPO1FBQy9CLE1BQU0sRUFBQ0wsT0FBTyxFQUFDUSxTQUFTLEVBQUNQLFdBQVcsRUFBQyxHQUFHRSxJQUFJTTtRQUMxQyxJQUFHO1lBQ0QsTUFBTVYsV0FBV0MsU0FBUUM7WUFDekJHLElBQUlFLE9BQU8sS0FBS0MsS0FBSztnQkFBRUcsU0FBUztZQUE2QjtRQUMvRCxFQUFDLE9BQU9iLE9BQU87WUFDYkMsUUFBUUQsTUFBTSwrQkFBK0JBO1lBQzdDTyxJQUFJRSxPQUFPLEtBQUtDLEtBQUs7Z0JBQUVWLE9BQU87WUFBd0I7UUFDeEQ7SUFDSixPQUlLO1FBQ0RPLElBQUlFLE9BQU8sS0FBS0MsS0FBSztZQUFFRyxTQUFTO1FBQTZCO0lBQy9EO0FBQ0oiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9lLWJvb2tpbmcvLi9zcmMvcGFnZXMvYXBpL3BhcmVudC9wYXJlbnRfYXBpLmpzPzgyN2MiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHBvb2wgZnJvbSBcIi4uLy4uLy4uL3NlcnZlci9teVNRTFwiO1xuXG4vLyBEZWZpbmUgYSBmdW5jdGlvbiB0byBleGVjdXRlIE15U1FMIHF1ZXJpZXNcbmFzeW5jIGZ1bmN0aW9uIGV4ZWN1dGVRdWVyeShxdWVyeSwgdmFsdWVzKSB7XG4gIGNvbnN0IGNvbm5lY3Rpb24gPSBhd2FpdCBwb29sLmdldENvbm5lY3Rpb24oKTtcbiAgdHJ5IHtcbiAgICBjb25zdCBbcm93c10gPSBhd2FpdCBjb25uZWN0aW9uLmV4ZWN1dGUocXVlcnksIHZhbHVlcyk7XG4gICAgcmV0dXJuIHJvd3M7XG4gIH0gZmluYWxseSB7XG4gICAgY29ubmVjdGlvbi5yZWxlYXNlKCk7XG4gIH1cbn1cblxuXG5hc3luYyBmdW5jdGlvbiBnZXRQYXJlbnQoKXtcbiAgICBjb25zdCBxdWVyeSA9IFwiU0VMRUNUICogRlJPTSBwYXJlbnRfZGF0YVwiO1xuICAgIHRyeSB7XG4gICAgICAgIGNvbnN0IHBhcmVudCA9IGF3YWl0IGV4ZWN1dGVRdWVyeShxdWVyeSk7XG4gICAgICAgIHJldHVybiBwYXJlbnQ7XG4gICAgICB9IGNhdGNoIChlcnJvcikge1xuICAgICAgICBjb25zb2xlLmVycm9yKCdFcnJvciBmZXRjaGluZyBoZWFsdGggcmVjb3JkczonLCBlcnJvcik7XG4gICAgICAgIHRocm93IGVycm9yOyAvLyBSZXRocm93IHRoZSBlcnJvciB0byBoYW5kbGUgaXQgaW4gdGhlIGNhbGxlclxuICAgICAgfVxufVxuXG4gIC8vIERlZmluZSBhIGZ1bmN0aW9uIHRvIGluc2VydCBhIG5ldyB1c2VyIGludG8gdGhlIE15U1FMIGRhdGFiYXNlXG4gIGFzeW5jIGZ1bmN0aW9uIHBvc3RQYXJlbnQodXNlcl9pZCxwYXJlbnRfbmFtZSkge1xuICAgIGNvbnN0IHF1ZXJ5ID1cbiAgJ0lOU0VSVCBJTlRPIHBhcmVudF9kYXRhICh1c2VyX2lkLHBhcmVudF9uYW1lKSBWQUxVRVMgKD8sPyknO1xuICAgIGNvbnN0IHZhbHVlcyA9IFt1c2VyX2lkLHBhcmVudF9uYW1lXTtcbiAgICB0cnkge1xuICAgICAgYXdhaXQgZXhlY3V0ZVF1ZXJ5KHF1ZXJ5LCB2YWx1ZXMpO1xuICAgIH0gY2F0Y2ggKGVycm9yKSB7XG4gICAgICB0aHJvdyBlcnJvcjsgLy8gUmV0aHJvdyB0aGUgZXJyb3IgdG8gaGFuZGxlIGl0IGluIHRoZSBjYWxsZXJcbiAgICB9XG4gIH1cblxuXG4gIGV4cG9ydCBkZWZhdWx0IGFzeW5jIGZ1bmN0aW9uIHBhcmVudF9hcGkocmVxLHJlcylcbiAge1xuICAgIGlmIChyZXEubWV0aG9kID09PSAnR0VUJyl7XG4gICAgICAgIHRyeSB7XG4gICAgICAgICAgICBjb25zdCBwYXJlbnQgPSBhd2FpdCBnZXRQYXJlbnQoKTtcbiAgICAgICAgICAgIHJlcy5zdGF0dXMoMjAwKS5qc29uKHBhcmVudCk7XG4gICAgICAgICAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICAgICAgICAgIGNvbnNvbGUuZXJyb3IoXCJFcnJvciBmZXRjaGluZyBoZWFsdGggZGF0YTpcIiwgZXJyb3IpO1xuICAgICAgICAgICAgcmVzLnN0YXR1cyg1MDApLmpzb24oeyBlcnJvcjogXCJJbnRlcm5hbCBTZXJ2ZXIgRXJyb3JcIiB9KTtcbiAgICAgICAgICB9XG4gICAgfSBlbHNlIGlmIChyZXEubWV0aG9kID09PSAnUE9TVCcpe1xuICAgICAgY29uc3Qge3VzZXJfaWQscGFyZW50X2lkLHBhcmVudF9uYW1lfSA9IHJlcS5ib2R5XG4gICAgICAgIHRyeXtcbiAgICAgICAgICBhd2FpdCBwb3N0UGFyZW50KHVzZXJfaWQscGFyZW50X25hbWUpO1xuICAgICAgICAgIHJlcy5zdGF0dXMoMjAwKS5qc29uKHsgbWVzc2FnZTogJ0RhdGEgaW5zZXJ0ZWQgc3VjY2Vzc2Z1bGx5JyB9KTtcbiAgICAgICAgfWNhdGNoIChlcnJvcikge1xuICAgICAgICAgIGNvbnNvbGUuZXJyb3IoXCJFcnJvciBmZXRjaGluZyBoZWFsdGggZGF0YTpcIiwgZXJyb3IpO1xuICAgICAgICAgIHJlcy5zdGF0dXMoNTAwKS5qc29uKHsgZXJyb3I6IFwiSW50ZXJuYWwgU2VydmVyIEVycm9yXCIgfSk7XG4gICAgICAgIH1cbiAgICB9XG4gICAgXG4gICAgXG4gICAgXG4gICAgZWxzZSB7XG4gICAgICAgIHJlcy5zdGF0dXMoNDA1KS5qc29uKHsgbWVzc2FnZTogXCJUaGlzIG1ldGhvZCBpcyBub3QgYWxsb3dlZFwiIH0pO1xuICAgICAgfVxuICB9Il0sIm5hbWVzIjpbInBvb2wiLCJleGVjdXRlUXVlcnkiLCJxdWVyeSIsInZhbHVlcyIsImNvbm5lY3Rpb24iLCJnZXRDb25uZWN0aW9uIiwicm93cyIsImV4ZWN1dGUiLCJyZWxlYXNlIiwiZ2V0UGFyZW50IiwicGFyZW50IiwiZXJyb3IiLCJjb25zb2xlIiwicG9zdFBhcmVudCIsInVzZXJfaWQiLCJwYXJlbnRfbmFtZSIsInBhcmVudF9hcGkiLCJyZXEiLCJyZXMiLCJtZXRob2QiLCJzdGF0dXMiLCJqc29uIiwicGFyZW50X2lkIiwiYm9keSIsIm1lc3NhZ2UiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(api)/./src/pages/api/parent/parent_api.js\n");
+
+/***/ }),
+
+/***/ "(api)/./src/server/mySQL.js":
+/*!*****************************!*\
+  !*** ./src/server/mySQL.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var mysql2_promise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mysql2/promise */ \"mysql2/promise\");\n/* harmony import */ var mysql2_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mysql2_promise__WEBPACK_IMPORTED_MODULE_0__);\n\n// Create a MySQL connection pool\nconst pool = mysql2_promise__WEBPACK_IMPORTED_MODULE_0___default().createPool({\n    host: \"localhost\",\n    user: \"root\",\n    password: \"\",\n    database: \"Test_Booking\",\n    waitForConnections: true,\n    connectionLimit: 500,\n    queueLimit: 0\n});\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (pool);\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9zcmMvc2VydmVyL215U1FMLmpzIiwibWFwcGluZ3MiOiI7Ozs7OztBQUFtQztBQUVuQyxpQ0FBaUM7QUFDakMsTUFBTUMsT0FBT0QsZ0VBQWdCRSxDQUFDO0lBQzVCQyxNQUFNO0lBQ05DLE1BQU07SUFDTkMsVUFBVTtJQUNWQyxVQUFVO0lBQ1ZDLG9CQUFvQjtJQUNwQkMsaUJBQWlCO0lBQ2pCQyxZQUFZO0FBQ2Q7QUFFQSxpRUFBZVIsSUFBSUEsRUFBQyIsInNvdXJjZXMiOlsid2VicGFjazovL2UtYm9va2luZy8uL3NyYy9zZXJ2ZXIvbXlTUUwuanM/YTRiYiJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgbXlzcWwgZnJvbSAnbXlzcWwyL3Byb21pc2UnO1xuXG4vLyBDcmVhdGUgYSBNeVNRTCBjb25uZWN0aW9uIHBvb2xcbmNvbnN0IHBvb2wgPSBteXNxbC5jcmVhdGVQb29sKHtcbiAgaG9zdDogJ2xvY2FsaG9zdCcsXG4gIHVzZXI6ICdyb290JyxcbiAgcGFzc3dvcmQ6ICcnLFxuICBkYXRhYmFzZTogJ1Rlc3RfQm9va2luZycsXG4gIHdhaXRGb3JDb25uZWN0aW9uczogdHJ1ZSxcbiAgY29ubmVjdGlvbkxpbWl0OiA1MDAsXG4gIHF1ZXVlTGltaXQ6IDAsXG59KTtcblxuZXhwb3J0IGRlZmF1bHQgcG9vbDsiXSwibmFtZXMiOlsibXlzcWwiLCJwb29sIiwiY3JlYXRlUG9vbCIsImhvc3QiLCJ1c2VyIiwicGFzc3dvcmQiLCJkYXRhYmFzZSIsIndhaXRGb3JDb25uZWN0aW9ucyIsImNvbm5lY3Rpb25MaW1pdCIsInF1ZXVlTGltaXQiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(api)/./src/server/mySQL.js\n");
+
+/***/ })
+
+};
+;
+
+// load runtime
+var __webpack_require__ = require("../../../webpack-api-runtime.js");
+__webpack_require__.C(exports);
+var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+var __webpack_exports__ = (__webpack_exec__("(api)/./src/pages/api/parent/parent_api.js"));
+module.exports = __webpack_exports__;
+
+})();

@@ -98,7 +98,7 @@ export default function DropdownMenu() {
               label="เลือก Section"
               onChange={(e) => setSection(e.target.value)}
             >
-              <MenuItem value={"Section"}>Section</MenuItem>
+              <MenuItem value={"Section"}>AR</MenuItem>
             </Select>
           </FormControl>
         </Box>

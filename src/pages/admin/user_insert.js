@@ -62,7 +62,6 @@ export default function tr_admin_course() {
     } catch(error){
         console.error('Error:', error);
     }
-
 }
   };
   
