@@ -22,25 +22,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/admin_TRcourse/tr_admin_course": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin_TRcourse/tr_admin_course.js"
+    ],
     "/admin_TRcourse/tr_admin_users": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/admin_TRcourse/tr_admin_users.js"
-    ],
-    "/form_selection": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/form_selection.js"
-    ],
-    "/tr_course/TRcalendar": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/tr_course/TRcalendar.js"
-    ],
-    "/tr_course/plant_select": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/tr_course/plant_select.js"
     ]
   },
   "ampFirstPages": []

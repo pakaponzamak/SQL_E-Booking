@@ -4,6 +4,7 @@ import { Bai_Jamjuree } from "next/font/google";
 import { useRouter } from "next/router";
 import DensoLogo from "../images/Denso_logo.png";
 import Swal from "sweetalert2";
+import * as XLSX from 'xlsx';
 
 const bai = Bai_Jamjuree({
   subsets: ["latin"],
@@ -131,6 +132,39 @@ export default function TRusers() {
   }
 
   const uniqueUserIds = new Set(); //For store user_id to check not to duplicate it
+
+  const exportAllToExcel = () => {
+    const workbook = XLSX.utils.book_new();  
+    const worksheetData = users
+      .filter((user) => user.doctor_type !== '')
+      .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
+      .map((user) => [
+        
+        user.user_id,
+        user.name,
+        user.course,
+        user.date && !isNaN(new Date(user.date))
+          ? new Date(user.date).toLocaleDateString('th-TH', {
+              dateStyle: 'long',
+            })
+          : '',
+        user.time_selected,
+        user.plant,
+        user.company ,
+        user.department ,
+        user.hall,
+        user.division
+      ]);
+  
+    const worksheet = XLSX.utils.aoa_to_sheet([
+      ['Employee ID', 'First Name', 'Course', 'Date', 'Time', 'Plant', 'Company', 'Department','Hall','Division'],
+      ...worksheetData,
+    ]);
+  
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Users Data');
+  
+    XLSX.writeFile(workbook, 'users_data.xlsx');
+  };
 
   return (
     <div className={`${bai.className} bg-slate-100 flex h-screen `}>
@@ -378,9 +412,14 @@ export default function TRusers() {
 
       <div className="flex-1 w-min drop-shadow-lg">
         <div className="rounded-3xl m-2 bg-slate-300 p-3 h-full overflow-y-auto">
+        <div className="flex justify-between">
           <h1 className="font-extrabold text-3xl p-3 ">
             ข้อมูลผู้ใช้งานคอร์สอบรม
           </h1>
+          { <div><button className="text-green-700  bg-white p-1 px-2 rounded-3xl mr-3"
+                  onClick={exportAllToExcel}>Export All</button>
+                  
+                    </div>} </div>
           <div className="border-b border-gray-800 mb-4"></div>
           <div className="text-center items-center">
             <div className="grid grid-cols-7 gap-3 mx-10 text-center font-bold">

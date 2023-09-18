@@ -2,6 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/api/course/course_api": "pages/api/course/course_api.js",
-  "/tr_course/plant_select": "pages/tr_course/plant_select.js"
+  "/admin_TRcourse/tr_admin_users": "pages/admin_TRcourse/tr_admin_users.js",
+  "/api/course_admin/tr_insert_api": "pages/api/course_admin/tr_insert_api.js",
+  "/admin_TRcourse/tr_admin_course": "pages/admin_TRcourse/tr_admin_course.js",
+  "/api/course/course_count_api": "pages/api/course/course_count_api.js"
 }

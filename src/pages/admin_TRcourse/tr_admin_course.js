@@ -621,11 +621,11 @@ useEffect(() => {
 
         <div className="flex justify-between">
           <h1 className="font-extrabold text-3xl p-3 ">ตารางคอร์สอบรม</h1>
-        { /* <div><button className="text-green-700   bg-white p-1 px-2 rounded-3xl mr-3"
+        {  <div><button className="text-green-700   bg-white p-1 px-2 rounded-3xl mr-3"
                   onClick={exportAllCoursesToExcel}>Export All</button>
                   <button className="text-green-700   bg-white p-1 px-2 rounded-3xl mr-3"
                   onClick={exportSpecificDateCoursesToExcel}>Export Only In Date Selected</button>
-                  </div> */}
+                  </div> }
           </div>
 
           <div className="border-b border-gray-800 mb-4"></div>

@@ -602,11 +602,11 @@ const exportSpecificDate = () => {
       <div className="rounded-3xl m-2 bg-slate-300 p-3 h-full overflow-y-auto">
         <div className="flex justify-between">
           <h1 className="font-extrabold text-3xl p-3 ">ตารางแพทย์</h1>
-        { /* <div><button className="text-green-700   bg-white p-1 px-2 rounded-3xl mr-3"
+        {  <div><button className="text-green-700   bg-white p-1 px-2 rounded-3xl mr-3"
                   onClick={exportAllToExcel}>Export All</button>
                   <button className="text-green-700   bg-white p-1 px-2 rounded-3xl"
                   onClick={exportSpecificDate}>Export Only In Date Selected</button>
-                  </div>*/}
+                  </div>}
         </div>
           
           <div className="border-b border-gray-800 mb-5 "></div>
