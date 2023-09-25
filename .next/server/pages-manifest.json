@@ -2,8 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin_TRcourse/tr_admin_users": "pages/admin_TRcourse/tr_admin_users.js",
-  "/api/course_admin/tr_insert_api": "pages/api/course_admin/tr_insert_api.js",
-  "/admin_TRcourse/tr_admin_course": "pages/admin_TRcourse/tr_admin_course.js",
-  "/api/course/course_count_api": "pages/api/course/course_count_api.js"
+  "/admin_health/hc_admin_users": "pages/admin_health/hc_admin_users.js",
+  "/health_care/more_detail": "pages/health_care/more_detail.js",
+  "/api/parent/parent_by_id": "pages/api/parent/parent_by_id.js",
+  "/": "pages/index.js"
 }

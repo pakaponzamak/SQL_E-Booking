@@ -387,7 +387,7 @@ export default function TRusers() {
                   </div>
           <div className="border-b border-gray-800 mb-4"></div>
           <div className="text-center items-center">
-            <div className="grid grid-cols-7 gap-3 mx-5 text-center font-bold">
+            <div className="grid grid-cols-6 gap-3 mx-5 text-center font-bold">
               <div>รหัสพนักงาน</div>
               <div>ชื่อ-นามสกุล</div>
               
