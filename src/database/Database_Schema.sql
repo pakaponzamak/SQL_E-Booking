@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 06, 2023 at 02:53 AM
+-- Generation Time: Oct 02, 2023 at 04:24 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -31,6 +31,13 @@ CREATE TABLE `admin` (
   `username` varchar(30) NOT NULL,
   `password` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`username`, `password`) VALUES
+('admin', 'admin');
 
 -- --------------------------------------------------------
 
@@ -111,7 +118,7 @@ CREATE TABLE `insert_TR` (
   `plant` varchar(50) DEFAULT NULL,
   `online_code` varchar(50) DEFAULT NULL,
   `number` int(11) DEFAULT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -124,6 +131,48 @@ CREATE TABLE `parent_data` (
   `parent_id` int(11) NOT NULL,
   `parent_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `parent_data`
+--
+
+INSERT INTO `parent_data` (`user_id`, `parent_id`, `parent_name`) VALUES
+('10049001', 1, 'User1-M'),
+('10049001', 2, 'User1-F'),
+('10049001', 3, 'User1-C1'),
+('10049001', 4, 'User1-C2'),
+('10049001', 5, 'User1-C3'),
+('10049001', 6, 'User1-S'),
+('10049002', 8, 'User2-M'),
+('10049002', 9, 'User2-F'),
+('10049002', 10, 'User2-C1'),
+('10049002', 11, 'User2-C2'),
+('10049003', 12, 'User3-M'),
+('10049003', 13, 'User3-F'),
+('10049004', 14, 'User4-F'),
+('10049004', 15, 'User4-M'),
+('10049004', 16, 'User4-C1'),
+('10049005', 21, 'User5-C3'),
+('10049005', 22, 'User5-C2'),
+('10049005', 23, 'User5-C1'),
+('10049005', 24, 'User5-M'),
+('10049005', 25, 'User5-F'),
+('10049006', 26, 'User6-F'),
+('10049006', 27, 'User6-M'),
+('10049006', 28, 'User6-C1'),
+('10049007', 29, 'User7-M'),
+('10049007', 30, 'User7-F'),
+('10049008', 31, 'User8-F'),
+('10049008', 32, 'User8-M'),
+('10049008', 33, 'User8-C1'),
+('10049008', 34, 'User8-C2'),
+('10049009', 35, 'User9-M'),
+('10049009', 36, 'User9-F'),
+('100490010', 37, 'User10-F'),
+('100490010', 38, 'User10-M'),
+('100490010', 39, 'User10-C1'),
+('100490010', 40, 'User10-C2'),
+('100490010', 41, 'User10-C3');
 
 -- --------------------------------------------------------
 
@@ -143,7 +192,8 @@ CREATE TABLE `training_course` (
   `userFromPlant` varchar(20) DEFAULT NULL,
   `company` varchar(20) NOT NULL,
   `division` varchar(20) NOT NULL,
-  `department` varchar(20) NOT NULL
+  `department` varchar(20) NOT NULL,
+  `section` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -157,6 +207,23 @@ CREATE TABLE `users` (
   `name` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `name`, `created_at`) VALUES
+('10049001', 'user1', '2023-09-02 02:58:46'),
+('100490010', 'user10', '2023-09-02 02:58:46'),
+('10049002', 'user2', '2023-09-02 03:29:42'),
+('10049003', 'user3', '2023-09-02 02:58:46'),
+('10049004', 'user4', '2023-09-02 02:58:46'),
+('10049005', 'user5', '2023-09-02 02:58:46'),
+('10049006', 'user6', '2023-09-02 02:58:46'),
+('10049007', 'user7', '2023-09-02 02:58:46'),
+('10049008', 'user8', '2023-09-02 02:58:46'),
+('10049009', 'user9', '2023-09-02 02:58:46'),
+('tr111', 'pakapon', '2023-09-02 09:03:04');
 
 --
 -- Indexes for dumped tables
@@ -216,19 +283,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `insert_health_care`
 --
 ALTER TABLE `insert_health_care`
-  MODIFY `health_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `health_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=375;
 
 --
 -- AUTO_INCREMENT for table `insert_TR`
 --
 ALTER TABLE `insert_TR`
-  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `parent_data`
 --
 ALTER TABLE `parent_data`
-  MODIFY `parent_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `parent_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- Constraints for dumped tables
