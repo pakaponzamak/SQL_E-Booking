@@ -2,8 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/health_care/confirmation": "pages/health_care/confirmation.js",
+  "/admin_health/hc_admin_insert": "pages/admin_health/hc_admin_insert.js",
+  "/api/health_admin/hc_insert_api": "pages/api/health_admin/hc_insert_api.js",
+  "/admin_health/hc_admin_list": "pages/admin_health/hc_admin_list.js",
   "/admin_health/hc_admin_users": "pages/admin_health/hc_admin_users.js",
-  "/health_care/more_detail": "pages/health_care/more_detail.js",
-  "/api/parent/parent_by_id": "pages/api/parent/parent_by_id.js",
-  "/": "pages/index.js"
+  "/api/health/health_api": "pages/api/health/health_api.js"
 }

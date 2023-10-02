@@ -12,11 +12,6 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/index.js"
-    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -27,15 +22,25 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/admin_health/hc_admin_insert": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin_health/hc_admin_insert.js"
+    ],
+    "/admin_health/hc_admin_list": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin_health/hc_admin_list.js"
+    ],
     "/admin_health/hc_admin_users": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/admin_health/hc_admin_users.js"
     ],
-    "/health_care/more_detail": [
+    "/health_care/confirmation": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/health_care/more_detail.js"
+      "static/chunks/pages/health_care/confirmation.js"
     ]
   },
   "ampFirstPages": []

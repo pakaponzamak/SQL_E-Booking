@@ -10,7 +10,6 @@ async function executeQuery(query, values) {
     connection.release();
   }
 }
-
 // Now you can use executeQuery to run MySQL queries
 const getCourseCount = async () => {
   const query = `

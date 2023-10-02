@@ -97,7 +97,7 @@ export default function Calendar() {
 
   const helpHandler = () => {
     Swal.fire({
-        title: "เนื้อหายอดนิยม",
+        title: " ช่วยเหลือ",
         html: `
           <b><u>TMC 1:หลักสูตรจัดการเงินพื้นฐาน</u></b> <br>
           <b>วัตถุประสงค์:</b> เพื่อจัดการเงินให้เป็นระเบียบ บริหารสภาพคล่อง จัดการภาระหนี้สิน <br>

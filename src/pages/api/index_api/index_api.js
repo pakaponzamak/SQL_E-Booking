@@ -47,7 +47,7 @@ export default async function health(req,res)
       const user = await checkCredential(employeeId, firstName);
 
       if (user.length === 0) {
-        // No admin data found in the database
+        
         res.status(401).json({ message: "Unauthorized" });
         return;
       }

@@ -87,24 +87,21 @@ export default function DropdownMenu() {
         )}
       </div>
 
-      <div className="mx-20 my-5">
-        <Box sx={{}}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">เลือก Section</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={section}
-              label="เลือก Section"
-              onChange={(e) => setSection(e.target.value)}
-            >
-              <MenuItem value={"Section"}>AR</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-      </div>
+
 
       <div className="text-center">
+      <div>
+          <div></div>
+          <input
+            className=" px-10 py-3 rounded-xl m-1 border"
+            placeholder="Section"
+            type="text"
+            name="division"
+            id="division"
+            required="required"
+            onChange={(e) => setSection(e.target.value)}
+          ></input>
+        </div>
         <div>
           <div></div>
           <input

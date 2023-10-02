@@ -404,7 +404,7 @@ export default function TRusers() {
               .sort((a, b) => (a.checkInTime < b.checkInTime ? 1 : -1))
               .map((user) => (
                 <div
-                  className="grid grid-cols-7 gap-3 mx-5 my-5 "
+                  className="grid grid-cols-6 gap-3 mx-5 my-5 "
                   key={user.health_id}
                 >
                   <div className="col-span-1"><strong>{user.user_id?.toUpperCase()}</strong></div>
