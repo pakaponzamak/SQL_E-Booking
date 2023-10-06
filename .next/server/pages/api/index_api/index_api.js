@@ -1,45 +1,135 @@
 "use strict";
-/*
- * ATTENTION: An "eval-source-map" devtool has been used.
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 (() => {
 var exports = {};
-exports.id = "pages/api/index_api/index_api";
-exports.ids = ["pages/api/index_api/index_api"];
+exports.id = 358;
+exports.ids = [358];
 exports.modules = {
 
-/***/ "mysql2/promise":
-/*!*********************************!*\
-  !*** external "mysql2/promise" ***!
-  \*********************************/
-/***/ ((module) => {
+/***/ 2630:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-module.exports = require("mysql2/promise");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ health)
+/* harmony export */ });
+/* harmony import */ var _server_mySQL__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5754);
+
+// Define a function to execute MySQL queries
+async function executeQuery(query, values) {
+    const connection = await _server_mySQL__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z.getConnection();
+    try {
+        const [rows] = await connection.execute(query, values);
+        return rows;
+    } finally{
+        connection.release();
+    }
+}
+// Define a function to insert a new user into the MySQL database
+async function postUser(user_id, name) {
+    const query = "INSERT INTO users (user_id,name) VALUES (?, ?)";
+    const values = [
+        user_id,
+        name
+    ];
+    try {
+        await executeQuery(query, values);
+    } catch (error) {
+        throw error; // Rethrow the error to handle it in the caller
+    }
+}
+// Now you can use executeQuery to run MySQL queries
+const getUsers = async ()=>{
+    const query = "SELECT * FROM users";
+    const users = await executeQuery(query);
+    return users;
+};
+async function checkCredential(employeeId, firstName) {
+    const query = "SELECT * FROM users WHERE user_id = ? AND name = ?";
+    const user = await executeQuery(query, [
+        employeeId,
+        firstName
+    ]);
+    return user;
+}
+async function health(req, res) {
+    if (req.method === "GET") {
+        const firstName = req.query.firstName;
+        const employeeId = req.query.employeeId;
+        try {
+            const user = await checkCredential(employeeId, firstName);
+            if (user.length === 0) {
+                res.status(401).json({
+                    message: "Unauthorized"
+                });
+                return;
+            }
+            if (user.length === 1) {
+                // user with matching username and password found
+                res.status(200).json({
+                    message: "Login successful"
+                });
+            } else {
+                // More than one matching user found (shouldn't happen with unique usernames)
+                res.status(500).json({
+                    message: "Internal Server Error"
+                });
+            }
+        } catch (error) {
+            res.status(500).json({
+                message: "Internal Server Error",
+                error: error.message
+            });
+        }
+    } else if (req.method === "POST") {
+        // Handle POST request, e.g., insert data into MySQL
+        const { user_id, name } = req.body;
+        try {
+            await postUser(user_id, name);
+            res.status(200).json({
+                message: "Data inserted successfully"
+            });
+        } catch (error) {
+            console.error("Error inserting data:", error);
+            res.status(500).json({
+                error: "Internal Server Error"
+            });
+        }
+    } else {
+        res.status(405).json({
+            message: "This method is not allowed"
+        });
+    }
+}
+
 
 /***/ }),
 
-/***/ "(api)/./src/pages/api/index_api/index_api.js":
-/*!**********************************************!*\
-  !*** ./src/pages/api/index_api/index_api.js ***!
-  \**********************************************/
+/***/ 5754:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ health)\n/* harmony export */ });\n/* harmony import */ var _server_mySQL__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../server/mySQL */ \"(api)/./src/server/mySQL.js\");\n\n// Define a function to execute MySQL queries\nasync function executeQuery(query, values) {\n    const connection = await _server_mySQL__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getConnection();\n    try {\n        const [rows] = await connection.execute(query, values);\n        return rows;\n    } finally{\n        connection.release();\n    }\n}\n// Define a function to insert a new user into the MySQL database\nasync function postUser(user_id, name) {\n    const query = \"INSERT INTO users (user_id,name) VALUES (?, ?)\";\n    const values = [\n        user_id,\n        name\n    ];\n    try {\n        await executeQuery(query, values);\n    } catch (error) {\n        throw error; // Rethrow the error to handle it in the caller\n    }\n}\n// Now you can use executeQuery to run MySQL queries\nconst getUsers = async ()=>{\n    const query = \"SELECT * FROM users\";\n    const users = await executeQuery(query);\n    return users;\n};\nasync function checkCredential(employeeId, firstName) {\n    const query = \"SELECT * FROM users WHERE user_id = ? AND name = ?\";\n    const user = await executeQuery(query, [\n        employeeId,\n        firstName\n    ]);\n    return user;\n}\nasync function health(req, res) {\n    if (req.method === \"GET\") {\n        const firstName = req.query.firstName;\n        const employeeId = req.query.employeeId;\n        try {\n            const user = await checkCredential(employeeId, firstName);\n            if (user.length === 0) {\n                res.status(401).json({\n                    message: \"Unauthorized\"\n                });\n                return;\n            }\n            if (user.length === 1) {\n                // user with matching username and password found\n                res.status(200).json({\n                    message: \"Login successful\"\n                });\n            } else {\n                // More than one matching user found (shouldn't happen with unique usernames)\n                res.status(500).json({\n                    message: \"Internal Server Error\"\n                });\n            }\n        } catch (error) {\n            res.status(500).json({\n                message: \"Internal Server Error\",\n                error: error.message\n            });\n        }\n    } else if (req.method === \"POST\") {\n        // Handle POST request, e.g., insert data into MySQL\n        const { user_id, name } = req.body;\n        try {\n            await postUser(user_id, name);\n            res.status(200).json({\n                message: \"Data inserted successfully\"\n            });\n        } catch (error) {\n            console.error(\"Error inserting data:\", error);\n            res.status(500).json({\n                error: \"Internal Server Error\"\n            });\n        }\n    } else {\n        res.status(405).json({\n            message: \"This method is not allowed\"\n        });\n    }\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9zcmMvcGFnZXMvYXBpL2luZGV4X2FwaS9pbmRleF9hcGkuanMiLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBd0M7QUFHeEMsNkNBQTZDO0FBQzdDLGVBQWVDLGFBQWFDLEtBQUssRUFBRUMsTUFBTTtJQUNyQyxNQUFNQyxhQUFhLE1BQU1KLG1FQUFrQks7SUFDM0MsSUFBSTtRQUNGLE1BQU0sQ0FBQ0MsS0FBSyxHQUFHLE1BQU1GLFdBQVdHLFFBQVFMLE9BQU9DO1FBQy9DLE9BQU9HO0lBQ1QsU0FBVTtRQUNSRixXQUFXSTtJQUNiO0FBQ0Y7QUFFRSxpRUFBaUU7QUFDckUsZUFBZUMsU0FBU0MsT0FBTyxFQUFFQyxJQUFJO0lBQ2pDLE1BQU1ULFFBQ1I7SUFDRSxNQUFNQyxTQUFTO1FBQUNPO1FBQVNDO0tBQUs7SUFDOUIsSUFBSTtRQUNGLE1BQU1WLGFBQWFDLE9BQU9DO0lBQzVCLEVBQUUsT0FBT1MsT0FBTztRQUNkLE1BQU1BLE9BQU8sK0NBQStDO0lBQzlEO0FBQ0Y7QUFDRSxvREFBb0Q7QUFDeEQsTUFBTUMsV0FBVztJQUNiLE1BQU1YLFFBQVE7SUFDZCxNQUFNWSxRQUFRLE1BQU1iLGFBQWFDO0lBQ2pDLE9BQU9ZO0FBQ1Q7QUFJQSxlQUFlQyxnQkFBZ0JDLFVBQVUsRUFBRUMsU0FBUztJQUNsRCxNQUFNZixRQUFRO0lBQ2QsTUFBTWdCLE9BQU8sTUFBTWpCLGFBQWFDLE9BQU87UUFBQ2M7UUFBWUM7S0FBVTtJQUM5RCxPQUFPQztBQUNUO0FBRWEsZUFBZUMsT0FBT0MsR0FBRyxFQUFDQyxHQUFHO0lBRTFDLElBQUlELElBQUlFLFdBQVcsT0FBTztRQUN4QixNQUFNTCxZQUFZRyxJQUFJbEIsTUFBTWU7UUFDNUIsTUFBTUQsYUFBYUksSUFBSWxCLE1BQU1jO1FBQzdCLElBQUk7WUFDRixNQUFNRSxPQUFPLE1BQU1ILGdCQUFnQkMsWUFBWUM7WUFFL0MsSUFBSUMsS0FBS0ssV0FBVyxHQUFHO2dCQUVyQkYsSUFBSUcsT0FBTyxLQUFLQyxLQUFLO29CQUFFQyxTQUFTO2dCQUFlO2dCQUMvQztZQUNGO1lBRUEsSUFBSVIsS0FBS0ssV0FBVyxHQUFHO2dCQUNyQixpREFBaUQ7Z0JBQ2pERixJQUFJRyxPQUFPLEtBQUtDLEtBQUs7b0JBQUVDLFNBQVM7Z0JBQW1CO1lBQ3JELE9BQU87Z0JBQ0wsNkVBQTZFO2dCQUM3RUwsSUFBSUcsT0FBTyxLQUFLQyxLQUFLO29CQUFFQyxTQUFTO2dCQUF3QjtZQUMxRDtRQUNGLEVBQUUsT0FBT2QsT0FBTztZQUNkUyxJQUFJRyxPQUFPLEtBQUtDLEtBQUs7Z0JBQUVDLFNBQVM7Z0JBQXlCZCxPQUFPQSxNQUFNYztZQUFRO1FBQ2hGO0lBQ0YsT0FDTSxJQUFJTixJQUFJRSxXQUFXLFFBQVE7UUFDM0Isb0RBQW9EO1FBQ3BELE1BQU0sRUFBRVosT0FBTyxFQUFFQyxJQUFJLEVBQUUsR0FBR1MsSUFBSU87UUFFOUIsSUFBSTtZQUNGLE1BQU1sQixTQUFTQyxTQUFRQztZQUN2QlUsSUFBSUcsT0FBTyxLQUFLQyxLQUFLO2dCQUFFQyxTQUFTO1lBQTZCO1FBQy9ELEVBQUUsT0FBT2QsT0FBTztZQUNkZ0IsUUFBUWhCLE1BQU0seUJBQXlCQTtZQUN2Q1MsSUFBSUcsT0FBTyxLQUFLQyxLQUFLO2dCQUFFYixPQUFPO1lBQXdCO1FBQ3hEO0lBQ0YsT0FDSztRQUNIUyxJQUFJRyxPQUFPLEtBQUtDLEtBQUs7WUFBRUMsU0FBUztRQUE2QjtJQUMvRDtBQUNOIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vZS1ib29raW5nLy4vc3JjL3BhZ2VzL2FwaS9pbmRleF9hcGkvaW5kZXhfYXBpLmpzP2FmMzMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHBvb2wgZnJvbSAnLi4vLi4vLi4vc2VydmVyL215U1FMJ1xuXG5cbi8vIERlZmluZSBhIGZ1bmN0aW9uIHRvIGV4ZWN1dGUgTXlTUUwgcXVlcmllc1xuYXN5bmMgZnVuY3Rpb24gZXhlY3V0ZVF1ZXJ5KHF1ZXJ5LCB2YWx1ZXMpIHtcbiAgICBjb25zdCBjb25uZWN0aW9uID0gYXdhaXQgcG9vbC5nZXRDb25uZWN0aW9uKCk7XG4gICAgdHJ5IHtcbiAgICAgIGNvbnN0IFtyb3dzXSA9IGF3YWl0IGNvbm5lY3Rpb24uZXhlY3V0ZShxdWVyeSwgdmFsdWVzKTtcbiAgICAgIHJldHVybiByb3dzO1xuICAgIH0gZmluYWxseSB7XG4gICAgICBjb25uZWN0aW9uLnJlbGVhc2UoKTtcbiAgICB9XG4gIH1cblxuICAgIC8vIERlZmluZSBhIGZ1bmN0aW9uIHRvIGluc2VydCBhIG5ldyB1c2VyIGludG8gdGhlIE15U1FMIGRhdGFiYXNlXG5hc3luYyBmdW5jdGlvbiBwb3N0VXNlcih1c2VyX2lkXHQsbmFtZSkge1xuICAgIGNvbnN0IHF1ZXJ5ID1cbiAgJ0lOU0VSVCBJTlRPIHVzZXJzICh1c2VyX2lkLG5hbWUpIFZBTFVFUyAoPywgPyknO1xuICAgIGNvbnN0IHZhbHVlcyA9IFt1c2VyX2lkXHQsbmFtZV07XG4gICAgdHJ5IHtcbiAgICAgIGF3YWl0IGV4ZWN1dGVRdWVyeShxdWVyeSwgdmFsdWVzKTtcbiAgICB9IGNhdGNoIChlcnJvcikge1xuICAgICAgdGhyb3cgZXJyb3I7IC8vIFJldGhyb3cgdGhlIGVycm9yIHRvIGhhbmRsZSBpdCBpbiB0aGUgY2FsbGVyXG4gICAgfVxuICB9XG4gICAgLy8gTm93IHlvdSBjYW4gdXNlIGV4ZWN1dGVRdWVyeSB0byBydW4gTXlTUUwgcXVlcmllc1xuY29uc3QgZ2V0VXNlcnMgPSBhc3luYyAoKSA9PiB7XG4gICAgY29uc3QgcXVlcnkgPSAnU0VMRUNUICogRlJPTSB1c2Vycyc7XG4gICAgY29uc3QgdXNlcnMgPSBhd2FpdCBleGVjdXRlUXVlcnkocXVlcnkpO1xuICAgIHJldHVybiB1c2VycztcbiAgfTtcblxuXG5cbiAgYXN5bmMgZnVuY3Rpb24gY2hlY2tDcmVkZW50aWFsKGVtcGxveWVlSWQsIGZpcnN0TmFtZSkge1xuICAgIGNvbnN0IHF1ZXJ5ID0gXCJTRUxFQ1QgKiBGUk9NIHVzZXJzIFdIRVJFIHVzZXJfaWQgPSA/IEFORCBuYW1lID0gP1wiO1xuICAgIGNvbnN0IHVzZXIgPSBhd2FpdCBleGVjdXRlUXVlcnkocXVlcnksIFtlbXBsb3llZUlkLCBmaXJzdE5hbWVdKTtcbiAgICByZXR1cm4gdXNlcjtcbiAgfVxuXG5leHBvcnQgZGVmYXVsdCBhc3luYyBmdW5jdGlvbiBoZWFsdGgocmVxLHJlcylcbntcbiAgaWYgKHJlcS5tZXRob2QgPT09ICdHRVQnKSB7XG4gICAgY29uc3QgZmlyc3ROYW1lID0gcmVxLnF1ZXJ5LmZpcnN0TmFtZTtcbiAgICBjb25zdCBlbXBsb3llZUlkID0gcmVxLnF1ZXJ5LmVtcGxveWVlSWQ7XG4gICAgdHJ5IHtcbiAgICAgIGNvbnN0IHVzZXIgPSBhd2FpdCBjaGVja0NyZWRlbnRpYWwoZW1wbG95ZWVJZCwgZmlyc3ROYW1lKTtcblxuICAgICAgaWYgKHVzZXIubGVuZ3RoID09PSAwKSB7XG4gICAgICAgIFxuICAgICAgICByZXMuc3RhdHVzKDQwMSkuanNvbih7IG1lc3NhZ2U6IFwiVW5hdXRob3JpemVkXCIgfSk7XG4gICAgICAgIHJldHVybjtcbiAgICAgIH1cblxuICAgICAgaWYgKHVzZXIubGVuZ3RoID09PSAxKSB7XG4gICAgICAgIC8vIHVzZXIgd2l0aCBtYXRjaGluZyB1c2VybmFtZSBhbmQgcGFzc3dvcmQgZm91bmRcbiAgICAgICAgcmVzLnN0YXR1cygyMDApLmpzb24oeyBtZXNzYWdlOiBcIkxvZ2luIHN1Y2Nlc3NmdWxcIiB9KTtcbiAgICAgIH0gZWxzZSB7XG4gICAgICAgIC8vIE1vcmUgdGhhbiBvbmUgbWF0Y2hpbmcgdXNlciBmb3VuZCAoc2hvdWxkbid0IGhhcHBlbiB3aXRoIHVuaXF1ZSB1c2VybmFtZXMpXG4gICAgICAgIHJlcy5zdGF0dXMoNTAwKS5qc29uKHsgbWVzc2FnZTogXCJJbnRlcm5hbCBTZXJ2ZXIgRXJyb3JcIiB9KTtcbiAgICAgIH1cbiAgICB9IGNhdGNoIChlcnJvcikge1xuICAgICAgcmVzLnN0YXR1cyg1MDApLmpzb24oeyBtZXNzYWdlOiBcIkludGVybmFsIFNlcnZlciBFcnJvclwiLCBlcnJvcjogZXJyb3IubWVzc2FnZSB9KTtcbiAgICB9XG4gIH1cbiAgIGVsc2UgaWYgKHJlcS5tZXRob2QgPT09ICdQT1NUJykge1xuICAgICAgICAvLyBIYW5kbGUgUE9TVCByZXF1ZXN0LCBlLmcuLCBpbnNlcnQgZGF0YSBpbnRvIE15U1FMXG4gICAgICAgIGNvbnN0IHsgdXNlcl9pZFx0LG5hbWUgfSA9IHJlcS5ib2R5O1xuICAgICAgXG4gICAgICAgIHRyeSB7XG4gICAgICAgICAgYXdhaXQgcG9zdFVzZXIodXNlcl9pZCxuYW1lKTtcbiAgICAgICAgICByZXMuc3RhdHVzKDIwMCkuanNvbih7IG1lc3NhZ2U6ICdEYXRhIGluc2VydGVkIHN1Y2Nlc3NmdWxseScgfSk7XG4gICAgICAgIH0gY2F0Y2ggKGVycm9yKSB7XG4gICAgICAgICAgY29uc29sZS5lcnJvcignRXJyb3IgaW5zZXJ0aW5nIGRhdGE6JywgZXJyb3IpO1xuICAgICAgICAgIHJlcy5zdGF0dXMoNTAwKS5qc29uKHsgZXJyb3I6ICdJbnRlcm5hbCBTZXJ2ZXIgRXJyb3InIH0pO1xuICAgICAgICB9XG4gICAgICB9XG4gICAgICBlbHNlIHtcbiAgICAgICAgcmVzLnN0YXR1cyg0MDUpLmpzb24oeyBtZXNzYWdlOiBcIlRoaXMgbWV0aG9kIGlzIG5vdCBhbGxvd2VkXCIgfSk7XG4gICAgICB9XG59Il0sIm5hbWVzIjpbInBvb2wiLCJleGVjdXRlUXVlcnkiLCJxdWVyeSIsInZhbHVlcyIsImNvbm5lY3Rpb24iLCJnZXRDb25uZWN0aW9uIiwicm93cyIsImV4ZWN1dGUiLCJyZWxlYXNlIiwicG9zdFVzZXIiLCJ1c2VyX2lkIiwibmFtZSIsImVycm9yIiwiZ2V0VXNlcnMiLCJ1c2VycyIsImNoZWNrQ3JlZGVudGlhbCIsImVtcGxveWVlSWQiLCJmaXJzdE5hbWUiLCJ1c2VyIiwiaGVhbHRoIiwicmVxIiwicmVzIiwibWV0aG9kIiwibGVuZ3RoIiwic3RhdHVzIiwianNvbiIsIm1lc3NhZ2UiLCJib2R5IiwiY29uc29sZSJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(api)/./src/pages/api/index_api/index_api.js\n");
 
-/***/ }),
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  Z: () => (/* binding */ mySQL)
+});
 
-/***/ "(api)/./src/server/mySQL.js":
-/*!*****************************!*\
-  !*** ./src/server/mySQL.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+;// CONCATENATED MODULE: external "mysql2/promise"
+const promise_namespaceObject = require("mysql2/promise");
+var promise_default = /*#__PURE__*/__webpack_require__.n(promise_namespaceObject);
+;// CONCATENATED MODULE: ./src/server/mySQL.js
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var mysql2_promise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mysql2/promise */ \"mysql2/promise\");\n/* harmony import */ var mysql2_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mysql2_promise__WEBPACK_IMPORTED_MODULE_0__);\n\n// Create a MySQL connection pool\nconst pool = mysql2_promise__WEBPACK_IMPORTED_MODULE_0___default().createPool({\n    host: \"localhost\",\n    user: \"root\",\n    password: \"\",\n    database: \"Test_Booking\",\n    waitForConnections: true,\n    connectionLimit: 500,\n    queueLimit: 0\n});\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (pool);\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9zcmMvc2VydmVyL215U1FMLmpzIiwibWFwcGluZ3MiOiI7Ozs7OztBQUFtQztBQUVuQyxpQ0FBaUM7QUFDakMsTUFBTUMsT0FBT0QsZ0VBQWdCRSxDQUFDO0lBQzVCQyxNQUFNO0lBQ05DLE1BQU07SUFDTkMsVUFBVTtJQUNWQyxVQUFVO0lBQ1ZDLG9CQUFvQjtJQUNwQkMsaUJBQWlCO0lBQ2pCQyxZQUFZO0FBQ2Q7QUFFQSxpRUFBZVIsSUFBSUEsRUFBQyIsInNvdXJjZXMiOlsid2VicGFjazovL2UtYm9va2luZy8uL3NyYy9zZXJ2ZXIvbXlTUUwuanM/YTRiYiJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgbXlzcWwgZnJvbSAnbXlzcWwyL3Byb21pc2UnO1xuXG4vLyBDcmVhdGUgYSBNeVNRTCBjb25uZWN0aW9uIHBvb2xcbmNvbnN0IHBvb2wgPSBteXNxbC5jcmVhdGVQb29sKHtcbiAgaG9zdDogJ2xvY2FsaG9zdCcsXG4gIHVzZXI6ICdyb290JyxcbiAgcGFzc3dvcmQ6ICcnLFxuICBkYXRhYmFzZTogJ1Rlc3RfQm9va2luZycsXG4gIHdhaXRGb3JDb25uZWN0aW9uczogdHJ1ZSxcbiAgY29ubmVjdGlvbkxpbWl0OiA1MDAsXG4gIHF1ZXVlTGltaXQ6IDAsXG59KTtcblxuZXhwb3J0IGRlZmF1bHQgcG9vbDsiXSwibmFtZXMiOlsibXlzcWwiLCJwb29sIiwiY3JlYXRlUG9vbCIsImhvc3QiLCJ1c2VyIiwicGFzc3dvcmQiLCJkYXRhYmFzZSIsIndhaXRGb3JDb25uZWN0aW9ucyIsImNvbm5lY3Rpb25MaW1pdCIsInF1ZXVlTGltaXQiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(api)/./src/server/mySQL.js\n");
+// Create a MySQL connection pool
+const pool = promise_default().createPool({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "Test_Booking",
+    waitForConnections: true,
+    connectionLimit: 500,
+    queueLimit: 0
+});
+/* harmony default export */ const mySQL = (pool);
+
 
 /***/ })
 
@@ -50,7 +140,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 var __webpack_require__ = require("../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = (__webpack_exec__("(api)/./src/pages/api/index_api/index_api.js"));
+var __webpack_exports__ = (__webpack_exec__(2630));
 module.exports = __webpack_exports__;
 
 })();

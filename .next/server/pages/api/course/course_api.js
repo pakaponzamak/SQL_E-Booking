@@ -1,45 +1,149 @@
 "use strict";
-/*
- * ATTENTION: An "eval-source-map" devtool has been used.
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 (() => {
 var exports = {};
-exports.id = "pages/api/course/course_api";
-exports.ids = ["pages/api/course/course_api"];
+exports.id = 641;
+exports.ids = [641];
 exports.modules = {
 
-/***/ "mysql2/promise":
-/*!*********************************!*\
-  !*** external "mysql2/promise" ***!
-  \*********************************/
-/***/ ((module) => {
+/***/ 4870:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-module.exports = require("mysql2/promise");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ course)
+/* harmony export */ });
+/* harmony import */ var _server_mySQL__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5754);
+
+// Define a function to execute MySQL queries
+async function executeQuery(query, values) {
+    const connection = await _server_mySQL__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z.getConnection();
+    try {
+        const [rows] = await connection.execute(query, values);
+        return rows;
+    } finally{
+        connection.release();
+    }
+}
+// Now you can use executeQuery to run MySQL queries
+const getCourses = async ()=>{
+    const query = "SELECT * FROM training_course";
+    const courses = await executeQuery(query);
+    return courses;
+};
+// Define a function to insert a new user into the MySQL database
+async function postCourse(course_id, user_id, name, time_selected, course, plant, date, hall, company, division, department, userFromPlant) {
+    const query = "INSERT INTO training_course (course_id,user_id,name,time_selected,course,plant,date,hall,company,division,department,userFromPlant) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+    const values = [
+        course_id,
+        user_id,
+        name,
+        time_selected,
+        course,
+        plant,
+        date,
+        hall,
+        company,
+        division,
+        department,
+        userFromPlant
+    ];
+    try {
+        await executeQuery(query, values);
+    } catch (error) {
+        throw error; // Rethrow the error to handle it in the caller
+    }
+}
+async function deleteUser(course_id, user_id) {
+    const query = "DELETE FROM training_course WHERE course_id = ? AND user_id = ?";
+    const values = [
+        course_id,
+        user_id
+    ];
+    try {
+        await executeQuery(query, values);
+    } catch (error) {
+        throw error;
+    }
+}
+async function course(req, res) {
+    if (req.method === "GET") {
+        // Handle GET request, e.g., fetch data from MySQL
+        const courses = await getCourses();
+        res.status(200).json(courses);
+    } else if (req.method === "POST") {
+        // Handle POST request, e.g., insert data into MySQL
+        const { course_id, user_id, name, time_selected, course, plant, date, hall, company, division, department, userFromPlant } = req.body;
+        try {
+            await postCourse(course_id, user_id, name, time_selected, course, plant, date, hall, company, division, department, userFromPlant);
+            res.status(200).json({
+                message: "Data inserted successfully"
+            });
+        } catch (error) {
+            console.error("Error inserting data:", error);
+            res.status(500).json({
+                error: "Internal Server Error"
+            });
+        }
+    } else if (req.method === "PUT") {
+        const { course_id, user_id, name, time_selected, course, plant, date, hall } = req.body;
+        try {
+            res.status(200).json({
+                message: "Data inserted successfully"
+            });
+        } catch  {
+            res.status(500).json({
+                error: "Internal Server Error"
+            });
+        }
+    } else if (req.method === "DELETE") {
+        const course_id = req.query.course_id;
+        const user_id = req.query.user_id;
+        try {
+            await deleteUser(course_id, user_id);
+            res.status(200).json({
+                message: "Data inserted successfully"
+            });
+        } catch (error) {
+            res.status(500).json({
+                error: "Internal Server Error"
+            });
+        }
+    } else {
+        res.status(405).json({
+            message: "This method is not allowed"
+        });
+    }
+}
+
 
 /***/ }),
 
-/***/ "(api)/./src/pages/api/course/course_api.js":
-/*!********************************************!*\
-  !*** ./src/pages/api/course/course_api.js ***!
-  \********************************************/
+/***/ 5754:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ course)\n/* harmony export */ });\n/* harmony import */ var _server_mySQL__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../server/mySQL */ \"(api)/./src/server/mySQL.js\");\n\n// Define a function to execute MySQL queries\nasync function executeQuery(query, values) {\n    const connection = await _server_mySQL__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getConnection();\n    try {\n        const [rows] = await connection.execute(query, values);\n        return rows;\n    } finally{\n        connection.release();\n    }\n}\n// Now you can use executeQuery to run MySQL queries\nconst getCourses = async ()=>{\n    const query = \"SELECT * FROM training_course\";\n    const courses = await executeQuery(query);\n    return courses;\n};\n// Define a function to insert a new user into the MySQL database\nasync function postCourse(course_id, user_id, name, time_selected, course, plant, date, hall, company, division, department, userFromPlant) {\n    const query = \"INSERT INTO training_course (course_id,user_id,name,time_selected,course,plant,date,hall,company,division,department,userFromPlant) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)\";\n    const values = [\n        course_id,\n        user_id,\n        name,\n        time_selected,\n        course,\n        plant,\n        date,\n        hall,\n        company,\n        division,\n        department,\n        userFromPlant\n    ];\n    try {\n        await executeQuery(query, values);\n    } catch (error) {\n        throw error; // Rethrow the error to handle it in the caller\n    }\n}\nasync function deleteUser(course_id, user_id) {\n    const query = \"DELETE FROM training_course WHERE course_id = ? AND user_id = ?\";\n    const values = [\n        course_id,\n        user_id\n    ];\n    try {\n        await executeQuery(query, values);\n    } catch (error) {\n        throw error;\n    }\n}\nasync function course(req, res) {\n    if (req.method === \"GET\") {\n        // Handle GET request, e.g., fetch data from MySQL\n        const courses = await getCourses();\n        res.status(200).json(courses);\n    } else if (req.method === \"POST\") {\n        // Handle POST request, e.g., insert data into MySQL\n        const { course_id, user_id, name, time_selected, course, plant, date, hall, company, division, department, userFromPlant } = req.body;\n        try {\n            await postCourse(course_id, user_id, name, time_selected, course, plant, date, hall, company, division, department, userFromPlant);\n            res.status(200).json({\n                message: \"Data inserted successfully\"\n            });\n        } catch (error) {\n            console.error(\"Error inserting data:\", error);\n            res.status(500).json({\n                error: \"Internal Server Error\"\n            });\n        }\n    } else if (req.method === \"PUT\") {\n        const { course_id, user_id, name, time_selected, course, plant, date, hall } = req.body;\n        try {\n            res.status(200).json({\n                message: \"Data inserted successfully\"\n            });\n        } catch  {\n            res.status(500).json({\n                error: \"Internal Server Error\"\n            });\n        }\n    } else if (req.method === \"DELETE\") {\n        const course_id = req.query.course_id;\n        const user_id = req.query.user_id;\n        try {\n            await deleteUser(course_id, user_id);\n            res.status(200).json({\n                message: \"Data inserted successfully\"\n            });\n        } catch (error) {\n            res.status(500).json({\n                error: \"Internal Server Error\"\n            });\n        }\n    } else {\n        res.status(405).json({\n            message: \"This method is not allowed\"\n        });\n    }\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9zcmMvcGFnZXMvYXBpL2NvdXJzZS9jb3Vyc2VfYXBpLmpzIiwibWFwcGluZ3MiOiI7Ozs7O0FBQXlDO0FBRXpDLDZDQUE2QztBQUM3QyxlQUFlQyxhQUFhQyxLQUFLLEVBQUVDLE1BQU07SUFDdkMsTUFBTUMsYUFBYSxNQUFNSixtRUFBa0JLO0lBQzNDLElBQUk7UUFDRixNQUFNLENBQUNDLEtBQUssR0FBRyxNQUFNRixXQUFXRyxRQUFRTCxPQUFPQztRQUMvQyxPQUFPRztJQUNULFNBQVU7UUFDUkYsV0FBV0k7SUFDYjtBQUNGO0FBRUEsb0RBQW9EO0FBQ3BELE1BQU1DLGFBQWE7SUFDakIsTUFBTVAsUUFBUTtJQUNkLE1BQU1RLFVBQVUsTUFBTVQsYUFBYUM7SUFDbkMsT0FBT1E7QUFDVDtBQUVBLGlFQUFpRTtBQUNqRSxlQUFlQyxXQUNiQyxTQUFTLEVBQ1RDLE9BQU8sRUFDUEMsSUFBSSxFQUNKQyxhQUFhLEVBQ2JDLE1BQU0sRUFDTkMsS0FBSyxFQUNMQyxJQUFJLEVBQ0pDLElBQUksRUFDSkMsT0FBTyxFQUNQQyxRQUFRLEVBQ1JDLFVBQVUsRUFDVkMsYUFBYTtJQUViLE1BQU1yQixRQUNKO0lBQ0YsTUFBTUMsU0FBUztRQUNiUztRQUNBQztRQUNBQztRQUNBQztRQUNBQztRQUNBQztRQUNBQztRQUNBQztRQUNBQztRQUNBQztRQUNBQztRQUNBQztLQUNEO0lBQ0QsSUFBSTtRQUNGLE1BQU10QixhQUFhQyxPQUFPQztJQUM1QixFQUFFLE9BQU9xQixPQUFPO1FBQ2QsTUFBTUEsT0FBTywrQ0FBK0M7SUFDOUQ7QUFDRjtBQUVBLGVBQWVDLFdBQVdiLFNBQVMsRUFBRUMsT0FBTztJQUMxQyxNQUFNWCxRQUNKO0lBQ0YsTUFBTUMsU0FBUztRQUFDUztRQUFXQztLQUFRO0lBQ25DLElBQUk7UUFDRixNQUFNWixhQUFhQyxPQUFPQztJQUM1QixFQUFFLE9BQU9xQixPQUFPO1FBQ2QsTUFBTUE7SUFDUjtBQUNGO0FBRWUsZUFBZVIsT0FBT1UsR0FBRyxFQUFFQyxHQUFHO0lBQzNDLElBQUlELElBQUlFLFdBQVcsT0FBTztRQUN4QixrREFBa0Q7UUFDbEQsTUFBTWxCLFVBQVUsTUFBTUQ7UUFDdEJrQixJQUFJRSxPQUFPLEtBQUtDLEtBQUtwQjtJQUN2QixPQUFPLElBQUlnQixJQUFJRSxXQUFXLFFBQVE7UUFDaEMsb0RBQW9EO1FBQ3BELE1BQU0sRUFDSmhCLFNBQVMsRUFDVEMsT0FBTyxFQUNQQyxJQUFJLEVBQ0pDLGFBQWEsRUFDYkMsTUFBTSxFQUNOQyxLQUFLLEVBQ0xDLElBQUksRUFDSkMsSUFBSSxFQUNKQyxPQUFPLEVBQ1BDLFFBQVEsRUFDUkMsVUFBVSxFQUNWQyxhQUFhLEVBQ2QsR0FBR0csSUFBSUs7UUFFUixJQUFJO1lBQ0YsTUFBTXBCLFdBQ0pDLFdBQ0FDLFNBQ0FDLE1BQ0FDLGVBQ0FDLFFBQ0FDLE9BQ0FDLE1BQ0FDLE1BQ0FDLFNBQ0FDLFVBQ0FDLFlBQ0FDO1lBRUZJLElBQUlFLE9BQU8sS0FBS0MsS0FBSztnQkFBRUUsU0FBUztZQUE2QjtRQUMvRCxFQUFFLE9BQU9SLE9BQU87WUFDZFMsUUFBUVQsTUFBTSx5QkFBeUJBO1lBQ3ZDRyxJQUFJRSxPQUFPLEtBQUtDLEtBQUs7Z0JBQUVOLE9BQU87WUFBd0I7UUFDeEQ7SUFDRixPQUFPLElBQUlFLElBQUlFLFdBQVcsT0FBTztRQUMvQixNQUFNLEVBQ0poQixTQUFTLEVBQ1RDLE9BQU8sRUFDUEMsSUFBSSxFQUNKQyxhQUFhLEVBQ2JDLE1BQU0sRUFDTkMsS0FBSyxFQUNMQyxJQUFJLEVBQ0pDLElBQUksRUFDTCxHQUFHTyxJQUFJSztRQUNSLElBQUk7WUFDRkosSUFBSUUsT0FBTyxLQUFLQyxLQUFLO2dCQUFFRSxTQUFTO1lBQTZCO1FBQy9ELEVBQUUsT0FBTTtZQUNOTCxJQUFJRSxPQUFPLEtBQUtDLEtBQUs7Z0JBQUVOLE9BQU87WUFBd0I7UUFDeEQ7SUFDRixPQUFPLElBQUlFLElBQUlFLFdBQVcsVUFBVTtRQUNsQyxNQUFNaEIsWUFBWWMsSUFBSXhCLE1BQU1VO1FBQzVCLE1BQU1DLFVBQVVhLElBQUl4QixNQUFNVztRQUMxQixJQUFJO1lBQ0YsTUFBTVksV0FBV2IsV0FBV0M7WUFDNUJjLElBQUlFLE9BQU8sS0FBS0MsS0FBSztnQkFBRUUsU0FBUztZQUE2QjtRQUMvRCxFQUFFLE9BQU9SLE9BQU87WUFDZEcsSUFBSUUsT0FBTyxLQUFLQyxLQUFLO2dCQUFFTixPQUFPO1lBQXdCO1FBQ3hEO0lBQ0YsT0FBTztRQUNMRyxJQUFJRSxPQUFPLEtBQUtDLEtBQUs7WUFBRUUsU0FBUztRQUE2QjtJQUMvRDtBQUNGIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vZS1ib29raW5nLy4vc3JjL3BhZ2VzL2FwaS9jb3Vyc2UvY291cnNlX2FwaS5qcz9hZDIxIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBwb29sIGZyb20gXCIuLi8uLi8uLi9zZXJ2ZXIvbXlTUUxcIjtcblxuLy8gRGVmaW5lIGEgZnVuY3Rpb24gdG8gZXhlY3V0ZSBNeVNRTCBxdWVyaWVzXG5hc3luYyBmdW5jdGlvbiBleGVjdXRlUXVlcnkocXVlcnksIHZhbHVlcykge1xuICBjb25zdCBjb25uZWN0aW9uID0gYXdhaXQgcG9vbC5nZXRDb25uZWN0aW9uKCk7XG4gIHRyeSB7XG4gICAgY29uc3QgW3Jvd3NdID0gYXdhaXQgY29ubmVjdGlvbi5leGVjdXRlKHF1ZXJ5LCB2YWx1ZXMpO1xuICAgIHJldHVybiByb3dzO1xuICB9IGZpbmFsbHkge1xuICAgIGNvbm5lY3Rpb24ucmVsZWFzZSgpO1xuICB9XG59XG5cbi8vIE5vdyB5b3UgY2FuIHVzZSBleGVjdXRlUXVlcnkgdG8gcnVuIE15U1FMIHF1ZXJpZXNcbmNvbnN0IGdldENvdXJzZXMgPSBhc3luYyAoKSA9PiB7XG4gIGNvbnN0IHF1ZXJ5ID0gXCJTRUxFQ1QgKiBGUk9NIHRyYWluaW5nX2NvdXJzZVwiO1xuICBjb25zdCBjb3Vyc2VzID0gYXdhaXQgZXhlY3V0ZVF1ZXJ5KHF1ZXJ5KTtcbiAgcmV0dXJuIGNvdXJzZXM7XG59O1xuXG4vLyBEZWZpbmUgYSBmdW5jdGlvbiB0byBpbnNlcnQgYSBuZXcgdXNlciBpbnRvIHRoZSBNeVNRTCBkYXRhYmFzZVxuYXN5bmMgZnVuY3Rpb24gcG9zdENvdXJzZShcbiAgY291cnNlX2lkLFxuICB1c2VyX2lkLFxuICBuYW1lLFxuICB0aW1lX3NlbGVjdGVkLFxuICBjb3Vyc2UsXG4gIHBsYW50LFxuICBkYXRlLFxuICBoYWxsLFxuICBjb21wYW55LFxuICBkaXZpc2lvbixcbiAgZGVwYXJ0bWVudCxcbiAgdXNlckZyb21QbGFudFxuKSB7XG4gIGNvbnN0IHF1ZXJ5ID1cbiAgICBcIklOU0VSVCBJTlRPIHRyYWluaW5nX2NvdXJzZSAoY291cnNlX2lkLHVzZXJfaWQsbmFtZSx0aW1lX3NlbGVjdGVkLGNvdXJzZSxwbGFudCxkYXRlLGhhbGwsY29tcGFueSxkaXZpc2lvbixkZXBhcnRtZW50LHVzZXJGcm9tUGxhbnQpIFZBTFVFUyAoPyw/LD8sPyw/LD8sPyw/LD8sPyw/LD8pXCI7XG4gIGNvbnN0IHZhbHVlcyA9IFtcbiAgICBjb3Vyc2VfaWQsXG4gICAgdXNlcl9pZCxcbiAgICBuYW1lLFxuICAgIHRpbWVfc2VsZWN0ZWQsXG4gICAgY291cnNlLFxuICAgIHBsYW50LFxuICAgIGRhdGUsXG4gICAgaGFsbCxcbiAgICBjb21wYW55LFxuICAgIGRpdmlzaW9uLFxuICAgIGRlcGFydG1lbnQsXG4gICAgdXNlckZyb21QbGFudCxcbiAgXTtcbiAgdHJ5IHtcbiAgICBhd2FpdCBleGVjdXRlUXVlcnkocXVlcnksIHZhbHVlcyk7XG4gIH0gY2F0Y2ggKGVycm9yKSB7XG4gICAgdGhyb3cgZXJyb3I7IC8vIFJldGhyb3cgdGhlIGVycm9yIHRvIGhhbmRsZSBpdCBpbiB0aGUgY2FsbGVyXG4gIH1cbn1cblxuYXN5bmMgZnVuY3Rpb24gZGVsZXRlVXNlcihjb3Vyc2VfaWQsIHVzZXJfaWQpIHtcbiAgY29uc3QgcXVlcnkgPVxuICAgIFwiREVMRVRFIEZST00gdHJhaW5pbmdfY291cnNlIFdIRVJFIGNvdXJzZV9pZCA9ID8gQU5EIHVzZXJfaWQgPSA/XCI7XG4gIGNvbnN0IHZhbHVlcyA9IFtjb3Vyc2VfaWQsIHVzZXJfaWRdO1xuICB0cnkge1xuICAgIGF3YWl0IGV4ZWN1dGVRdWVyeShxdWVyeSwgdmFsdWVzKTtcbiAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICB0aHJvdyBlcnJvcjtcbiAgfVxufVxuXG5leHBvcnQgZGVmYXVsdCBhc3luYyBmdW5jdGlvbiBjb3Vyc2UocmVxLCByZXMpIHtcbiAgaWYgKHJlcS5tZXRob2QgPT09IFwiR0VUXCIpIHtcbiAgICAvLyBIYW5kbGUgR0VUIHJlcXVlc3QsIGUuZy4sIGZldGNoIGRhdGEgZnJvbSBNeVNRTFxuICAgIGNvbnN0IGNvdXJzZXMgPSBhd2FpdCBnZXRDb3Vyc2VzKCk7XG4gICAgcmVzLnN0YXR1cygyMDApLmpzb24oY291cnNlcyk7XG4gIH0gZWxzZSBpZiAocmVxLm1ldGhvZCA9PT0gXCJQT1NUXCIpIHtcbiAgICAvLyBIYW5kbGUgUE9TVCByZXF1ZXN0LCBlLmcuLCBpbnNlcnQgZGF0YSBpbnRvIE15U1FMXG4gICAgY29uc3Qge1xuICAgICAgY291cnNlX2lkLFxuICAgICAgdXNlcl9pZCxcbiAgICAgIG5hbWUsXG4gICAgICB0aW1lX3NlbGVjdGVkLFxuICAgICAgY291cnNlLFxuICAgICAgcGxhbnQsXG4gICAgICBkYXRlLFxuICAgICAgaGFsbCxcbiAgICAgIGNvbXBhbnksXG4gICAgICBkaXZpc2lvbixcbiAgICAgIGRlcGFydG1lbnQsXG4gICAgICB1c2VyRnJvbVBsYW50LFxuICAgIH0gPSByZXEuYm9keTtcblxuICAgIHRyeSB7XG4gICAgICBhd2FpdCBwb3N0Q291cnNlKFxuICAgICAgICBjb3Vyc2VfaWQsXG4gICAgICAgIHVzZXJfaWQsXG4gICAgICAgIG5hbWUsXG4gICAgICAgIHRpbWVfc2VsZWN0ZWQsXG4gICAgICAgIGNvdXJzZSxcbiAgICAgICAgcGxhbnQsXG4gICAgICAgIGRhdGUsXG4gICAgICAgIGhhbGwsXG4gICAgICAgIGNvbXBhbnksXG4gICAgICAgIGRpdmlzaW9uLFxuICAgICAgICBkZXBhcnRtZW50LFxuICAgICAgICB1c2VyRnJvbVBsYW50XG4gICAgICApO1xuICAgICAgcmVzLnN0YXR1cygyMDApLmpzb24oeyBtZXNzYWdlOiBcIkRhdGEgaW5zZXJ0ZWQgc3VjY2Vzc2Z1bGx5XCIgfSk7XG4gICAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICAgIGNvbnNvbGUuZXJyb3IoXCJFcnJvciBpbnNlcnRpbmcgZGF0YTpcIiwgZXJyb3IpO1xuICAgICAgcmVzLnN0YXR1cyg1MDApLmpzb24oeyBlcnJvcjogXCJJbnRlcm5hbCBTZXJ2ZXIgRXJyb3JcIiB9KTtcbiAgICB9XG4gIH0gZWxzZSBpZiAocmVxLm1ldGhvZCA9PT0gXCJQVVRcIikge1xuICAgIGNvbnN0IHtcbiAgICAgIGNvdXJzZV9pZCxcbiAgICAgIHVzZXJfaWQsXG4gICAgICBuYW1lLFxuICAgICAgdGltZV9zZWxlY3RlZCxcbiAgICAgIGNvdXJzZSxcbiAgICAgIHBsYW50LFxuICAgICAgZGF0ZSxcbiAgICAgIGhhbGwsXG4gICAgfSA9IHJlcS5ib2R5O1xuICAgIHRyeSB7XG4gICAgICByZXMuc3RhdHVzKDIwMCkuanNvbih7IG1lc3NhZ2U6IFwiRGF0YSBpbnNlcnRlZCBzdWNjZXNzZnVsbHlcIiB9KTtcbiAgICB9IGNhdGNoIHtcbiAgICAgIHJlcy5zdGF0dXMoNTAwKS5qc29uKHsgZXJyb3I6IFwiSW50ZXJuYWwgU2VydmVyIEVycm9yXCIgfSk7XG4gICAgfVxuICB9IGVsc2UgaWYgKHJlcS5tZXRob2QgPT09IFwiREVMRVRFXCIpIHtcbiAgICBjb25zdCBjb3Vyc2VfaWQgPSByZXEucXVlcnkuY291cnNlX2lkO1xuICAgIGNvbnN0IHVzZXJfaWQgPSByZXEucXVlcnkudXNlcl9pZDtcbiAgICB0cnkge1xuICAgICAgYXdhaXQgZGVsZXRlVXNlcihjb3Vyc2VfaWQsIHVzZXJfaWQpO1xuICAgICAgcmVzLnN0YXR1cygyMDApLmpzb24oeyBtZXNzYWdlOiBcIkRhdGEgaW5zZXJ0ZWQgc3VjY2Vzc2Z1bGx5XCIgfSk7XG4gICAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICAgIHJlcy5zdGF0dXMoNTAwKS5qc29uKHsgZXJyb3I6IFwiSW50ZXJuYWwgU2VydmVyIEVycm9yXCIgfSk7XG4gICAgfVxuICB9IGVsc2Uge1xuICAgIHJlcy5zdGF0dXMoNDA1KS5qc29uKHsgbWVzc2FnZTogXCJUaGlzIG1ldGhvZCBpcyBub3QgYWxsb3dlZFwiIH0pO1xuICB9XG59XG4iXSwibmFtZXMiOlsicG9vbCIsImV4ZWN1dGVRdWVyeSIsInF1ZXJ5IiwidmFsdWVzIiwiY29ubmVjdGlvbiIsImdldENvbm5lY3Rpb24iLCJyb3dzIiwiZXhlY3V0ZSIsInJlbGVhc2UiLCJnZXRDb3Vyc2VzIiwiY291cnNlcyIsInBvc3RDb3Vyc2UiLCJjb3Vyc2VfaWQiLCJ1c2VyX2lkIiwibmFtZSIsInRpbWVfc2VsZWN0ZWQiLCJjb3Vyc2UiLCJwbGFudCIsImRhdGUiLCJoYWxsIiwiY29tcGFueSIsImRpdmlzaW9uIiwiZGVwYXJ0bWVudCIsInVzZXJGcm9tUGxhbnQiLCJlcnJvciIsImRlbGV0ZVVzZXIiLCJyZXEiLCJyZXMiLCJtZXRob2QiLCJzdGF0dXMiLCJqc29uIiwiYm9keSIsIm1lc3NhZ2UiLCJjb25zb2xlIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(api)/./src/pages/api/course/course_api.js\n");
 
-/***/ }),
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  Z: () => (/* binding */ mySQL)
+});
 
-/***/ "(api)/./src/server/mySQL.js":
-/*!*****************************!*\
-  !*** ./src/server/mySQL.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+;// CONCATENATED MODULE: external "mysql2/promise"
+const promise_namespaceObject = require("mysql2/promise");
+var promise_default = /*#__PURE__*/__webpack_require__.n(promise_namespaceObject);
+;// CONCATENATED MODULE: ./src/server/mySQL.js
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var mysql2_promise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mysql2/promise */ \"mysql2/promise\");\n/* harmony import */ var mysql2_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mysql2_promise__WEBPACK_IMPORTED_MODULE_0__);\n\n// Create a MySQL connection pool\nconst pool = mysql2_promise__WEBPACK_IMPORTED_MODULE_0___default().createPool({\n    host: \"localhost\",\n    user: \"root\",\n    password: \"\",\n    database: \"Test_Booking\",\n    waitForConnections: true,\n    connectionLimit: 500,\n    queueLimit: 0\n});\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (pool);\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9zcmMvc2VydmVyL215U1FMLmpzIiwibWFwcGluZ3MiOiI7Ozs7OztBQUFtQztBQUVuQyxpQ0FBaUM7QUFDakMsTUFBTUMsT0FBT0QsZ0VBQWdCRSxDQUFDO0lBQzVCQyxNQUFNO0lBQ05DLE1BQU07SUFDTkMsVUFBVTtJQUNWQyxVQUFVO0lBQ1ZDLG9CQUFvQjtJQUNwQkMsaUJBQWlCO0lBQ2pCQyxZQUFZO0FBQ2Q7QUFFQSxpRUFBZVIsSUFBSUEsRUFBQyIsInNvdXJjZXMiOlsid2VicGFjazovL2UtYm9va2luZy8uL3NyYy9zZXJ2ZXIvbXlTUUwuanM/YTRiYiJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgbXlzcWwgZnJvbSAnbXlzcWwyL3Byb21pc2UnO1xuXG4vLyBDcmVhdGUgYSBNeVNRTCBjb25uZWN0aW9uIHBvb2xcbmNvbnN0IHBvb2wgPSBteXNxbC5jcmVhdGVQb29sKHtcbiAgaG9zdDogJ2xvY2FsaG9zdCcsXG4gIHVzZXI6ICdyb290JyxcbiAgcGFzc3dvcmQ6ICcnLFxuICBkYXRhYmFzZTogJ1Rlc3RfQm9va2luZycsXG4gIHdhaXRGb3JDb25uZWN0aW9uczogdHJ1ZSxcbiAgY29ubmVjdGlvbkxpbWl0OiA1MDAsXG4gIHF1ZXVlTGltaXQ6IDAsXG59KTtcblxuZXhwb3J0IGRlZmF1bHQgcG9vbDsiXSwibmFtZXMiOlsibXlzcWwiLCJwb29sIiwiY3JlYXRlUG9vbCIsImhvc3QiLCJ1c2VyIiwicGFzc3dvcmQiLCJkYXRhYmFzZSIsIndhaXRGb3JDb25uZWN0aW9ucyIsImNvbm5lY3Rpb25MaW1pdCIsInF1ZXVlTGltaXQiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(api)/./src/server/mySQL.js\n");
+// Create a MySQL connection pool
+const pool = promise_default().createPool({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "Test_Booking",
+    waitForConnections: true,
+    connectionLimit: 500,
+    queueLimit: 0
+});
+/* harmony default export */ const mySQL = (pool);
+
 
 /***/ })
 
@@ -50,7 +154,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 var __webpack_require__ = require("../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = (__webpack_exec__("(api)/./src/pages/api/course/course_api.js"));
+var __webpack_exports__ = (__webpack_exec__(4870));
 module.exports = __webpack_exports__;
 
 })();
